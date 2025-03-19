@@ -18,7 +18,7 @@ Follow the steps below according to your operating system.
 1. **Open the Windows terminal.**
 2. Execute the following command:
    ```
-   curl -fsSL https://tinyurl.com/seprog >> pro.txt
+   curl -fsSL https://v.gd/se19pro >> pro.txt
    ```
 3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
 
@@ -27,7 +27,7 @@ Follow the steps below according to your operating system.
 1. **Open Terminal.**
 2. Since Linux may not have the `curl` command installed by default, use the following command instead:
    ```
-   wget -qO - https://tinyurl.com/seprog >> pro.txt
+   wget -qO - https://v.gd/se19pro >> pro.txt
    ```
 3. Once the command completes, open `pro.txt` to review the codes.
 
