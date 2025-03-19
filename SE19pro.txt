@@ -1,0 +1,5840 @@
+######################################## Data Structures Laboratory (DSL) ########################################
+// 01.
+// Write a Python program to store marks scored in the subject “Fundamentals of Data Structure” by N students in the class. Write functions to compute the following:
+// a) The average score of the class
+// b) The highest score and the lowest score of the class
+// c) The count of students who were absent for the test
+// d) Display the mark with the highest frequency
+// Code
+########################################
+def Average(marks, n):
+    total = 0
+    for i in range(n):
+        total += marks[i]
+    average = total / n
+    return average
+
+def Maximum(marks, n):
+    max_marks = marks[0]
+    for i in range(1, n):
+        if marks[i] > max_marks:
+            max_marks = marks[i]
+    return max_marks
+
+def Minimum(marks, n):
+    min_marks = 999
+    for i in range(n):
+        if marks[i] < min_marks and marks[i] >= 0:
+            min_marks = marks[i]
+    return min_marks
+
+def Absent(marks, n):
+    cnt = 0
+    for i in range(n):
+        if marks[i] == -1:
+            cnt += 1
+    return cnt
+
+def Cntmax(marks, n, s):
+    cntmax = 0
+    for i in range(n):
+        if marks[i] == s:
+            cntmax += 1
+    return cntmax
+
+marks = []
+n = int(input("Enter number of students, if absent please enter -1: "))
+for i in range(n):
+    m = int(input("Enter your marks: "))
+    marks.append(m)
+
+while True:
+    print("Please press '1' for average")
+    print("'2' for maximum marks")
+    print("'3' for minimum marks")
+    print("'4' for absent students")
+    print("'5' for number of students with maximum marks")
+    print("'6' for none")
+
+    opt = int(input("Enter your choice: "))
+
+    if opt == 1:
+        avg = Average(marks, n)
+        print("Average is:", avg)
+    elif opt == 2:
+        max_marks = Maximum(marks, n)
+        print("Maximum marks:", max_marks)
+    elif opt == 3:
+        min_marks = Minimum(marks, n)
+        print("Minimum marks:", min_marks)
+    elif opt == 4:
+        cnt = Absent(marks, n)
+        print("No. of absent students:", cnt)
+    elif opt == 5:
+        max_marks = Maximum(marks, n)
+        cntmax = Cntmax(marks, n, max_marks)
+        print("The number of students having maximum marks:", cntmax)
+    elif opt == 6:
+        print("This option indicates you have chosen none!")
+        break
+    else:
+        print("Invalid option, please try again.")
+########################################
+// 02.
+// Write a Python program that computes the net amount of a bank account based on a transaction log from console input. The transaction log format is shown as follows: D 100 W 200 (Withdrawal is not allowed if the balance goes negative. Write functions for withdraw and deposit) D means deposit while W means withdrawal.
+// Suppose the following input is supplied to the program:
+// D 300, D 300, W 200, D 100
+// Then, the output should be: 500
+// Code
+########################################
+def deposit(balance, amount):
+    return balance + amount
+
+def withdraw(balance, amount):
+    if balance >= amount:
+        return balance - amount
+    else:
+        print("Insufficient balance:", balance)
+        return balance
+
+account_balance = 10000
+
+while True:
+    transaction = input("Enter transaction (e.g., 'D 100' or 'W 200') or 'exit' to quit: ")
+    
+    if transaction.lower() == 'exit':
+        break
+    
+    try:
+        operation, amount_str = transaction.split()
+        amount = int(amount_str)
+        
+        if operation.upper() == "D":
+            account_balance = deposit(account_balance, amount)
+            print("Current Account balance is:", account_balance)
+        elif operation.upper() == "W":
+            account_balance = withdraw(account_balance, amount)
+            print("Current Account balance is:", account_balance)
+        else:
+            print("Invalid operation:", operation)
+    except ValueError:
+        print("Invalid input format. Please enter in the format 'D 100' or 'W 200'.")
+########################################
+// 03.
+// Write a Python program to perform the following computations on matrices:
+// a) Addition of two matrices
+// b) Subtraction of two matrices
+// c) Multiplication of two matrices
+// d) Transpose of a matrix
+// Code
+########################################
+def Addition(r, c, m, m1):
+    print("Addition of two matrices:")
+    result = []
+    for i in range(r):
+        row = []
+        for j in range(c):
+            row.append(m[i][j] + m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Subtraction(r, c, m, m1):
+    print("Subtraction of two matrices:")
+    result = []
+    for i in range(r):
+        row = []
+        for j in range(c):
+            row.append(m[i][j] - m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Transpose(r, c, m):
+    print("Transpose of the first matrix:")
+    result = []
+    for j in range(c):
+        row = []
+        for i in range(r):
+            row.append(m[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Transpose1(r, c, m1):
+    print("Transpose of the second matrix:")
+    result = []
+    for j in range(c):
+        row = []
+        for i in range(r):
+            row.append(m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Multiplication(r, c, m, m1):
+    print("Multiplication of matrices:")
+
+    if r == c:
+        result = []
+        for i in range(r):
+            row = []
+            for j in range(c):
+                sum = 0
+                for k in range(c):
+                    sum += m[i][k] * m1[k][j]
+                row.append(sum)
+            result.append(row)
+
+        print("Using nested loops:")
+        for row in result:
+            print(row)
+    else:
+        print("Operation invalid: Matrices must be square i.e (n x n) for multiplication.")
+m = []
+r = int(input("Enter the number of rows: "))
+c = int(input("Enter the number of columns: "))
+for i in range(r):
+    a = []
+    for j in range(c):
+        ele = int(input("Enter element: "))
+        a.append(ele)
+    m.append(a)
+
+print("1st matrix is:")
+for row in m:
+    print(row)
+m1 = []
+for i in range(r):
+    a = []
+    for j in range(c):
+        ele = int(input("Enter element: "))
+        a.append(ele)
+    m1.append(a)
+
+print("2nd matrix is:")
+for row in m1:
+    print(row)
+while True:
+    print("Please press 1 for matrix addition;")
+    print("Please press 2 for matrix subtraction;")
+    print("Please press 3 for transpose of matrix 1;")
+    print("Please press 4 for transpose of matrix 2;")
+    print("Please press 5 for multiplication of matrices;")
+    print("Please press 6 for none;")
+
+    opt = int(input("Enter your choice: "))
+
+    if opt == 1:
+        Addition(r, c, m, m1)
+    elif opt == 2:
+        Subtraction(r, c, m, m1)
+    elif opt == 3:
+        Transpose(r, c, m)
+    elif opt == 4:
+        Transpose1(r, c, m1)
+    elif opt == 5:
+        Multiplication(r, c, m, m1)
+    elif opt == 6:
+        print("You opted for none!")
+        break
+    else:
+        print("Invalid option, please try again.")
+########################################
+// 04.
+// Write a Python program to store the first-year percentage of students in an array. Write functions for sorting an array of floating-point numbers in ascending order using:
+// a) Selection Sort
+// b) Bubble Sort
+// and display the top five scores.
+// Code
+########################################
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores:")
+    for score in arr[-top_n:]:
+        print(score)
+
+percentages = []
+num_students = int(input("Enter the number of students: "))
+
+for i in range(num_students):
+    score = float(input(f"Enter the percentage for student {i + 1}: "))
+    percentages.append(score)
+
+selection_sort(percentages)
+print("\nSorted percentages using Selection Sort:")
+print(percentages)
+display_top_scores(percentages)
+
+bubble_sort(percentages)
+print("\nSorted percentages using Bubble Sort:")
+print(percentages)
+display_top_scores(percentages)
+########################################
+// 05.
+// Write a Python program to store the second-year percentage of students in an array. Write functions for sorting an array of floating-point numbers in ascending order using:
+// a) Insertion Sort
+// b) Shell Sort
+// and display the top five scores.
+// Code
+########################################
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            arr[j] = temp
+        gap //= 2
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores (from max to min):")
+    for score in sorted(arr[-top_n:], reverse=True):
+        print(score)
+
+percentages = []
+while True:
+    try:
+        num_students = int(input("Enter the number of students: "))
+        if num_students <= 0:
+            raise ValueError("Number of students must be a positive integer.")
+        break
+    except ValueError as e:
+        print(f"Invalid input: {e}. Please try again.")
+
+for i in range(num_students):
+    while True:
+        try:
+            score = float(input(f"Enter the percentage for student {i + 1}: "))
+            percentages.append(score)
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+insertion_sort(percentages)
+print("\nSorted percentages using Insertion Sort:")
+print(percentages)
+display_top_scores(percentages)
+
+shell_sort(percentages)
+print("\nSorted percentages using Shell Sort:")
+print(percentages)
+display_top_scores(percentages)
+########################################
+// 06.
+// Write a Python program to store the first-year percentage of students in an array. Write a function for sorting an array of floating-point numbers in ascending order using Quick Sort and display the top five scores.
+// Code
+########################################
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[len(arr) // 2]
+        left = [x for x in arr if x < pivot]
+        middle = [x for x in arr if x == pivot]
+        right = [x for x in arr if x > pivot]
+        return quicksort(left) + middle + quicksort(right)
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores:")
+    for score in arr[-top_n:]:
+        print(score)
+
+percentages = []
+while True:
+    try:
+        num_students = int(input("Enter the number of students: "))
+        if num_students <= 0:
+            raise ValueError("Number of students must be a positive integer.")
+        break
+    except ValueError as e:
+        print(f"Invalid input: {e}. Please try again.")
+
+for i in range(num_students):
+    while True:
+        try:
+            score = float(input(f"Enter the percentage for student {i + 1}: "))
+            percentages.append(score)
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+sorted_percentages = quicksort(percentages)
+print("\nSorted percentages:")
+print(sorted_percentages)
+display_top_scores(sorted_percentages)
+########################################
+// 07.
+// The Department of Computer Engineering has a student's club named 'Pinnacle Club'. Students of the second, third, and final year of the department can be granted membership on request. Similarly, one may cancel the membership of the club. The first node is reserved for the president of the club and the last node is reserved for the secretary of the club. Write a C++ program to maintain club member's information using a singly linked list. Store student PRN and Name. Write functions to:
+// a) Add and delete members as well as the president or even the secretary.
+// b) Compute the total number of members in the club
+// c) Display members
+// d) Two linked lists exist for two divisions. Concatenate the two lists
+// Code
+########################################
+#include <iostream>
+#include <string>
+using namespace std;
+struct Member {
+    string prn;
+    string name;
+    Member* next;
+};
+class PinnacleClub {
+private:
+    Member* head;
+    Member* tail;
+
+public:
+    PinnacleClub() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void addMember(const string& prn, const string& name) {
+        Member* newMember = new Member{prn, name, nullptr};
+        if (!head) {
+            head = newMember;
+            tail = newMember;
+        } else {
+            tail->next = newMember;
+            tail = newMember;
+        }
+    }
+    void deleteMember(const string& prn) {
+        if (!head) {
+            cout << "No members to delete." << endl;
+            return;
+        }
+        Member* current = head;
+        Member* previous = nullptr;
+        while (current != nullptr && current->prn != prn) {
+            previous = current;
+            current = current->next;
+        }
+        if (!current) {
+            cout << "Member with PRN " << prn << " not found." << endl;
+            return;
+        }
+        if (current == head) {
+            head = head->next;
+        } else {
+            previous->next = current->next;
+        }
+        if (current == tail) {
+            tail = previous;
+        }
+
+        delete current;
+        cout << "Member with PRN " << prn << " deleted." << endl;
+    }
+    int totalMembers() {
+        int count = 0;
+        Member* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+    void displayMembers() {
+        if (!head) {
+            cout << "No members in the club." << endl;
+            return;
+        }
+
+        Member* current = head;
+        while (current != nullptr) {
+            cout << "PRN: " << current->prn << ", Name: " << current->name << endl;
+            current = current->next;
+        }
+    }
+    void concatenate(PinnacleClub& otherClub) {
+        if (!head) {
+            head = otherClub.head;
+            tail = otherClub.tail;
+        } else if (otherClub.head) {
+            tail->next = otherClub.head;
+            tail = otherClub.tail;
+        }
+        otherClub.head = nullptr;
+        otherClub.tail = nullptr;
+    }
+    ~PinnacleClub() {
+        while (head) {
+            Member* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+void addMemberInput(PinnacleClub& club) {
+    string prn, name;
+    cout << "Enter PRN: ";
+    cin >> prn;
+    cout << "Enter Name: ";
+    cin.ignore();
+    getline(cin, name);
+    club.addMember(prn, name);
+}
+
+int main() {
+    PinnacleClub divisionA;
+    PinnacleClub divisionB;
+    int choice;
+
+    do {
+        cout << "\nPinnacle Club Menu:\n";
+        cout << "1. Add Member to Division A\n";
+        cout << "2. Add Member to Division B\n";
+        cout << "3. Delete Member from Division A\n";
+        cout << "4. Delete Member from Division B\n";
+        cout << "5. Display Members of Division A\n";
+        cout << "6. Display Members of Division B\n";
+        cout << "7. Compute Total Members in Division A\n";
+        cout << "8. Compute Total Members in Division B\n";
+        cout << "9. Concatenate Division B into Division A\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addMemberInput(divisionA);
+                break;
+            case 2:
+                addMemberInput(divisionB);
+                break;
+            case 3: {
+                string prn;
+                cout << "Enter PRN of the member to delete from Division A: ";
+                cin >> prn;
+                divisionA.deleteMember(prn);
+                break;
+            }
+            case 4: {
+                string prn;
+                cout << "Enter PRN of the member to delete from Division B: ";
+                cin >> prn;
+                divisionB.deleteMember(prn);
+                break;
+            }
+            case 5:
+                cout << "\nMembers of Division A:\n";
+                divisionA.displayMembers();
+                break;
+            case 6:
+                cout << "\nMembers of Division B:\n";
+                divisionB.displayMembers();
+                break;
+            case 7:
+                cout << "Total members in Division A: " << divisionA.totalMembers() << endl;
+                break;
+            case 8:
+                cout << "Total members in Division B: " << divisionB.totalMembers() << endl;
+                break;
+            case 9:
+                cout << "Concatenating Division B into Division A..." << endl;
+                divisionA.concatenate(divisionB);
+                cout << "Concatenation complete." << endl;
+                break;
+            case 0:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+########################################
+// 08.
+// Write a C++ program for storing a binary number using doubly linked lists. Write functions:
+// a) To compute 1's and 2's complement
+// b) To add two binary numbers
+// Code
+########################################
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    char bit;
+    Node* next;
+    Node* prev;
+};
+
+class BinaryNumber {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    BinaryNumber() : head(nullptr), tail(nullptr) {}
+
+    void addBit(char bit) {
+        Node* newNode = new Node{bit, nullptr, tail};
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    void display() {
+        Node* current = head;
+        while (current) {
+            cout << current->bit;
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void onesComplement() {
+        Node* current = head;
+        while (current) {
+            current->bit = (current->bit == '0') ? '1' : '0';
+            current = current->next;
+        }
+    }
+
+    void twosComplement() {
+        onesComplement();
+        Node* current = tail;
+        bool carry = true;
+
+        while (current && carry) {
+            if (current->bit == '1') {
+                current->bit = '0';
+            } else {
+                current->bit = '1';
+                carry = false;
+            }
+            current = current->prev;
+        }
+
+        if (carry) {
+            addBit('1');
+        }
+    }
+
+    static BinaryNumber add(BinaryNumber& num1, BinaryNumber& num2) {
+        BinaryNumber result;
+        Node* ptr1 = num1.tail;
+        Node* ptr2 = num2.tail;
+        bool carry = false;
+
+        while (ptr1 || ptr2 || carry) {
+            int sum = carry;
+            if (ptr1) {
+                sum += (ptr1->bit - '0');
+                ptr1 = ptr1->prev;
+            }
+            if (ptr2) {
+                sum += (ptr2->bit - '0');
+                ptr2 = ptr2->prev;
+            }
+
+            carry = sum > 1;
+            result.addBit((sum % 2) + '0');
+        }
+
+        reverse(result);
+        return result;
+    }
+
+    static void reverse(BinaryNumber& binary) {
+        Node* current = binary.head;
+        Node* temp = nullptr;
+
+        while (current) {
+            temp = current->prev;
+            current->prev = current->next;
+            current->next = temp;
+            current = temp;
+        }
+
+        if (temp) {
+            binary.tail = binary.head;
+            binary.head = temp->prev;
+        }
+    }
+
+    ~BinaryNumber() {
+        while (head) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+
+BinaryNumber inputBinaryNumber() {
+    BinaryNumber binary;
+    string binaryStr;
+    cout << "Enter a binary number: ";
+    cin >> binaryStr;
+    for (char bit : binaryStr) {
+        binary.addBit(bit);
+    }
+    return binary;
+}
+
+int main() {
+    cout << "Binary Number Operations using Doubly Linked List\n";
+    BinaryNumber num1 = inputBinaryNumber();
+    BinaryNumber num2 = inputBinaryNumber();
+    cout << "\nBinary Number 1: ";
+    num1.display();
+    cout << "1's Complement: ";
+    num1.onesComplement();
+    num1.display();
+    cout << "2's Complement: ";
+    num1.twosComplement();
+    num1.display();
+    cout << "\nBinary Number 2: ";
+    num2.display();
+    cout << "1's Complement: ";
+    num2.onesComplement();
+    num2.display();
+    cout << "2's Complement: ";
+    num2.twosComplement();
+    num2.display();
+    BinaryNumber sum = BinaryNumber::add(num1, num2);
+    cout << "\nSum of the two binary numbers: ";
+    sum.display();
+    return 0;
+}
+########################################
+// 09.
+// Implement a C++ program for expression conversion from infix to postfix and its evaluation using a stack based on the given conditions:
+// 1. Operands and operators, both must be single characters.
+// 2. Input postfix expression must be in a desired format.
+// 3. Only '+', '-', '*', and '/' operators are expected.
+// Code
+########################################
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+}
+
+string infixToPostfix(const string& infix) {
+    stack<char> operators;
+    string postfix;
+
+    for (char token : infix) {
+        if (isalnum(token)) {
+            postfix += token;
+        } else if (token == '(') {
+            operators.push(token);
+        } else if (token == ')') {
+            while (!operators.empty() && operators.top() != '(') {
+                postfix += operators.top();
+                operators.pop();
+            }
+            operators.pop();
+        } else {
+            while (!operators.empty() && precedence(operators.top()) >= precedence(token)) {
+                postfix += operators.top();
+                operators.pop();
+            }
+            operators.push(token);
+        }
+    }
+
+    while (!operators.empty()) {
+        postfix += operators.top();
+        operators.pop();
+    }
+
+    return postfix;
+}
+
+int evaluatePostfix(const string& postfix) {
+    stack<int> operands;
+
+    for (char token : postfix) {
+        if (isalnum(token)) {
+            operands.push(token - '0');
+        } else {
+            int op2 = operands.top(); operands.pop();
+            int op1 = operands.top(); operands.pop();
+
+            switch (token) {
+                case '+':
+                    operands.push(op1 + op2);
+                    break;
+                case '-':
+                    operands.push(op1 - op2);
+                    break;
+                case '*':
+                    operands.push(op1 * op2);
+                    break;
+                case '/':
+                    operands.push(op1 / op2);
+                    break;
+                default:
+                    cerr << "Invalid operator!" << endl;
+                    return 0;
+            }
+        }
+    }
+
+    return operands.top();
+}
+int main() {
+    string infix, postfix;
+
+    cout << "Enter infix expression (single-character operands and operators only): ";
+    getline(cin, infix);
+
+    postfix = infixToPostfix(infix);
+    cout << "Postfix Expression: " << postfix << endl;
+
+    int result = evaluatePostfix(postfix);
+    cout << "Result of Postfix Evaluation: " << result << endl;
+
+    return 0;
+}
+########################################
+// 10.
+// In any programming language, most syntax errors occur due to unbalanced delimiters such as (), {}, []. Write a C++ program using a stack to check whether a given expression is well-parenthesized or not.
+
+// Code
+########################################
+#include <iostream>
+#include <stack>
+#include <unordered_map>
+using namespace std;
+
+bool isWellParenthesized(const string& expression) {
+    stack<char> s;
+    unordered_map<char, char> brackets = {
+        {')', '('},
+        {'}', '{'},
+        {']', '['}
+    };
+
+    for (char ch : expression) {
+        if (ch == '(' || ch == '{' || ch == '[') {
+            s.push(ch);
+        } else if (ch == ')' || ch == '}' || ch == ']') {
+            if (s.empty() || s.top() != brackets[ch]) {
+                return false;
+            }
+            s.pop();
+        }
+    }
+
+    return s.empty();
+}
+
+int main() {
+    string expression;
+    cout << "Enter an expression: ";
+    getline(cin, expression);
+
+    if (isWellParenthesized(expression)) {
+        cout << "The expression is well-parenthesized." << endl;
+    } else {
+        cout << "The expression is not well-parenthesized." << endl;
+    }
+
+    return 0;
+}
+########################################
+// 11.
+// Queues are frequently used in computer programming, and a typical example is the creation of a job queue by an operating system. If the operating system does not use priorities, then the jobs are processed in the order they enter the system. Write a C++ program for simulating a job queue. Write functions to add a job and delete a job from the queue.
+// Code
+########################################
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+void addJob(queue<string> &jobQueue, const string &job) {
+    jobQueue.push(job);
+    cout << "Job added: " << job << endl;
+}
+
+void deleteJob(queue<string> &jobQueue) {
+    if (!jobQueue.empty()) {
+        cout << "Job deleted: " << jobQueue.front() << endl;
+        jobQueue.pop();
+    } else {
+        cout << "Queue is empty, no job to delete!" << endl;
+    }
+}
+
+void displayJobs(const queue<string> &jobQueue) {
+    if (jobQueue.empty()) {
+        cout << "Job queue is empty." << endl;
+    } else {
+        queue<string> tempQueue = jobQueue;
+        cout << "Jobs in the queue:" << endl;
+        while (!tempQueue.empty()) {
+            cout << tempQueue.front() << endl;
+            tempQueue.pop();
+        }
+    }
+}
+
+int main() {
+    queue<string> jobQueue;
+    int choice;
+    string job;
+
+    do {
+        cout << "\n--- Job Queue Menu ---" << endl;
+        cout << "1. Add Job" << endl;
+        cout << "2. Delete Job" << endl;
+        cout << "3. Display Jobs" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the job name: ";
+                cin >> job;
+                addJob(jobQueue, job);
+                break;
+            case 2:
+                deleteJob(jobQueue);
+                break;
+            case 3:
+                displayJobs(jobQueue);
+                break;
+            case 4:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+                break;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+########################################
+// 12.
+// A double-ended queue (deque) is a linear list in which additions and deletions may be made at either end. Obtain a data representation mapping a deque into a one-dimensional array. Write a C++ program to simulate a deque with functions to add and delete elements from either end of the deque.
+// Code
+########################################
+#include <iostream>
+using namespace std;
+
+class Deque {
+private:
+    int* arr;
+    int front;
+    int rear;
+    int capacity;
+    int size;
+
+public:
+    Deque(int cap) {
+        capacity = cap;
+        arr = new int[capacity];
+        front = -1;
+        rear = 0;
+        size = 0;
+    }
+
+    ~Deque() {
+        delete[] arr;
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    bool isFull() {
+        return size == capacity;
+    }
+
+    void addFront(int item) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot add " << item << " at front." << endl;
+            return;
+        }
+        front = (front + 1) % capacity;
+        arr[front] = item;
+        size++;
+        if (rear == 0) {
+            rear = front;
+        }
+    }
+
+    void addRear(int item) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot add " << item << " at rear." << endl;
+            return;
+        }
+        rear = (rear - 1 + capacity) % capacity;
+        arr[rear] = item;
+        size++;
+        if (front == -1) {
+            front = rear;
+        }
+    }
+
+    void deleteFront() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete from front." << endl;
+            return;
+        }
+        cout << "Deleted from front: " << arr[front] << endl;
+        front = (front - 1 + capacity) % capacity;
+        size--;
+        if (size == 0) {
+            front = -1;
+            rear = 0;
+        }
+    }
+
+    void deleteRear() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete from rear." << endl;
+            return;
+        }
+        cout << "Deleted from rear: " << arr[rear] << endl;
+        rear = (rear + 1) % capacity;
+        size--;
+        if (size == 0) {
+            front = -1;
+            rear = 0;
+        }
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Deque is empty." << endl;
+            return;
+        }
+        cout << "Deque elements: ";
+        for (int i = 0; i < size; i++) {
+            cout << arr[(rear + i) % capacity] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Deque deque(5);
+
+    deque.addRear(10);
+    deque.addRear(20);
+    deque.addFront(5);
+    deque.display();
+
+    deque.deleteFront();
+    deque.display();
+
+    deque.addFront(1);
+    deque.addRear(30);
+    deque.display();
+
+    deque.deleteRear();
+    deque.display();
+
+    return 0;
+}
+########################################
+// 13.
+// A pizza parlor accepts a maximum of M orders. Orders are served on a first-come, first-served basis. Once placed, an order cannot be canceled. Write a C++ program to simulate the system using a circular queue using an array.
+// Code
+########################################
+#include <iostream>
+#define MAX 5
+using namespace std;
+
+class PizzaParlor {
+private:
+    int orders[MAX];
+    int front, rear;
+
+public:
+    PizzaParlor() {
+        front = -1;
+        rear = -1;
+    }
+
+    bool isFull() {
+        return (front == 0 && rear == MAX - 1) || (front == rear + 1);
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    void placeOrder(int orderID) {
+        if (isFull()) {
+            cout << "The parlor is at full capacity. Cannot accept more orders.\n";
+            return;
+        }
+
+        if (front == -1) {
+            front = 0;
+            rear = 0;
+        } else if (rear == MAX - 1 && front != 0) {
+            rear = 0;
+        } else {
+            rear++;
+        }
+
+        orders[rear] = orderID;
+        cout << "Order " << orderID << " has been placed successfully.\n";
+    }
+
+    void serveOrder() {
+        if (isEmpty()) {
+            cout << "No orders to serve.\n";
+            return;
+        }
+
+        cout << "Serving order " << orders[front] << ".\n";
+
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        } else if (front == MAX - 1) {
+            front = 0;
+        } else {
+            front++;
+        }
+    }
+
+    void displayOrders() {
+        if (isEmpty()) {
+            cout << "No orders in the queue.\n";
+            return;
+        }
+
+        cout << "Current orders in the queue: ";
+        if (rear >= front) {
+            for (int i = front; i <= rear; i++) {
+                cout << orders[i] << " ";
+            }
+        } else {
+            for (int i = front; i < MAX; i++) {
+                cout << orders[i] << " ";
+            }
+            for (int i = 0; i <= rear; i++) {
+                cout << orders[i] << " ";
+            }
+        }
+        cout << "\n";
+    }
+};
+
+int main() {
+    PizzaParlor parlor;
+    int choice, orderID;
+
+    do {
+        cout << "\nPizza Parlor Order Management System\n";
+        cout << "1. Place Order\n";
+        cout << "2. Serve Order\n";
+        cout << "3. Display Orders\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter order ID: ";
+                cin >> orderID;
+                parlor.placeOrder(orderID);
+                break;
+            case 2:
+                parlor.serveOrder();
+                break;
+            case 3:
+                parlor.displayOrders();
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+################################################################################################################################################################
+
+######################################## Object Oriented Programming Laboratory (OOPL) ########################################
+
+/** 01. Implement a class Complex which represents the Complex Number data type. Implement the following:
+
+1. Constructor (including a default constructor which creates the complex number 0+0i).
+2. Overload operator+ to add two complex numbers.
+3. Overload operator* to multiply two complex numbers.
+4. Overload operators << and >> to print and read Complex Numbers.
+CODE: **/
+########################################
+#include <iostream>
+using namespace std;
+class Complex {
+private:
+    double real;  
+    double imag;  
+public:
+
+    Complex() : real(0), imag(0) {}
+
+    Complex(double r, double i) : real(r), imag(i) {}
+
+    Complex operator+(const Complex& other) const {
+        return Complex(real + other.real, imag + other.imag);
+    }
+
+    Complex operator*(const Complex& other) const {
+        return Complex(real * other.real - imag * other.imag, 
+                       real * other.imag + imag * other.real);
+    }
+
+    friend ostream& operator<<(ostream& os, const Complex& c) {
+        os << c.real;
+        if (c.imag >= 0) {
+            os << " + " << c.imag << "i";
+        } else {
+            os << " - " << -c.imag << "i";
+        }
+        return os;
+    }
+
+    friend istream& operator>>(istream& is, Complex& c) {
+        char sign, i;
+        double r, im;
+        is >> r >> sign >> im >> i; // e.g., "3 + 4i"
+        c.real = r;
+        c.imag = (sign == '-') ? -im : im;
+        return is;
+    }
+};
+
+int main() {
+    Complex c1;
+    Complex c2(3, 4); 
+    Complex c3(1, -2);
+    Complex sum = c2 + c3;
+    cout << "Sum: " << sum << endl; 
+    Complex product = c2 * c3;
+    cout << "Product: " << product << endl;
+    Complex c4;
+    cout << "Enter a complex number (e.g., 3 + 4i): ";
+    cin >> c4;
+    cout << "You entered: " << c4 << endl;
+    return 0;
+}
+########################################
+
+/** 02. Develop a program in C++ to create a database of student’s information system containing the following information: Name, roll number, Class, Division, Date of Birth, Blood group, Contact address, Telephone number, Driving license no. and others. Construct the database with suitable member functions. Make use of constructor, default constructor, copy constructor, destructor, static member functions, friend class, this pointer, inline code, and dynamic memory allocation operators—new and delete, as well as exception handling.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <stdexcept>
+using namespace std;
+class Student {
+public:
+    string name;
+    int rollNumber;
+    string className;
+    Student(string n, int r, string c) : name(n), rollNumber(r), className(c) {}
+};
+class StudentDatabase {
+private:
+    vector<Student> students;
+public:
+    void addStudent(const Student& student) {
+        students.push_back(student);
+   }
+    Student getStudent(int rollNumber) {
+        for (const auto& student : students) {
+            if (student.rollNumber == rollNumber) {
+                return student;
+            }         }
+        throw runtime_error("Student not found");
+    }
+    void updateStudent(int rollNumber, const Student& updatedStudent) {
+        for (auto& student : students) {
+            if (student.rollNumber == rollNumber) {
+                student = updatedStudent;
+                return;
+            }         }
+        throw runtime_error("Student not found");
+    }
+    void deleteStudent(int rollNumber) {
+        for (auto it = students.begin(); it != students.end(); ++it) {
+            if (it -> rollNumber == rollNumber) {
+                students.erase(it);
+                return;
+            }        }
+        throw runtime_error("Student not found");
+    }
+    void displayAllStudents() const {
+        for (const auto& student : students) {
+            cout << "Name: " << student.name << ", Roll Number: " << student.rollNumber
+                      << ", Class: " << student.className << endl;
+        }    } };
+int main() {
+    StudentDatabase db;
+    db.addStudent(Student("Alice", 1, "10A"));
+    db.addStudent(Student("Bob", 2, "10B"));
+    db.displayAllStudents();
+    try {
+        Student s = db.getStudent(1);
+        cout << "Retrieved: " << s.name << endl;
+        db.updateStudent(1, Student("Alice Updated", 1, "10A"));
+        db.displayAllStudents();
+        db.deleteStudent(2);
+        db.displayAllStudents();
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
+    }
+    return 0;
+}
+########################################
+/** 03. Imagine a publishing company which does marketing for book and audio cassette versions. Create a class publication that stores the title (a string) and price (type float) of publications. From this class derive two classes: book which adds a page count (type int) and tape which adds a playing time in minutes (type float). Write a program that instantiates the book and tape class, allows user to enter data and displays the data members. If an exception is caught, replace all the data member values with zero values.
+CODE: **/
+########################################
+#include <iostream>
+#include <string>
+#include <stdexcept>
+using namespace std;
+// Base class Publication
+class Publication {
+protected:
+    string title;
+    float price;
+public:
+    Publication(string t, float p) : title(t), price(p) {}
+    virtual void display() const {
+        cout << "Title: " << title << endl;
+        cout << "Price: " << price << endl;
+    }
+};
+// Derived class Book
+class Book : public Publication {
+private:
+    int pageCount;
+public:
+    Book(string t, float p, int pc) : Publication(t, p), pageCount(pc) {}
+    void display() const override {
+        Publication::display();
+        cout << "Page Count: " << pageCount << endl;
+    }
+}; 
+class Tape : public Publication {
+private:
+    float playingTime;
+public:
+    Tape(string t, float p, float pt) : Publication(t, p), playingTime(pt) {}
+    void display() const override {
+        Publication::display();
+        cout << "Playing Time: " << playingTime << " minutes" << endl;
+    }
+};
+Book getBookData() {
+    string title;
+    float price;
+    int pageCount;
+    cout << "Enter the title of the book:";
+    getline(cin, title);
+    cout << "Enter the price of the book: ";
+    cin >> price;
+    cout << "Enter the page count of the book: ";
+    cin >> pageCount;
+    cin.ignore(); // Clear the newline character from the input buffer
+    return Book(title, price, pageCount);
+}
+// Function to get tape data
+Tape getTapeData() {
+    string title;
+    float price;
+    float playingTime;
+    cout << "Enter the title of the tape: ";
+    getline(cin, title);
+    cout << "Enter the price of the tape: ";
+    cin >> price;
+    cout << "Enter the playing time of the tape (in minutes): ";
+    cin >> playingTime;
+    cin.ignore(); // Clear the newline character from the input buffer
+    return Tape(title, price, playingTime);
+}
+int main() {
+    try {
+        Book book = getBookData();
+        book.display();
+    } catch (const exception& e) {
+        cout << "An error occurred while entering book data. Setting all values to zero." << endl;
+        Book book("", 0.0, 0);
+        book.display();
+    }     try {
+        Tape tape = getTapeData();
+        tape.display();     } catch (const exception& e) {
+        cout << "An error occurred while entering tape data. Setting all values to zero." << endl;
+        Tape tape("", 0.0, 0.0);
+        tape.display();
+    }     return 0; 
+} 
+########################################
+/** 04. Write a C++ program that creates an output file, writes information to it, closes the file, opens it again as an input file, and reads the information from the file.
+CODE: **/
+########################################
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+    ofstream outputFile("example.txt");
+
+    if (!outputFile) {
+        cerr << "Error opening file for writing!" << endl;
+        return 1;
+    }
+
+    outputFile << "Hello, World!" << endl;
+    outputFile << "This is a test file." << endl;
+
+    outputFile.close();
+
+    ifstream inputFile("example.txt");
+
+    if (!inputFile) {
+        cerr << "Error opening file for reading!" << endl;
+        return 1;
+    }
+
+    string line;
+    while (getline(inputFile, line)) {
+        cout << line << endl;
+    }
+
+    inputFile.close();
+
+    return 0;
+}
+########################################
+/** 05. Write a function template for selection sort that inputs, sorts, and outputs an integer array and a float array.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+template <typename T>
+void selectionSort(vector<T>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        swap(arr[i], arr[minIndex]);
+    }
+}
+
+template <typename T>
+void printArray(const vector<T>& arr) {
+    for (const T& element : arr) {
+        cout << element << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    vector<int> intArray = {64, 25, 12, 22, 11};
+    cout << "Original integer array: ";
+    printArray(intArray);
+    selectionSort(intArray);
+    cout << "Sorted integer array: ";
+    printArray(intArray);
+
+    vector<float> floatArray = {64.5, 25.1, 12.3, 22.4, 11.2};
+    cout << "Original float array: ";
+    printArray(floatArray);
+    selectionSort(floatArray);
+    cout << "Sorted float array: ";
+    printArray(floatArray);
+
+    return 0;
+}
+########################################
+/** 06. Write a C++ program using STL for sorting and searching user-defined records such as personal records (Name, DOB, Telephone number, etc.) using vector container.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm> 
+#include <iomanip> 
+using namespace std;  
+
+struct PersonalRecord {
+    string name;
+    string dob;
+    string telephone;
+
+    PersonalRecord(string n, string d, string t)
+        : name(n), dob(d), telephone(t) {}
+};
+
+vector<PersonalRecord> records;
+
+void sortRecordsByName() {
+    sort(records.begin(), records.end(), [](const PersonalRecord &a, const PersonalRecord &b) {
+        return a.name < b.name;
+    });
+}
+
+PersonalRecord* searchRecordByTelephone(const string &telephone) {
+    for (auto &record : records) {
+        if (record.telephone == telephone) {
+            return &record;
+        }
+    }
+    return nullptr;
+}
+
+int main() {
+    records.emplace_back("Alice Smith", "1990-05-15", "123-456-7890");
+    records.emplace_back("Bob Johnson", "1985-10-20", "987-654-3210");
+    records.emplace_back("Charlie Brown", "1992-03-30", "555-555-5555");
+
+    sortRecordsByName();
+
+    cout << "Sorted Records by Name:\n";
+    for (const auto &record : records) {
+        cout << setw(20) << record.name 
+             << setw(15) << record.dob 
+             << setw(15) << record.telephone << '\n';
+    }
+
+    string searchTel = "987-654-3210";
+    PersonalRecord* foundRecord = searchRecordByTelephone(searchTel);
+    if (foundRecord) {
+        cout << "\nRecord found:\n";
+        cout << "Name: " << foundRecord->name 
+             << ", DOB: " << foundRecord->dob 
+             << ", Telephone: " << foundRecord->telephone << '\n';
+    } else {
+        cout << "\nRecord not found for telephone: " << searchTel << '\n';
+    }
+
+    return 0;
+}
+########################################
+/** OR
+06. Write a C++ program using STL for sorting and searching user-defined records such as item records (Item code, name, cost, quantity, etc.) using vector container.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct Item {
+    int code;
+    string name;
+    double cost;
+    int quantity;
+};
+
+vector<Item> items;
+
+void sortItemsByCode(vector<Item>& items) {
+    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+        return a.code < b.code;
+    });
+}
+
+Item* findItemByCode(const vector<Item>& items, int code) {
+    auto it = find_if(items.begin(), items.end(), [code](const Item& item) {
+        return item.code == code;
+    });
+    return (it != items.end()) ? &(*it) : nullptr;
+}
+
+int main() {
+    items.push_back({101, "Apple", 0.50, 100});
+    items.push_back({102, "Banana", 0.30, 150});
+    items.push_back({103, "Orange", 0.80, 200});
+    sortItemsByCode(items);
+    cout << "Sorted Items by Code:\n";
+    for (const auto& item : items) {
+        cout << "Code: " << item.code << ", Name: " << item.name 
+             << ", Cost: " << item.cost << ", Quantity: " << item.quantity << "\n";
+    }
+    int searchCode = 102;
+    Item* foundItem = findItemByCode(items, searchCode);
+    if (foundItem) {
+        cout << "Found Item: " << foundItem->name << "\n";
+    } else {
+        cout << "Item not found.\n";
+    }
+
+    return 0;
+}
+########################################
+/** 07. Write a program in C++ to use map associative container. The keys will be the names of states and the values will be the populations of the states. When the program runs, the user is prompted to type the name of a state. The program then looks in the map, using the state name as an index and returns the population of the state.
+CODE: **/
+########################################
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+int main() {
+    map<string, long long> statePopulation;
+    statePopulation["Maharashtra"] = 112372972;
+    statePopulation["Uttar Pradesh"] = 199812341;
+    statePopulation["Bihar"] = 104099452;
+    statePopulation["West Bengal"] = 91276115;
+    statePopulation["Tamil Nadu"] = 72147030;
+    statePopulation["Karnataka"] = 61095297;
+    statePopulation["Gujarat"] = 60439692;
+    statePopulation["Rajasthan"] = 68548437;
+    statePopulation["Andhra Pradesh"] = 49577103;
+    statePopulation["Odisha"] = 41974218;
+    string stateName;
+    cout << "Enter the name of an Indian state: ";
+    getline(cin, stateName);
+    auto it = statePopulation.find(stateName);
+    if (it != statePopulation.end()) {
+        cout << "The population of " << stateName << " is " << it->second << "." << endl;
+    } else {
+        cout << "State not found. Please check the name and try again." << endl;
+    }
+    return 0;
+}
+################################################################################################################################################################
+
+######################################## Computer Graphics Laboratory (CGL) ########################################
+/** 08. Write a C++ program to draw a concave polygon and fill it with the desired color using the scan fill algorithm. Apply the concept of inheritance.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <iostream>
+
+using namespace std;
+
+class Shape {
+public:
+    virtual void draw() = 0;
+};
+
+class ConcavePolygon : public Shape {
+private:
+    int points[10];
+    int numPoints;
+
+public:
+    ConcavePolygon(int pts[], int n) {
+        numPoints = n;
+        for (int i = 0; i < n; i++) {
+            points[i] = pts[i];
+        }
+    }
+
+    void draw() override {
+        drawpoly(numPoints / 2, points);
+    }
+
+    void scanFill(int fillColor) {
+        for (int y = 0; y < getmaxy(); y++) {
+            int count = 0;
+            for (int x = 0; x < getmaxx(); x++) {
+                if (getpixel(x, y) != WHITE) {
+                    count++;
+                }
+                if (count % 2 == 1) {
+                    putpixel(x, y, fillColor);
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    int points[] = {200, 100, 300, 200, 250, 300, 150, 300, 100, 200};
+    ConcavePolygon concavePolygon(points, 10);
+
+    setcolor(WHITE);
+    concavePolygon.draw();
+
+    concavePolygon.scanFill(YELLOW);
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+//SFML only
+########################################
+#include <SFML/Graphics.hpp>
+#include <vector>
+
+class ShapeDrawer {
+public:
+    virtual void draw(sf::RenderWindow &window) = 0;
+};
+
+class ConcavePolygon : public ShapeDrawer {
+public:
+    ConcavePolygon(const std::vector<sf::Vector2f>& points, const sf::Color& color)
+        : m_points(points), m_color(color) {
+        if (m_points.size() >= 3) {
+            m_polygon.setPointCount(m_points.size());
+            for (size_t i = 0; i < m_points.size(); ++i) {
+                m_polygon.setPoint(i, m_points[i]);
+            }
+            m_polygon.setFillColor(m_color);
+        }
+    }
+
+    void draw(sf::RenderWindow &window) override {
+        if (m_points.size() >= 3) {
+            window.draw(m_polygon);
+        }
+    }
+
+private:
+    std::vector<sf::Vector2f> m_points;
+    sf::Color m_color;
+    sf::ConvexShape m_polygon;
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Concave Polygon Fill");
+
+    std::vector<sf::Vector2f> points = {
+        {100, 100},
+        {300, 100},
+        {400, 200},
+        {300, 300},
+        {100, 300},
+        {50, 200}
+    };
+
+    sf::Color fillColor = sf::Color::Green;
+
+    ConcavePolygon concavePolygon(points, fillColor);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        window.clear(sf::Color::White);
+        concavePolygon.draw(window);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** 09. Write a C++ program to implement the Cohen-Sutherland line clipping algorithm.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <iostream>
+using namespace std;
+#define INSIDE 0
+#define LEFT 1
+#define RIGHT 2
+#define BOTTOM 4
+#define TOP 8
+
+int computeCode(float x, float y, float xMin, float yMin, float xMax, float yMax) {
+    int code = INSIDE;
+
+    if (x < xMin)
+        code |= LEFT;
+    else if (x > xMax)
+        code |= RIGHT;
+    if (y < yMin)
+        code |= BOTTOM;
+    else if (y > yMax)
+        code |= TOP;
+
+    return code;
+}
+
+void cohenSutherlandClip(float x0, float y0, float x1, float y1, float xMin, float yMin, float xMax, float yMax) {
+    int code0 = computeCode(x0, y0, xMin, yMin, xMax, yMax);
+    int code1 = computeCode(x1, y1, xMin, yMin, xMax, yMax);
+    bool accept = false;
+
+    while (true) {
+        if ((code0 == 0) && (code1 == 0)) {
+            accept = true;
+            break;
+        } else if (code0 & code1) {
+            break;
+        } else {
+            int codeOut;
+            float x, y;
+
+            if (code0 != 0)
+                codeOut = code0;
+            else
+                codeOut = code1;
+
+            if (codeOut & TOP) {
+                x = x0 + (x1 - x0) * (yMax - y0) / (y1 - y0);
+                y = yMax;
+            } else if (codeOut & BOTTOM) {
+                x = x0 + (x1 - x0) * (yMin - y0) / (y1 - y0);
+                y = yMin;
+            } else if (codeOut & RIGHT) {
+                y = y0 + (y1 - y0) * (xMax - x0) / (x1 - x0);
+                x = xMax;
+            } else if (codeOut & LEFT) {
+                y = y0 + (y1 - y0) * (xMin - x0) / (x1 - x0);
+                x = xMin;
+            }
+
+            if (codeOut == code0) {
+                x0 = x;
+                y0 = y;
+                code0 = computeCode(x0, y0, xMin, yMin, xMax, yMax);
+            } else {
+                x1 = x;
+                y1 = y;
+                code1 = computeCode(x1, y1, xMin, yMin, xMax, yMax);
+            }
+        }
+    }
+
+    if (accept) {
+        setcolor(GREEN);
+        line(x0, y0, x1, y1);
+    }
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    float xMin = 100, yMin = 100, xMax = 400, yMax = 400;
+
+    setcolor(WHITE);
+    rectangle(xMin, yMin, xMax, yMax);
+
+    float x0 = 50, y0 = 50, x1 = 450, y1 = 450;
+
+    setcolor(RED);
+    line(x0, y0, x1, y1);
+
+    cohenSutherlandClip(x0, y0, x1, y1, xMin, yMin, xMax, yMax);
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+//opengl only
+########################################
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
+const float Xmin = 0.2f;
+const float Xmax = 0.8f;
+const float Ymin = 0.2f;
+const float Ymax = 0.8f;
+
+enum RegionCode {
+    INSIDE = 0,
+    LEFT = 1,
+    RIGHT = 2,
+    BOTTOM = 4,
+    TOP = 8
+};
+
+int computeOutCode(float x, float y) {
+    int code = INSIDE;
+    if (x < Xmin) code |= LEFT;
+    if (x > Xmax) code |= RIGHT;
+    if (y < Ymin) code |= BOTTOM;
+    if (y > Ymax) code |= TOP;
+    return code;
+}
+
+void cohenSutherlandClip(float &x0, float &y0, float &x1, float &y1) {
+    int code0 = computeOutCode(x0, y0);
+    int code1 = computeOutCode(x1, y1);
+    bool accept = false;
+    while (true) {
+        if ((code0 | code1) == 0) {
+            accept = true;
+            break;
+        } else if ((code0 & code1) != 0) {
+            break;
+        } else {
+            int codeOut;
+            float x, y;
+            if (code0 != 0)
+                codeOut = code0;
+            else
+                codeOut = code1;
+            if (codeOut & TOP) {
+                x = x0 + (x1 - x0) * (Ymax - y0) / (y1 - y0);
+                y = Ymax;
+            } else if (codeOut & BOTTOM) {
+                x = x0 + (x1 - x0) * (Ymin - y0) / (y1 - y0);
+                y = Ymin;
+            } else if (codeOut & RIGHT) {
+                y = y0 + (y1 - y0) * (Xmax - x0) / (x1 - x0);
+                x = Xmax;
+            } else if (codeOut & LEFT) {
+                y = y0 + (y1 - y0) * (Xmin - x0) / (x1 - x0);
+                x = Xmin;
+            }
+            if (codeOut == code0) {
+                x0 = x;
+                y0 = y;
+                code0 = computeOutCode(x0, y0);
+            } else {
+                x1 = x;
+                y1 = y;
+                code1 = computeOutCode(x1, y1);
+            }
+        }
+    }
+    if (!accept) {
+        x0 = y0 = x1 = y1 = -1.0f;
+    }
+}
+
+void drawLine(float x0, float y0, float x1, float y1) {
+    glBegin(GL_LINES);
+    glVertex2f(x0, y0);
+    glVertex2f(x1, y1);
+    glEnd();
+}
+
+void drawClipWindow() {
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(Xmin, Ymin);
+    glVertex2f(Xmax, Ymin);
+    glVertex2f(Xmax, Ymax);
+    glVertex2f(Xmin, Ymax);
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    float x0 = -0.5f, y0 = -0.5f, x1 = 0.9f, y1 = 0.9f;
+    cohenSutherlandClip(x0, y0, x1, y1);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    drawClipWindow();
+    if (x0 != -1.0f) {
+        glColor3f(1.0f, 0.0f, 0.0f);
+        drawLine(x0, y0, x1, y1);
+    }
+    glFlush();
+}
+
+int main() {
+    if (!glfwInit()) {
+        std::cerr << "Failed to initialize GLFW\n";
+        return -1;
+    }
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Cohen-Sutherland Line Clipping", NULL, NULL);
+    if (!window) {
+        std::cerr << "Failed to create GLFW window\n";
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glColor3f(1.0, 1.0, 1.0);
+
+    while (!glfwWindowShouldClose(window)) {
+        display();
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+########################################
+/** 10. Write a C++ program to draw the following pattern. Use DDA line and Bresenham’s circle drawing algorithm. Apply the concept of encapsulation.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <math.h>
+#include <stdlib.h>
+
+void drawDDALine(int x1, int y1, int x2, int y2) {
+    int dx = x2 - x1;
+    int dy = y2 - y1;
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+    float xIncrement = dx / (float) steps;
+    float yIncrement = dy / (float) steps;
+    float x = x1;
+    float y = y1;
+    for (int i = 0; i <= steps; i++) {
+        putpixel(round(x), round(y), WHITE);
+        x += xIncrement;
+        y += yIncrement;
+    }
+}
+
+void drawBresenhamCircle(int xc, int yc, int r) {
+    int x = 0;
+    int y = r;
+    int d = 3 - 2 * r;
+    while (y >= x) {
+        putpixel(xc + x, yc + y, WHITE);
+        putpixel(xc - x, yc + y, WHITE);
+        putpixel(xc + x, yc - y, WHITE);
+        putpixel(xc - x, yc - y, WHITE);
+        putpixel(xc + y, yc + x, WHITE);
+        putpixel(xc - y, yc + x, WHITE);
+        putpixel(xc + y, yc - x, WHITE);
+        putpixel(xc - y, yc - x, WHITE);
+        x++;
+        if (d > 0) {
+            y--;
+            d = d + 4 * (x - y) + 10;
+        } else {
+            d = d + 4 * x + 6;
+        }
+    }
+}
+
+class ShapeDrawer {
+public:
+    void draw() {
+        drawBresenhamCircle(400, 300, 200);
+        drawBresenhamCircle(400, 300, 100);
+        drawDDALine(400, 100, 200, 500);
+        drawDDALine(400, 100, 600, 500);
+        drawDDALine(200, 500, 600, 500);
+    }
+};
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, NULL);
+
+    ShapeDrawer shapeDrawer;
+    shapeDrawer.draw();
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+// sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+
+// Function to implement the DDA line drawing algorithm
+void drawDDALine(sf::RenderWindow& window, sf::Vector2f p1, sf::Vector2f p2) {
+    float dx = p2.x - p1.x;
+    float dy = p2.y - p1.y;
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    
+    float xIncrement = dx / steps;
+    float yIncrement = dy / steps;
+    
+    float x = p1.x;
+    float y = p1.y;
+    
+    for (int i = 0; i <= steps; i++) {
+        window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+        x += xIncrement;
+        y += yIncrement;
+    }
+}
+
+// Function to implement Bresenham's circle drawing algorithm
+void drawBresenhamCircle(sf::RenderWindow& window, int xc, int yc, int r) {
+    int x = 0;
+    int y = r;
+    int d = 3 - 2 * r;
+    
+    auto drawCirclePoints = [&](int xc, int yc, int x, int y) {
+        window.draw(sf::Vertex(sf::Vector2f(xc + x, yc + y), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc - x, yc + y), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc + x, yc - y), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc - x, yc - y), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc + y, yc + x), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc - y, yc + x), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc + y, yc - x), sf::Color::White));
+        window.draw(sf::Vertex(sf::Vector2f(xc - y, yc - x), sf::Color::White));
+    };
+    
+    while (y >= x) {
+        drawCirclePoints(xc, yc, x, y);
+        x++;
+        if (d > 0) {
+            y--;
+            d = d + 4 * (x - y) + 10;
+        } else {
+            d = d + 4 * x + 6;
+        }
+        drawCirclePoints(xc, yc, x, y);
+    }
+}
+
+// Encapsulating the drawing functions in a class
+class ShapeDrawer {
+public:
+    void draw(sf::RenderWindow& window) {
+        // Draw outer oval
+        drawBresenhamCircle(window, 400, 300, 200);
+        drawBresenhamCircle(window, 400, 300, 100);
+        
+        // Draw triangle
+        drawDDALine(window, sf::Vector2f(400, 100), sf::Vector2f(200, 500));
+        drawDDALine(window, sf::Vector2f(400, 100), sf::Vector2f(600, 500));
+        drawDDALine(window, sf::Vector2f(200, 500), sf::Vector2f(600, 500));
+    }
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Pattern Drawing");
+    ShapeDrawer shapeDrawer;
+    
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        window.clear();
+        shapeDrawer.draw(window);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** 11. a) Write a C++ program to draw a 2-D object and perform the following basic transformations: Scaling, Translation, and Rotation. Apply the concept of operator overloading.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <cmath>
+
+class Point {
+public:
+    float x, y;
+
+    Point(float x = 0, float y = 0) : x(x), y(y) {}
+
+    Point operator+(const Point& p) {
+        return Point(x + p.x, y + p.y);
+    }
+
+    Point operator*(float scale) {
+        return Point(x * scale, y * scale);
+    }
+
+    Point rotate(float angle) {
+        float rad = angle * (M_PI / 180.0);
+        float cosA = cos(rad);
+        float sinA = sin(rad);
+        return Point(x * cosA - y * sinA, x * sinA + y * cosA);
+    }
+};
+
+class Triangle {
+public:
+    Point p1, p2, p3;
+
+    Triangle(Point p1, Point p2, Point p3) : p1(p1), p2(p2), p3(p3) {}
+
+    Triangle operator+(const Point& translation) {
+        return Triangle(p1 + translation, p2 + translation, p3 + translation);
+    }
+
+    Triangle operator*(float scale) {
+        return Triangle(p1 * scale, p2 * scale, p3 * scale);
+    }
+
+    Triangle rotate(float angle) {
+        return Triangle(p1.rotate(angle), p2.rotate(angle), p3.rotate(angle));
+    }
+
+    void draw() {
+        line(p1.x, p1.y, p2.x, p2.y);
+        line(p2.x, p2.y, p3.x, p3.y);
+        line(p3.x, p3.y, p1.x, p1.y);
+    }
+};
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    Triangle triangle(Point(200, 200), Point(300, 200), Point(250, 100));
+    triangle.draw();
+    delay(2000);
+
+    Point translation(100, 50);
+    Triangle translatedTriangle = triangle + translation;
+    cleardevice();
+    translatedTriangle.draw();
+    delay(2000);
+
+    Triangle scaledTriangle = triangle * 1.5;
+    cleardevice();
+    scaledTriangle.draw();
+    delay(2000);
+
+    Triangle rotatedTriangle = triangle.rotate(45);
+    cleardevice();
+    rotatedTriangle.draw();
+    delay(2000);
+
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+class TransformableShape {
+public:
+    sf::RectangleShape shape;
+
+    TransformableShape(float width, float height) {
+        shape.setSize(sf::Vector2f(width, height));
+        shape.setFillColor(sf::Color::Green);
+        shape.setOrigin(width / 2, height / 2);
+    }
+
+    TransformableShape operator+(const sf::Vector2f& translation) {
+        TransformableShape newShape(shape.getSize().x, shape.getSize().y);
+        newShape.shape.setPosition(shape.getPosition() + translation);
+        return newShape;
+    }
+
+    TransformableShape operator*(const sf::Vector2f& scale) {
+        TransformableShape newShape(shape.getSize().x * scale.x, shape.getSize().y * scale.y);
+        newShape.shape.setPosition(shape.getPosition());
+        return newShape;
+    }
+
+    TransformableShape operator~() {
+        TransformableShape newShape(shape.getSize().x, shape.getSize().y);
+        newShape.shape.setRotation(shape.getRotation() + 45);
+        newShape.shape.setPosition(shape.getPosition());
+        return newShape;
+    }
+
+    void setPosition(float x, float y) {
+        shape.setPosition(x, y);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(shape);
+    }
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "2D Transformations with SFML");
+
+    TransformableShape rect(100, 50);
+    rect.setPosition(400, 300);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::Black);
+        rect.draw(window);
+
+        TransformableShape translatedRect = rect + sf::Vector2f(50, 0);
+        TransformableShape scaledRect = rect * sf::Vector2f(1.5f, 1.5f);
+        TransformableShape rotatedRect = ~rect;
+
+        translatedRect.draw(window);
+        scaledRect.draw(window);
+        rotatedRect.draw(window);
+
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to implement translation, rotation, and scaling transformations on an equilateral triangle and rhombus. Apply the concept of operator overloading.
+CODE: **/
+########################################
+//graphics.h only
+#include <graphics.h>
+#include <conio.h>
+#include <cmath>
+
+class Shape {
+protected:
+    int x, y;
+public:
+    Shape(int x, int y) : x(x), y(y) {}
+    virtual void draw() = 0;
+};
+
+class Triangle : public Shape {
+public:
+    Triangle(int x, int y) : Shape(x, y) {}
+
+    void draw() override {
+        int points[] = { x, y - 50, x - 50, y + 50, x + 50, y + 50, x, y - 50 };
+        drawpoly(4, points);
+    }
+
+    Triangle operator+(const std::pair<int, int>& translation) {
+        return Triangle(x + translation.first, y + translation.second);
+    }
+
+    Triangle operator*(float scale) {
+        return Triangle(x, y - static_cast<int>(50 * scale));
+    }
+
+    Triangle operator()(float angle) {
+        float rad = angle * M_PI / 180;
+        int newX = static_cast<int>(x * cos(rad) - y * sin(rad));
+        int newY = static_cast<int>(x * sin(rad) + y * cos(rad));
+        return Triangle(newX, newY);
+    }
+};
+
+class Rhombus : public Shape {
+public:
+    Rhombus(int x, int y) : Shape(x, y) {}
+
+    void draw() override {
+        int points[] = { x, y - 50, x - 50, y, x, y + 50, x + 50, y, x, y - 50 };
+        drawpoly(5, points);
+    }
+
+    Rhombus operator+(const std::pair<int, int>& translation) {
+        return Rhombus(x + translation.first, y + translation.second);
+    }
+
+    Rhombus operator*(float scale) {
+        return Rhombus(x, y - static_cast<int>(50 * scale));
+    }
+
+    Rhombus operator()(float angle) {
+        float rad = angle * M_PI / 180;
+        int newX = static_cast<int>(x * cos(rad) - y * sin(rad));
+        int newY = static_cast<int>(x * sin(rad) + y * cos(rad));
+        return Rhombus(newX, newY);
+    }
+};
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    Triangle triangle(300, 200);
+    Rhombus rhombus(400, 200);
+
+    triangle.draw();
+    rhombus.draw();
+
+    Triangle translatedTriangle = triangle + std::make_pair(50, 50);
+    Rhombus translatedRhombus = rhombus + std::make_pair(-50, 50);
+
+    cleardevice();
+    translatedTriangle.draw();
+    translatedRhombus.draw();
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
+
+class Shape {
+public:
+    virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void translate(float dx, float dy) = 0;
+    virtual void rotate(float angle) = 0;
+    virtual void scale(float factor) = 0;
+};
+
+class Triangle : public Shape {
+private:
+    sf::ConvexShape triangle;
+
+public:
+    Triangle(float size) {
+        triangle.setPointCount(3);
+        triangle.setPoint(0, sf::Vector2f(size, 0));
+        triangle.setPoint(1, sf::Vector2f(0, size * std::sqrt(3) / 2));
+        triangle.setPoint(2, sf::Vector2f(size, size * std::sqrt(3) / 2));
+        triangle.setFillColor(sf::Color::Green);
+        triangle.setPosition(100, 100);
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        window.draw(triangle);
+    }
+
+    void translate(float dx, float dy) override {
+        triangle.move(dx, dy);
+    }
+
+    void rotate(float angle) override {
+        triangle.rotate(angle);
+    }
+
+    void scale(float factor) override {
+        triangle.scale(factor, factor);
+    }
+
+    Triangle operator+(const sf::Vector2f& translation) {
+        Triangle temp = *this;
+        temp.translate(translation.x, translation.y);
+        return temp;
+    }
+};
+
+class Rhombus : public Shape {
+private:
+    sf::ConvexShape rhombus;
+
+public:
+    Rhombus(float width, float height) {
+        rhombus.setPointCount(4);
+        rhombus.setPoint(0, sf::Vector2f(0, height / 2));
+        rhombus.setPoint(1, sf::Vector2f(width / 2, 0));
+        rhombus.setPoint(2, sf::Vector2f(width, height / 2));
+        rhombus.setPoint(3, sf::Vector2f(width / 2, height));
+        rhombus.setFillColor(sf::Color::Blue);
+        rhombus.setPosition(300, 100);
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        window.draw(rhombus);
+    }
+
+    void translate(float dx, float dy) override {
+        rhombus.move(dx, dy);
+    }
+
+    void rotate(float angle) override {
+        rhombus.rotate(angle);
+    }
+
+    void scale(float factor) override {
+        rhombus.scale(factor, factor);
+    }
+
+    Rhombus operator+(const sf::Vector2f& translation) {
+        Rhombus temp = *this;
+        temp.translate(translation.x, translation.y);
+        return temp;
+    }
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Transformations with SFML");
+
+    Triangle triangle(100);
+    Rhombus rhombus(100, 50);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        triangle.translate(0.1f, 0);
+        rhombus.rotate(0.5f);
+
+        window.clear();
+        triangle.draw(window);
+        rhombus.draw(window);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** 12. Write a C++ program to generate a snowflake using the concept of fractals.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <cmath>
+#include <iostream>
+
+void drawKochCurve(int x1, int y1, int x2, int y2, int depth) {
+    if (depth == 0) {
+        line(x1, y1, x2, y2);
+    } else {
+        int xA = (2 * x1 + x2) / 3;
+        int yA = (2 * y1 + y2) / 3;
+
+        int xB = (x1 + 2 * x2) / 3;
+        int yB = (y1 + 2 * y2) / 3;
+
+        int xC = (xA + xB) / 2 - (sqrt(3) / 6) * (yB - yA);
+        int yC = (yA + yB) / 2 + (sqrt(3) / 6) * (xB - xA);
+
+        drawKochCurve(x1, y1, xA, yA, depth - 1);
+        drawKochCurve(xA, yA, xC, yC, depth - 1);
+        drawKochCurve(xC, yC, xB, yB, depth - 1);
+        drawKochCurve(xB, yB, x2, y2, depth - 1);
+    }
+}
+
+void drawSnowflake(int x, int y, int size, int depth) {
+    drawKochCurve(x, y, x + size, y, depth);
+    drawKochCurve(x + size, y, x + size / 2, y + (sqrt(3) / 2) * size, depth);
+    drawKochCurve(x + size / 2, y + (sqrt(3) / 2) * size, x, y, depth);
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    int depth = 4;
+    int size = 300;
+
+    drawSnowflake(getmaxx() / 2 - size / 2, getmaxy() / 2 + size / 3, size, depth);
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <vector>
+void drawKochCurve(sf::VertexArray& lines, sf::Vector2f start, sf::Vector2f end, int depth) {
+    if (depth == 0) {
+        lines.append(sf::Vertex(start, sf::Color::White));
+        lines.append(sf::Vertex(end, sf::Color::White));
+    } else {
+        sf::Vector2f segment = end - start;
+        sf::Vector2f p1 = start + segment / 3.0f;
+        sf::Vector2f p2 = start + segment * 2.0f / 3.0f;
+
+        float height = std::sqrt(3) / 6 * std::sqrt(segment.x * segment.x + segment.y * segment.y);
+        sf::Vector2f peak = p1 + sf::Vector2f(-segment.y / 3.0f, segment.x / 3.0f) * 2.0f;
+
+        drawKochCurve(lines, start, p1, depth - 1);
+        drawKochCurve(lines, p1, peak, depth - 1);
+        drawKochCurve(lines, peak, p2, depth - 1);
+        drawKochCurve(lines, p2, end, depth - 1);
+    }
+}
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Koch Snowflake");
+
+    int depth = 4;
+
+    sf::VertexArray lines(sf::PrimitiveType::Lines);
+
+    sf::Vector2f p1(400, 100);
+    sf::Vector2f p2(200, 500);
+    sf::Vector2f p3(600, 500);
+
+    drawKochCurve(lines, p1, p2, depth);
+    drawKochCurve(lines, p2, p3, depth);
+    drawKochCurve(lines, p3, p1, depth);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::Black);
+        window.draw(lines);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to generate a Hilbert curve using the concept of fractals.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+
+void drawHilbert(int x, int y, int size, int level, int angle) {
+    if (level == 0) return;
+
+    drawHilbert(x, y, size / 2, level - 1, 0);
+    
+    x += size / 2 * cos(angle * M_PI / 180);
+    y += size / 2 * sin(angle * M_PI / 180);
+    
+    line(x, y, x + size / 2 * cos((angle + 90) * M_PI / 180), y + size / 2 * sin((angle + 90) * M_PI / 180));
+    
+    x += size / 2 * cos((angle + 90) * M_PI / 180);
+    y += size / 2 * sin((angle + 90) * M_PI / 180);
+    
+    drawHilbert(x, y, size / 2, level - 1, 90);
+    
+    x += size / 2 * cos((angle + 90) * M_PI / 180);
+    y += size / 2 * sin((angle + 90) * M_PI / 180);
+    
+    drawHilbert(x, y, size / 2, level - 1, 90);
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    int level = 5;
+    int size = 512;
+
+    drawHilbert(0, 0, size, level, 0);
+
+    getch();
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+
+void drawHilbertCurve(sf::RenderWindow &window, int order, float x, float y, float size, int angle) {
+    if (order == 0) {
+        return;
+    }
+
+    drawHilbertCurve(window, order - 1, x, y, size / 2, 0);
+    x += size / 2 * cos(angle * M_PI / 180);
+    y += size / 2 * sin(angle * M_PI / 180);
+    
+    window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+    drawHilbertCurve(window, order - 1, x, y, size / 2, 90);
+    x += size / 2 * cos((angle + 90) * M_PI / 180);
+    y += size / 2 * sin((angle + 90) * M_PI / 180);
+    
+    window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+    drawHilbertCurve(window, order - 1, x, y, size / 2, 0);
+    x += size / 2 * cos(angle * M_PI / 180);
+    y += size / 2 * sin(angle * M_PI / 180);
+    
+    window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+    drawHilbertCurve(window, order - 1, x, y, size / 2, -90);
+}
+
+int main() {
+    int order = 5;
+    float size = pow(2, order);
+
+    sf::RenderWindow window(sf::VideoMode(size, size), "Hilbert Curve");
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::Black);
+        drawHilbertCurve(window, order, 0, 0, size, 0);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** 13. a) Write a C++ program to draw a 3-D cube and perform the following transformations on it using OpenGL:
+i) Scaling
+ii) Translation
+iii) Rotation about an axis (X/Y/Z).
+CODE: **/
+########################################
+//opengl only
+########################################
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+float angleX = 0.0f, angleY = 0.0f, angleZ = 0.0f;
+float scale = 1.0f;
+float translateX = 0.0f, translateY = 0.0f, translateZ = -5.0f;
+
+void drawCube() {
+    glBegin(GL_QUADS);
+    
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f,  1.0f);
+    glVertex3f( 1.0f, -1.0f,  1.0f);
+    glVertex3f( 1.0f,  1.0f,  1.0f);
+    glVertex3f(-1.0f,  1.0f,  1.0f);
+    
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f(-1.0f,  1.0f, -1.0f);
+    glVertex3f( 1.0f,  1.0f, -1.0f);
+    glVertex3f( 1.0f, -1.0f, -1.0f);
+    
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f(-1.0f, -1.0f,  1.0f);
+    glVertex3f(-1.0f,  1.0f,  1.0f);
+    glVertex3f(-1.0f,  1.0f, -1.0f);
+    
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    glVertex3f(1.0f,  1.0f, -1.0f);
+    glVertex3f(1.0f,  1.0f,  1.0f);
+    glVertex3f(1.0f, -1.0f,  1.0f);
+    
+    glColor3f(1.0f, 0.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glVertex3f(-1.0f, 1.0f,  1.0f);
+    glVertex3f( 1.0f, 1.0f,  1.0f);
+    glVertex3f( 1.0f, 1.0f, -1.0f);
+       
+    glColor3f(0.0f, 1.0f, 1.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f( 1.0f, -1.0f, -1.0f);
+    glVertex3f( 1.0f, -1.0f,  1.0f);
+    glVertex3f(-1.0f, -1.0f,  1.0f);
+    
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(translateX, translateY, translateZ);
+    glScalef(scale, scale, scale);
+    glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+    glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+    glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+    drawCube();
+    glutSwapBuffers();
+}
+
+void reshape(int width, int height) {
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, (float)width / (float)height, 0.1f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void timer(int value) {
+    angleX += 1.0f;
+    angleY += 1.0f;
+    angleZ += 1.0f;
+    glutPostRedisplay();
+    glutTimerFunc(16, timer, 0);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("3D Cube with Transformations");
+
+    glEnable(GL_DEPTH_TEST);
+
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutTimerFunc(0, timer, 0);
+
+    translateZ = -5.0f;
+
+    glutMainLoop();
+    return 0;
+}
+########################################
+/** OR
+b) Write an OpenGL program to draw the sunrise and sunset.
+CODE: **/
+########################################
+//opengl only
+########################################
+#include <GL/glut.h>
+#include <math.h>
+
+float sunY = -0.5;
+float sunDirection = 0.01;
+float cloudX = -1.0;
+
+void drawSun(float x, float y, float radius) {
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3f(1.0, 1.0, 0.0);
+    glVertex2f(x, y);
+    for (int i = 0; i <= 100; i++) {
+        float angle = 2.0f * 3.14159f * i / 100;
+        float dx = radius * cosf(angle);
+        float dy = radius * sinf(angle);
+        glVertex2f(x + dx, y + dy);
+    }
+    glEnd();
+}
+########################################
+void drawCloud(float x, float y) {
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3f(1.0, 1.0, 1.0);
+    glVertex2f(x, y);
+    for (int i = 0; i <= 100; i++) {
+        float angle = 2.0f * 3.14159f * i / 100;
+        float dx = 0.1 * cosf(angle);
+        float dy = 0.05 * sinf(angle);
+        glVertex2f(x + dx, y + dy);
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glBegin(GL_QUADS);
+    glColor3f(0.5, 0.7, 1.0);
+    glVertex2f(-1.0, -1.0);
+    glVertex2f(1.0, -1.0);
+    glVertex2f(1.0, 1.0);
+    glVertex2f(-1.0, 1.0);
+    glEnd();
+
+    drawCloud(cloudX, 0.5);
+    drawCloud(cloudX + 0.2, 0.55);
+    drawCloud(cloudX + 0.1, 0.45);
+
+    drawSun(0.0, sunY, 0.1);
+
+    glutSwapBuffers();
+}
+
+void update(int value) {
+    sunY += sunDirection;
+    if (sunY > 1.5) {
+        sunY = -0.5;
+    }
+    if (sunY < -0.5) {
+        sunY = 1.5;
+    }
+
+    cloudX += 0.01;
+    if (cloudX > 1.0) {
+        cloudX = -1.0;
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(100, update, 0);
+}
+
+void init() {
+    glClearColor(0.5, 0.7, 1.0, 1.0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("Sunrise and Sunset");
+    init();
+    glutDisplayFunc(display);
+    glutTimerFunc(0, update, 0);
+    glutMainLoop();
+    return 0;
+}
+########################################
+/** 14. a) Write a C++ program to implement a bouncing ball using sine waveform. Apply the concept of polymorphism.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+#include <iostream>
+
+using namespace std;
+
+class Ball {
+public:
+    virtual void draw(int x, int y) = 0;
+};
+
+class SineWaveBall : public Ball {
+private:
+    int radius;
+    int amplitude;
+    int frequency;
+    int phaseShift;
+
+public:
+    SineWaveBall(int r, int a, int f, int p) : radius(r), amplitude(a), frequency(f), phaseShift(p) {}
+
+    void draw(int x, int y) override {
+        setcolor(WHITE);
+        circle(x, y, radius);
+        floodfill(x, y, WHITE);
+    }
+
+    void bounce(int &x, int &y, int &direction) {
+        y = amplitude * sin(frequency * x + phaseShift) + 200;
+        x += direction;
+
+        if (x >= getmaxx() - radius || x <= radius) {
+            direction = -direction;
+        }
+    }
+};
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    SineWaveBall ball(20, 50, 0.05, 0);
+
+    int x = 100;
+    int y = 200;
+    int direction = 1;
+
+    while (!kbhit()) {
+        cleardevice();
+        ball.bounce(x, y, direction);
+        ball.draw(x, y);
+        delay(30);
+    }
+
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
+class Ball {
+public:
+    virtual void update(float deltaTime) = 0;
+    virtual void draw(sf::RenderWindow& window) = 0;
+};
+
+class SineWaveBall : public Ball {
+private:
+    sf::CircleShape shape;
+    float amplitude;
+    float frequency;
+    float phase;
+    float verticalPosition;
+
+public:
+    SineWaveBall(float radius, float amplitude, float frequency)
+        : amplitude(amplitude), frequency(frequency), phase(0.0f) {
+        shape.setRadius(radius);
+        shape.setFillColor(sf::Color::Green);
+        shape.setOrigin(radius, radius);
+        verticalPosition = 300;
+    }
+
+    void update(float deltaTime) override {
+        phase += frequency * deltaTime;
+        verticalPosition = 300 + amplitude * std::sin(phase);
+        shape.setPosition(400, verticalPosition);
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        window.draw(shape);
+    }
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Bouncing Ball with Sine Wave");
+
+    SineWaveBall ball(20.0f, 100.0f, 2.0f);
+
+    sf::Clock clock;
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        float deltaTime = clock.restart().asSeconds();
+
+        ball.update(deltaTime);
+
+        window.clear(sf::Color::Black);
+        ball.draw(window);
+        window.display();
+    }
+
+    return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to draw a man walking in the rain with an umbrella. Apply the concept of polymorphism.
+CODE: **/
+########################################
+//graphics.h only
+#include <graphics.h>
+#include <conio.h>
+
+class Shape {
+public:
+    virtual void draw() = 0;
+};
+
+class Man : public Shape {
+public:
+    void draw() override {
+        setcolor(WHITE);
+        circle(300, 300, 20);
+        line(300, 320, 300, 400);
+        line(300, 350, 250, 300);
+        line(300, 350, 350, 300);
+        line(300, 400, 250, 450);
+        line(300, 400, 350, 450);
+    }
+};
+
+class Umbrella : public Shape {
+public:
+    void draw() override {
+        setcolor(YELLOW);
+        arc(300, 290, 0, 180, 50);
+        line(250, 290, 350, 290);
+        line(300, 290, 300, 400);
+    }
+};
+
+void drawScene() {
+    Man man;
+    Umbrella umbrella;
+
+    man.draw();
+    umbrella.draw();
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    drawScene();
+
+    getch();
+
+    closegraph();
+    return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <vector>
+
+class DrawableObject {
+public:
+    virtual void draw(sf::RenderWindow& window) = 0;
+};
+
+class Man : public DrawableObject {
+private:
+    sf::RectangleShape body;
+    sf::CircleShape head;
+
+public:
+    Man(float x, float y) {
+        body.setSize(sf::Vector2f(20, 50));
+        body.setFillColor(sf::Color::Blue);
+        body.setPosition(x, y);
+        head.setRadius(10);
+        head.setFillColor(sf::Color::Yellow);
+        head.setPosition(x + 5, y - 10);
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        window.draw(body);
+        window.draw(head);
+    }
+};
+
+class Umbrella : public DrawableObject {
+private:
+    sf::ConvexShape umbrella;
+
+public:
+    Umbrella(float x, float y) {
+        umbrella.setPointCount(3);
+        umbrella.setPoint(0, sf::Vector2f(x, y));
+        umbrella.setPoint(1, sf::Vector2f(x - 30, y + 20));
+        umbrella.setPoint(2, sf::Vector2f(x + 30, y + 20));
+        umbrella.setFillColor(sf::Color::Red);
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        window.draw(umbrella);
+    }
+};
+
+class Rain : public DrawableObject {
+private:
+    std::vector<sf::RectangleShape> drops;
+
+public:
+    Rain(int numDrops) {
+        for (int i = 0; i < numDrops; ++i) {
+            sf::RectangleShape drop(sf::Vector2f(2, 10));
+            drop.setFillColor(sf::Color::Cyan);
+            drop.setPosition(rand() % 800, rand() % 600);
+            drops.push_back(drop);
+        }
+    }
+
+    void draw(sf::RenderWindow& window) override {
+        for (auto& drop : drops) {
+            window.draw(drop);
+        }
+    }
+};
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Man Walking in the Rain with Umbrella");
+    Man man(400, 300);
+    Umbrella umbrella(400, 290);
+    Rain rain(100);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::White);
+        man.draw(window);
+        umbrella.draw(window);
+        rain.draw(window);
+        window.display();
+    }
+
+    return 0;
+}
+################################################################################################################################################################
+
+
+######################################## Data Structures and Algorithms Laboratory (DSAL) ########################################
+/**
+1. Consider a telephone book database with N clients. Implement a hash table to quickly look up a client's telephone number, using two ollision handling techniques and compare them based on the number of comparisons required to find a set of telephone numbers. (Telephone Book Database) 
+CODE:
+**/
+########################################
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+
+    def hash_function(self, key):
+        return hash(key) % self.size
+
+    def insert_chaining(self, key, value):
+        index = self.hash_function(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                pair[1] = value
+                return
+        self.table[index].append([key, value])
+
+    def lookup_chaining(self, key):
+        index = self.hash_function(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                return pair[1]
+        return None
+
+    def insert_open_addressing(self, key, value):
+        index = self.hash_function(key)
+        while True:
+            if not self.table[index]:
+                self.table[index] = [key, value]
+                return
+            if self.table[index][0] == key:
+                self.table[index][1] = value
+                return
+            index = (index + 1) % self.size
+
+    def lookup_open_addressing(self, key):
+        index = self.hash_function(key)
+        while True:
+            if not self.table[index]:
+                return None
+            if self.table[index][0] == key:
+                return self.table[index][1]
+            index = (index + 1) % self.size
+hash_table = HashTable(10)
+hash_table.insert_chaining("John", "1234567890")
+hash_table.insert_chaining("Alice", "9876543210")
+print(hash_table.lookup_chaining("John"))  # Output: 1234567890
+print(hash_table.lookup_chaining("Alice"))  # Output: 9876543210
+hash_table.insert_open_addressing("Bob", "5555555555")
+hash_table.insert_open_addressing("Charlie", "6666666666")
+print(hash_table.lookup_open_addressing("Bob"))  # Output: 5555555555
+print(hash_table.lookup_open_addressing("Charlie"))  # Output: 6666666666
+
+########################################
+/**
+2. Implement a dictionary using hashing, handling collisions with chaining (with and without replacement). The dictionary should have standard operations like Insert, Find, and Delete, where keys are unique and comparable.
+(Hash Table Implementation)
+CODE:
+**/
+########################################
+class Node:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.next = None
+
+class HashTable:
+    def __init__(self, size, replace=False):
+        self.size = size
+        self.table = [None] * size
+        self.replace = replace
+
+    def hash_function(self, key):
+        return hash(key) % self.size
+
+    def insert(self, key, value):
+        index = self.hash_function(key)
+        if self.table[index] is None:
+            self.table[index] = Node(key, value)
+        else:
+            node = self.table[index]
+            while node.next is not None:
+                if node.key == key:
+                    if self.replace:
+                        node.value = value
+                    return
+                node = node.next
+            if node.key == key:
+                if self.replace:
+                    node.value = value
+            else:
+                node.next = Node(key, value)
+
+    def find(self, key):
+        index = self.hash_function(key)
+        node = self.table[index]
+        while node is not None:
+            if node.key == key:
+                return node.value
+            node = node.next
+        return None
+
+    def delete(self, key):
+        index = self.hash_function(key)
+        node = self.table[index]
+        prev = None
+        while node is not None:
+            if node.key == key:
+                if prev is None:
+                    self.table[index] = node.next
+                else:
+                    prev.next = node.next
+                return
+            prev = node
+            node = node.next
+
+    def display(self):
+        for index, node in enumerate(self.table):
+            print(f"Index {index}: ", end="")
+            while node is not None:
+                print(f"({node.key}, {node.value}) -> ", end="")
+                node = node.next
+            print("None")
+hash_table = HashTable(10, replace=True)
+hash_table.insert("apple", 5)
+hash_table.insert("banana", 7)
+hash_table.insert("orange", 3)
+hash_table.insert("apple", 10)  # Replace the value of "apple"
+hash_table.display()
+print(hash_table.find("apple"))  # Output: 10
+hash_table.delete("banana")
+hash_table.display()
+hash_table_without_replacement = HashTable(10, replace=False)
+hash_table_without_replacement.insert("apple", 5)
+hash_table_without_replacement.insert("banana", 7)
+hash_table_without_replacement.insert("orange", 3)
+hash_table_without_replacement.insert("apple", 10)  # Do not replace the value of "apple"
+hash_table_without_replacement.display()
+print(hash_table_without_replacement.find("apple"))  # Output: 5
+hash_table_without_replacement.delete("banana")
+hash_table_without_replacement.display()
+########################################
+
+/**
+3. Construct a tree to represent a book with chapters, sections, and subsections. Print the nodes and analyze the time and space requirements of the method.
+(Tree Construction Method)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Node {
+public:
+    string title;
+    string content;
+    vector<Node*> children;
+
+    Node(string t, string c = "") : title(t), content(c) {}
+
+    void addChild(Node* node) {
+        children.push_back(node);
+    }
+
+    void printNode(int level = 0) {
+        cout << string(level * 2, ' ') << title << endl;
+        if (!content.empty()) {
+            cout << string((level + 1) * 2, ' ') << content << endl;
+        }
+        for (Node* child : children) {
+            child->printNode(level + 1);
+        }
+    }
+};
+
+class Book {
+public:
+    Node* root;
+
+    Book(string title) {
+        root = new Node(title);
+    }
+
+    Node* addChapter(string chapterTitle, string content = "") {
+        Node* chapter = new Node(chapterTitle, content);
+        root->addChild(chapter);
+        return chapter;
+    }
+
+    Node* addSection(Node* parent, string sectionTitle, string content = "") {
+        Node* section = new Node(sectionTitle, content);
+        parent->addChild(section);
+        return section;
+    }
+
+    Node* addSubsection(Node* parent, string subsectionTitle, string content = "") {
+        Node* subsection = new Node(subsectionTitle, content);
+        parent->addChild(subsection);
+        return subsection;
+    }
+
+    void printBook() {
+        root->printNode();
+    }
+
+    ~Book() {
+        delete root; // Clean up memory
+    }
+};
+
+int main() {
+    Book book("Introduction to Programming");
+    Node* chapter1 = book.addChapter("Chapter 1: Introduction");
+    Node* section1_1 = book.addSection(chapter1, "Section 1.1: What is Programming?");
+    book.addSubsection(section1_1, "Subsection 1.1.1: Definition of Programming");
+    book.addSubsection(section1_1, "Subsection 1.1.2: Importance of Programming");
+    
+    Node* chapter2 = book.addChapter("Chapter 2: Data Types");
+    Node* section2_1 = book.addSection(chapter2, "Section 2.1: Primitive Data Types");
+    book.addSubsection(section2_1, "Subsection 2.1.1: Integers");
+    book.addSubsection(section2_1, "Subsection 2.1.2: Floating Point Numbers");
+    book.printBook();
+
+    return 0;
+}
+########################################
+
+
+/**
+4. Create a binary search tree from an empty tree by inserting values in a given order. Then, perform operations like inserting a new node, finding the number of nodes in the longest path, finding the minimum data value, swapping left and right pointers, and searching for a value.
+(Binary Search Tree)
+CODE:
+**/
+########################################
+#include <iostream>
+using namespace std;
+
+// Node structure for BST
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+// Binary Search Tree class
+class BinarySearchTree {
+public:
+    Node* root;
+    
+    BinarySearchTree() {
+        root = nullptr;
+    }
+
+    // Insert function
+    void insert(int data) {
+        if (root == nullptr) {
+            root = new Node(data);
+        } else {
+            insert(root, data);
+        }
+    }
+
+    // Helper function for insert
+    void insert(Node* node, int data) {
+        if (data < node->data) {
+            if (node->left == nullptr) {
+                node->left = new Node(data);
+            } else {
+                insert(node->left, data);
+            }
+        } else {
+            if (node->right == nullptr) {
+                node->right = new Node(data);
+            } else {
+                insert(node->right, data);
+            }
+        }
+    }
+
+    // Find the longest path (height of the tree)
+    int findLongestPath() {
+        return findLongestPath(root);
+    }
+
+    int findLongestPath(Node* node) {
+        if (node == nullptr) {
+            return 0;
+        } else {
+            int leftHeight = findLongestPath(node->left);
+            int rightHeight = findLongestPath(node->right);
+            return max(leftHeight, rightHeight) + 1;
+        }
+    }
+
+    // Find the minimum data value
+    int findMin() {
+        return findMin(root);
+    }
+
+    int findMin(Node* node) {
+        if (node->left == nullptr) {
+            return node->data;
+        }
+        return findMin(node->left);
+    }
+
+    // Swap left and right pointers
+    void swapPointers() {
+        swapPointers(root);
+    }
+
+    void swapPointers(Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+        swap(node->left, node->right);
+        swapPointers(node->left);
+        swapPointers(node->right);
+    }
+
+    // Search for a value in the tree
+    bool search(int data) {
+        return search(root, data);
+    }
+
+    bool search(Node* node, int data) {
+        if (node == nullptr) {
+            return false;
+        }
+        if (node->data == data) {
+            return true;
+        } else if (data < node->data) {
+            return search(node->left, data);
+        } else {
+            return search(node->right, data);
+        }
+    }
+
+    // Print the tree using different traversals
+    void printTree(string traversalType) {
+        if (traversalType == "preorder") {
+            preorder(root);
+        } else if (traversalType == "inorder") {
+            inorder(root);
+        } else if (traversalType == "postorder") {
+            postorder(root);
+        }
+    }
+
+    // Preorder traversal
+    void preorder(Node* node) {
+        if (node) {
+            cout << node->data << " ";
+            preorder(node->left);
+            preorder(node->right);
+        }
+    }
+
+    // Inorder traversal
+    void inorder(Node* node) {
+        if (node) {
+            inorder(node->left);
+            cout << node->data << " ";
+            inorder(node->right);
+        }
+    }
+
+    // Postorder traversal
+    void postorder(Node* node) {
+        if (node) {
+            postorder(node->left);
+            postorder(node->right);
+            cout << node->data << " ";
+        }
+    }
+};
+
+// Example usage
+int main() {
+    BinarySearchTree bst;
+    int values[] = {8, 3, 10, 1, 6, 14, 4, 7, 13};
+    for (int value : values) {
+        bst.insert(value);
+    }
+
+    cout << "Preorder traversal: ";
+    bst.printTree("preorder");
+    cout << endl;
+
+    cout << "Inorder traversal: ";
+    bst.printTree("inorder");
+    cout << endl;
+
+    cout << "Postorder traversal: ";
+    bst.printTree("postorder");
+    cout << endl;
+
+    cout << "Longest path length: " << bst.findLongestPath() << endl;
+    cout << "Minimum data value: " << bst.findMin() << endl;
+
+    bst.swapPointers();
+    cout << "Preorder traversal after swapping pointers: ";
+    bst.printTree("preorder");
+    cout << endl;
+
+    cout << "Searching for value 10: " << (bst.search(10) ? "Found" : "Not Found") << endl;
+    cout << "Searching for value 15: " << (bst.search(15) ? "Found" : "Not Found") << endl;
+
+    return 0;
+}
+########################################
+
+/**
+5. Construct an expression tree from a given prefix expression and traverse it using post order traversal (non-recursive). Then, delete the entire tree.
+(Expression Tree Construction)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Node structure for Expression Tree
+struct Node {
+    char data;
+    Node* left;
+    Node* right;
+
+    Node(char value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+// Expression Tree class
+class ExpressionTree {
+public:
+    Node* root;
+
+    ExpressionTree() {
+        root = nullptr;
+    }
+
+    // Construct tree from prefix expression
+    void constructTree(const string& prefixExpression) {
+        stack<Node*> st;
+        for (int i = prefixExpression.size() - 1; i >= 0; --i) {
+            char ch = prefixExpression[i];
+
+            if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                Node* node = new Node(ch);
+                node->left = st.top(); st.pop();
+                node->right = st.top(); st.pop();
+                st.push(node);
+            } else {
+                Node* node = new Node(ch);
+                st.push(node);
+            }
+        }
+        root = st.top();
+    }
+
+    // Post-order traversal
+    void postOrderTraversal() {
+        stack<Node*> stack1, stack2;
+        if (root) {
+            stack1.push(root);
+            while (!stack1.empty()) {
+                Node* node = stack1.top();
+                stack1.pop();
+                stack2.push(node);
+
+                if (node->left) stack1.push(node->left);
+                if (node->right) stack1.push(node->right);
+            }
+
+            while (!stack2.empty()) {
+                Node* node = stack2.top();
+                stack2.pop();
+                cout << node->data << " ";
+            }
+        }
+    }
+
+    // Delete tree
+    void deleteTree() {
+        deleteTree(root);
+    }
+
+private:
+    void deleteTree(Node* node) {
+        if (node == nullptr) return;
+        deleteTree(node->left);
+        deleteTree(node->right);
+        delete node;
+    }
+};
+
+int main() {
+    ExpressionTree expressionTree;
+    string prefixExpression = "+A*BC";
+    cout << "Prefix expression: " << prefixExpression << endl;
+    
+    expressionTree.constructTree(prefixExpression);
+    
+    cout << "Post-order traversal: ";
+    expressionTree.postOrderTraversal();
+    
+    expressionTree.deleteTree();
+    
+    return 0;
+}
+########################################
+
+/**
+6. Represent a graph using adjacency matrix/list to perform Depth-First Search (DFS) and adjacency list to perform Breadth-First Search (BFS). Use a map of the area around a college as the graph, identifying prominent landmarks as nodes.
+(Graph Representation Algorithm)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <unordered_map>
+#include <list>
+#include <queue>
+#include <set>
+using namespace std;
+
+// Graph class using adjacency list
+class Graph {
+public:
+    unordered_map<string, list<string>> adjacencyList;
+
+    // Add node to the graph
+    void addNode(const string& node) {
+        adjacencyList[node] = list<string>();
+    }
+
+    // Add edge between two nodes
+    void addEdge(const string& node1, const string& node2) {
+        adjacencyList[node1].push_back(node2);
+        adjacencyList[node2].push_back(node1);
+    }
+
+    // Depth-First Search (DFS)
+    void dfs(const string& startNode) {
+        set<string> visited;
+        dfsHelper(startNode, visited);
+    }
+
+    // Breadth-First Search (BFS)
+    void bfs(const string& startNode) {
+        set<string> visited;
+        queue<string> q;
+        visited.insert(startNode);
+        q.push(startNode);
+
+        while (!q.empty()) {
+            string node = q.front();
+            q.pop();
+            cout << node << " ";
+
+            for (const string& neighbor : adjacencyList[node]) {
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
+private:
+    // Helper function for DFS
+    void dfsHelper(const string& node, set<string>& visited) {
+        visited.insert(node);
+        cout << node << " ";
+        for (const string& neighbor : adjacencyList[node]) {
+            if (visited.find(neighbor) == visited.end()) {
+                dfsHelper(neighbor, visited);
+            }
+        }
+    }
+};
+
+int main() {
+    Graph graph;
+
+    // Add nodes
+    graph.addNode("A");
+    graph.addNode("B");
+    graph.addNode("C");
+    graph.addNode("D");
+    graph.addNode("E");
+
+    // Add edges
+    graph.addEdge("A", "B");
+    graph.addEdge("A", "C");
+    graph.addEdge("B", "D");
+    graph.addEdge("C", "E");
+
+    // Perform DFS traversal
+    cout << "DFS Traversal: ";
+    graph.dfs("A");
+    cout << endl;
+
+    // Perform BFS traversal
+    cout << "BFS Traversal: ";
+    graph.bfs("A");
+    cout << endl;
+
+    return 0;
+}
+########################################
+
+/**
+7. Represent a graph of flight paths between cities, where the cost of an edge is the time or fuel used for the journey. Use adjacency list or matrix representation and check if the graph is connected. Justify the storage representation used.
+(Flight Path Graph)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+
+using namespace std;
+
+class Graph {
+public:
+    void addCity(const string& city) {
+        adjacencyList[city]; // Automatically creates an empty map if city doesn't exist
+    }
+
+    void addFlightPath(const string& city1, const string& city2, int cost) {
+        if (adjacencyList.count(city1) && adjacencyList.count(city2)) {
+            adjacencyList[city1][city2] = cost;
+            adjacencyList[city2][city1] = cost; // Assuming the graph is undirected
+        }
+    }
+
+    bool isConnected() {
+        unordered_set<string> visited;
+        dfsHelper("New York", visited);
+        return visited.size() == adjacencyList.size();
+    }
+
+    void printGraph() {
+        for (const auto& pair : adjacencyList) {
+            cout << pair.first << ": ";
+            for (const auto& neighbor : pair.second) {
+                cout << neighbor.first << "(" << neighbor.second << ") ";
+            }
+            cout << endl;
+        }
+    }
+
+private:
+    unordered_map<string, unordered_map<string, int>> adjacencyList;
+
+    void dfsHelper(const string& city, unordered_set<string>& visited) {
+        visited.insert(city);
+        for (const auto& neighbor : adjacencyList[city]) {
+            if (visited.find(neighbor.first) == visited.end()) {
+                dfsHelper(neighbor.first, visited);
+            }
+        }
+    }
+};
+
+int main() {
+    Graph graph;
+
+    // Add cities
+    graph.addCity("New York");
+    graph.addCity("Los Angeles");
+    graph.addCity("Chicago");
+    graph.addCity("Houston");
+    graph.addCity("Seattle");
+
+    // Add flight paths
+    graph.addFlightPath("New York", "Los Angeles", 5);
+    graph.addFlightPath("New York", "Chicago", 2);
+    graph.addFlightPath("Los Angeles", "Seattle", 2);
+    graph.addFlightPath("Chicago", "Houston", 3);
+    graph.addFlightPath("Houston", "Seattle", 4);
+
+    // Print the graph
+    cout << "Flight Path Graph:" << endl;
+    graph.printGraph();
+
+    // Check if the graph is connected
+    cout << "\nIs the graph connected? " << (graph.isConnected() ? "Yes" : "No") << endl;
+
+    return 0;
+}
+########################################
+
+/**
+8. Given a sequence of sorted keys with search probabilities, build a binary search tree with the least search cost. Consider the access probability for each key.
+(Binary Search Optimization)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+class Node {
+public:
+    int key;
+    double probability;
+    Node* left;
+    Node* right;
+
+    Node(int k, double p) : key(k), probability(p), left(nullptr), right(nullptr) {}
+};
+
+Node* optimal_bst(const vector<int>& keys, const vector<double>& probabilities) {
+    int n = keys.size();
+    vector<vector<double>> cost(n, vector<double>(n, 0));
+    vector<vector<Node*>> root(n, vector<Node*>(n, nullptr));
+
+    // Initialize cost and root for single keys
+    for (int i = 0; i < n; ++i) {
+        cost[i][i] = probabilities[i];
+        root[i][i] = new Node(keys[i], probabilities[i]);
+    }
+    for (int length = 2; length <= n; ++length) {
+        for (int i = 0; i <= n - length; ++i) {
+            int j = i + length - 1;
+            double min_cost = numeric_limits<double>::infinity();
+            for (int r = i; r <= j; ++r) {
+                double left_cost = (r == i) ? 0 : cost[i][r - 1];
+                double right_cost = (r == j) ? 0 : cost[r + 1][j];
+                double total_cost = left_cost + right_cost + accumulate(probabilities.begin() + i, probabilities.begin() + j + 1, 0.0);
+                
+                if (total_cost < min_cost) {
+                    min_cost = total_cost;
+                    root[i][j] = new Node(keys[r], accumulate(probabilities.begin() + i, probabilities.begin() + j + 1, 0.0));
+                    root[i][j]->left = (r > i) ? root[i][r - 1] : nullptr;
+                    root[i][j]->right = (r < j) ? root[r + 1][j] : nullptr;
+                }
+            }
+            cost[i][j] = min_cost;
+        }
+    }
+
+    return root[0][n - 1];
+}
+
+void print_bst(Node* node, int level = 0) {
+    if (node != nullptr) {
+        print_bst(node->right, level + 1);
+        cout << string(4 * level, ' ') << "-> " << node->key << " (" << node->probability << ")" << endl;
+        print_bst(node->left, level + 1);
+    }
+}
+
+int main() {
+    vector<int> keys = {10, 20, 30, 40, 50};
+    vector<double> probabilities = {0.1, 0.2, 0.3, 0.2, 0.2};
+
+    Node* root = optimal_bst(keys, probabilities);
+    print_bst(root);
+
+    return 0;
+}
+########################################
+/**
+9. Create a dictionary that stores keywords and their meanings. Provide facilities for adding, deleting, and updating entries, as well as displaying the data in sorted order. Use a height-balanced tree and analyze the complexity of finding a keyword.
+(Dictionary Management System)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Node structure for the AVL Tree
+struct Node {
+    string keyword;
+    string meaning;
+    Node* left;
+    Node* right;
+    int height;
+
+    Node(string key, string mean) : keyword(key), meaning(mean), left(nullptr), right(nullptr), height(1) {}
+};
+
+// AVL Tree class
+class AVLTree {
+private:
+    Node* root;
+
+    // Utility function to get height of the tree
+    int height(Node* node) {
+        return (node == nullptr) ? 0 : node->height;
+    }
+
+    // Utility function to get balance factor of the node
+    int getBalance(Node* node) {
+        return (node == nullptr) ? 0 : height(node->left) - height(node->right);
+    }
+
+    // Right rotate the subtree rooted at 'y'
+    Node* rightRotate(Node* y) {
+        Node* x = y->left;
+        Node* T2 = x->right;
+
+        x->right = y;
+        y->left = T2;
+
+        y->height = max(height(y->left), height(y->right)) + 1;
+        x->height = max(height(x->left), height(x->right)) + 1;
+
+        return x;
+    }
+
+    // Left rotate the subtree rooted at 'x'
+    Node* leftRotate(Node* x) {
+        Node* y = x->right;
+        Node* T2 = y->left;
+
+        y->left = x;
+        x->right = T2;
+
+        x->height = max(height(x->left), height(x->right)) + 1;
+        y->height = max(height(y->left), height(y->right)) + 1;
+
+        return y;
+    }
+
+    // Insert a new node into the tree
+    Node* insert(Node* node, string keyword, string meaning) {
+        // Perform the normal BST insertion
+        if (node == nullptr)
+            return new Node(keyword, meaning);
+
+        if (keyword < node->keyword)
+            node->left = insert(node->left, keyword, meaning);
+        else if (keyword > node->keyword)
+            node->right = insert(node->right, keyword, meaning);
+        else
+            return node; // Duplicate keywords are not allowed
+
+        // Update height of this ancestor node
+        node->height = 1 + max(height(node->left), height(node->right));
+
+        // Get balance factor of this node to check if it's unbalanced
+        int balance = getBalance(node);
+
+        // Left-Left case
+        if (balance > 1 && keyword < node->left->keyword)
+            return rightRotate(node);
+
+        // Right-Right case
+        if (balance < -1 && keyword > node->right->keyword)
+            return leftRotate(node);
+
+        // Left-Right case
+        if (balance > 1 && keyword > node->left->keyword) {
+            node->left = leftRotate(node->left);
+            return rightRotate(node);
+        }
+
+        // Right-Left case
+        if (balance < -1 && keyword < node->right->keyword) {
+            node->right = rightRotate(node->right);
+            return leftRotate(node);
+        }
+
+        return node;
+    }
+
+    // Delete a node
+    Node* deleteNode(Node* root, string keyword) {
+        if (root == nullptr)
+            return root;
+
+        if (keyword < root->keyword)
+            root->left = deleteNode(root->left, keyword);
+        else if (keyword > root->keyword)
+            root->right = deleteNode(root->right, keyword);
+        else {
+            if (root->left == nullptr || root->right == nullptr) {
+                Node* temp = root->left ? root->left : root->right;
+                if (temp == nullptr) {
+                    temp = root;
+                    root = nullptr;
+                } else {
+                    *root = *temp;
+                }
+                delete temp;
+            } else {
+                Node* temp = minValueNode(root->right);
+                root->keyword = temp->keyword;
+                root->meaning = temp->meaning;
+                root->right = deleteNode(root->right, temp->keyword);
+            }
+        }
+
+        if (root == nullptr)
+            return root;
+
+        root->height = 1 + max(height(root->left), height(root->right));
+
+        int balance = getBalance(root);
+
+        // Balance the tree
+        if (balance > 1 && getBalance(root->left) >= 0)
+            return rightRotate(root);
+        if (balance > 1 && getBalance(root->left) < 0) {
+            root->left = leftRotate(root->left);
+            return rightRotate(root);
+        }
+        if (balance < -1 && getBalance(root->right) <= 0)
+            return leftRotate(root);
+        if (balance < -1 && getBalance(root->right) > 0) {
+            root->right = rightRotate(root->right);
+            return leftRotate(root);
+        }
+
+        return root;
+    }
+
+    // Find the node with the minimum value
+    Node* minValueNode(Node* node) {
+        Node* current = node;
+        while (current->left != nullptr)
+            current = current->left;
+        return current;
+    }
+
+    // In-order traversal to display dictionary entries
+    void inOrder(Node* root) {
+        if (root != nullptr) {
+            inOrder(root->left);
+            cout << root->keyword << ": " << root->meaning << endl;
+            inOrder(root->right);
+        }
+    }
+
+    // Search for a keyword
+    Node* search(Node* root, string keyword) {
+        if (root == nullptr || root->keyword == keyword)
+            return root;
+
+        if (keyword < root->keyword)
+            return search(root->left, keyword);
+        else
+            return search(root->right, keyword);
+    }
+
+public:
+    AVLTree() : root(nullptr) {}
+
+    // Insert a new entry
+    void insertEntry(string keyword, string meaning) {
+        root = insert(root, keyword, meaning);
+    }
+
+    // Delete an entry
+    void deleteEntry(string keyword) {
+        root = deleteNode(root, keyword);
+    }
+
+    // Search for a keyword
+    void searchKeyword(string keyword) {
+        Node* result = search(root, keyword);
+        if (result) {
+            cout << "Found: " << result->keyword << ": " << result->meaning << endl;
+        } else {
+            cout << "Keyword not found!" << endl;
+        }
+    }
+
+    // Update meaning of a keyword
+    void updateEntry(string keyword, string newMeaning) {
+        Node* result = search(root, keyword);
+        if (result) {
+            result->meaning = newMeaning;
+            cout << "Updated: " << result->keyword << ": " << result->meaning << endl;
+        } else {
+            cout << "Keyword not found!" << endl;
+        }
+    }
+
+    // Display dictionary entries in sorted order
+    void displayDictionary() {
+        cout << "Dictionary Entries (Sorted Order):" << endl;
+        inOrder(root);
+    }
+};
+int main() {
+    AVLTree dictionary;
+
+    dictionary.insertEntry("Algorithm", "A step-by-step procedure for solving a problem.");
+    dictionary.insertEntry("Binary Search", "An efficient algorithm for finding an item from a sorted list of items.");
+    dictionary.insertEntry("Data Structure", "A particular way of organizing and storing data.");
+
+    cout << "Initial Dictionary:" << endl;
+    dictionary.displayDictionary();
+
+    cout << "\nSearching for 'Algorithm':" << endl;
+    dictionary.searchKeyword("Algorithm");
+
+    cout << "\nUpdating 'Binary Search':" << endl;
+    dictionary.updateEntry("Binary Search", "A search algorithm that finds the position of a target value.");
+    
+    cout << "\nDeleting 'Data Structure':" << endl;
+    dictionary.deleteEntry("Data Structure");
+
+    cout << "\nUpdated Dictionary:" << endl;
+    dictionary.displayDictionary();
+
+    return 0;
+}
+########################################
+/**
+10. Read the marks obtained by students in an online examination and find the maximum and minimum marks using a heap data structure. Analyze the algorithm.
+(Marks Sorting Algorithm)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+// Function to find the maximum and minimum marks
+void find_max_min_marks(vector<int>& marks) {
+    // Create a max heap to find the maximum marks
+    priority_queue<int> max_heap;
+    for (int mark : marks) {
+        max_heap.push(mark);
+    }
+    int max_marks = max_heap.top();
+    cout << "Maximum marks: " << max_marks << endl;
+
+    // Create a min heap to find the minimum marks
+    priority_queue<int, vector<int>, greater<int>> min_heap;
+    for (int mark : marks) {
+        min_heap.push(mark);
+    }
+    int min_marks = min_heap.top();
+    cout << "Minimum marks: " << min_marks << endl;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of students: ";
+    cin >> n;
+
+    vector<int> marks(n);
+    cout << "Enter the marks obtained by each student: ";
+    for (int i = 0; i < n; i++) {
+        cin >> marks[i];
+    }
+
+    find_max_min_marks(marks);
+
+    return 0;
+}
+########################################
+
+/**
+11. Maintain a student information system using a sequential file, allowing users to add, delete, and display information. Handle cases where a student's record does not exist.
+(Student Information System)
+**/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+// Structure to store student data
+struct Student {
+    int id;
+    string name;
+    int age;
+};
+
+// Function to display all student records from the file
+void displayStudents(const string& filename) {
+    ifstream file(filename, ios::binary);
+    if (!file) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Student student;
+    bool found = false;
+    while (file.read(reinterpret_cast<char*>(&student), sizeof(student))) {
+        cout << "ID: " << student.id << ", Name: " << student.name << ", Age: " << student.age << endl;
+        found = true;
+    }
+
+    if (!found) {
+        cout << "No student records found!" << endl;
+    }
+
+    file.close();
+}
+
+// Function to add a new student record to the file
+void addStudent(const string& filename) {
+    ofstream file(filename, ios::app | ios::binary);
+    if (!file) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Student student;
+    cout << "Enter student ID: ";
+    cin >> student.id;
+    cin.ignore();  // Ignore the newline character left in the input buffer
+    cout << "Enter student name: ";
+    getline(cin, student.name);
+    cout << "Enter student age: ";
+    cin >> student.age;
+
+    file.write(reinterpret_cast<const char*>(&student), sizeof(student));
+    cout << "Student record added successfully!" << endl;
+
+    file.close();
+}
+
+// Function to delete a student record from the file
+void deleteStudent(const string& filename) {
+    int idToDelete;
+    cout << "Enter student ID to delete: ";
+    cin >> idToDelete;
+
+    ifstream inFile(filename, ios::binary);
+    ofstream outFile("temp.dat", ios::binary);
+    
+    if (!inFile || !outFile) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Student student;
+    bool found = false;
+    while (inFile.read(reinterpret_cast<char*>(&student), sizeof(student))) {
+        if (student.id != idToDelete) {
+            outFile.write(reinterpret_cast<const char*>(&student), sizeof(student));
+        } else {
+            found = true;
+        }
+    }
+
+    inFile.close();
+    outFile.close();
+
+    // If the student was found, replace the original file with the updated file
+    if (found) {
+        remove(filename.c_str());
+        rename("temp.dat", filename.c_str());
+        cout << "Student record deleted successfully!" << endl;
+    } else {
+        cout << "Student ID not found!" << endl;
+        remove("temp.dat");  // Remove the temporary file if ID not found
+    }
+}
+
+int main() {
+    string filename = "students.dat";
+    int choice;
+
+    while (true) {
+        cout << "\nStudent Information System" << endl;
+        cout << "1. Add Student" << endl;
+        cout << "2. Delete Student" << endl;
+        cout << "3. Display Students" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addStudent(filename);
+                break;
+            case 2:
+                deleteStudent(filename);
+                break;
+            case 3:
+                displayStudents(filename);
+                break;
+            case 4:
+                cout << "Exiting..." << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
+
+/**
+12. Maintain an employee information system using an index sequential file, allowing users to add, delete, and display information. Handle cases where an employee's record does not exist.
+(Employee Data Management)
+CODE:
+**/
+########################################
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+
+// Structure to store employee data
+struct Employee {
+    int id;
+    string name;
+    int age;
+    double salary;
+};
+
+// Structure to store the index (Employee ID and the position in the data file)
+struct Index {
+    int id;
+    streampos position; // Position of the record in the data file
+};
+
+// Function to display all employee records
+void displayEmployees(const string& dataFilename, const string& indexFilename) {
+    ifstream indexFile(indexFilename, ios::binary);
+    ifstream dataFile(dataFilename, ios::binary);
+    
+    if (!indexFile || !dataFile) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Index index;
+    Employee emp;
+    bool found = false;
+    
+    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
+        dataFile.seekg(index.position, ios::beg);
+        dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
+        cout << "ID: " << emp.id << ", Name: " << emp.name << ", Age: " << emp.age << ", Salary: " << emp.salary << endl;
+        found = true;
+    }
+
+    if (!found) {
+        cout << "No employee records found!" << endl;
+    }
+
+    indexFile.close();
+    dataFile.close();
+}
+
+// Function to add a new employee record
+void addEmployee(const string& dataFilename, const string& indexFilename) {
+    ofstream dataFile(dataFilename, ios::app | ios::binary);
+    ofstream indexFile(indexFilename, ios::app | ios::binary);
+    
+    if (!dataFile || !indexFile) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Employee emp;
+    cout << "Enter employee ID: ";
+    cin >> emp.id;
+    cin.ignore();  // Ignore newline character
+    cout << "Enter employee name: ";
+    getline(cin, emp.name);
+    cout << "Enter employee age: ";
+    cin >> emp.age;
+    cout << "Enter employee salary: ";
+    cin >> emp.salary;
+
+    // Write the new employee data to the data file
+    dataFile.write(reinterpret_cast<const char*>(&emp), sizeof(emp));
+
+    // Get the position of the newly added employee record in the data file
+    streampos position = dataFile.tellp();
+
+    // Write the index entry to the index file
+    Index newIndex;
+    newIndex.id = emp.id;
+    newIndex.position = position;
+    indexFile.write(reinterpret_cast<const char*>(&newIndex), sizeof(newIndex));
+
+    cout << "Employee added successfully!" << endl;
+
+    dataFile.close();
+    indexFile.close();
+}
+
+// Function to delete an employee record by ID
+void deleteEmployee(const string& dataFilename, const string& indexFilename) {
+    int idToDelete;
+    cout << "Enter employee ID to delete: ";
+    cin >> idToDelete;
+
+    ifstream indexFile(indexFilename, ios::binary);
+    ifstream dataFile(dataFilename, ios::binary);
+    ofstream tempIndexFile("temp_index.dat", ios::binary);
+    ofstream tempDataFile("temp_data.dat", ios::binary);
+
+    if (!indexFile || !dataFile || !tempIndexFile || !tempDataFile) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Index index;
+    Employee emp;
+    bool found = false;
+
+    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
+        // If the employee ID does not match, copy to the temp files
+        if (index.id != idToDelete) {
+            // Copy the record from data file to the temporary data file
+            dataFile.seekg(index.position, ios::beg);
+            dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
+            tempDataFile.write(reinterpret_cast<const char*>(&emp), sizeof(emp));
+            
+            // Copy the index entry to the temporary index file
+            tempIndexFile.write(reinterpret_cast<const char*>(&index), sizeof(index));
+        } else {
+            found = true;
+        }
+    }
+
+    indexFile.close();
+    dataFile.close();
+    tempIndexFile.close();
+    tempDataFile.close();
+
+    if (found) {
+        // Remove the old files and rename the temp files
+        remove(dataFilename.c_str());
+        remove(indexFilename.c_str());
+        rename("temp_data.dat", dataFilename.c_str());
+        rename("temp_index.dat", indexFilename.c_str());
+
+        cout << "Employee record deleted successfully!" << endl;
+    } else {
+        cout << "Employee ID not found!" << endl;
+        remove("temp_data.dat");
+        remove("temp_index.dat");
+    }
+}
+
+// Function to search for an employee by ID
+void searchEmployee(const string& dataFilename, const string& indexFilename) {
+    int idToSearch;
+    cout << "Enter employee ID to search: ";
+    cin >> idToSearch;
+
+    ifstream indexFile(indexFilename, ios::binary);
+    ifstream dataFile(dataFilename, ios::binary);
+    
+    if (!indexFile || !dataFile) {
+        cout << "Error opening file." << endl;
+        return;
+    }
+
+    Index index;
+    Employee emp;
+    bool found = false;
+
+    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
+        if (index.id == idToSearch) {
+            dataFile.seekg(index.position, ios::beg);
+            dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
+            cout << "Employee found: ID: " << emp.id << ", Name: " << emp.name << ", Age: " << emp.age << ", Salary: " << emp.salary << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Employee ID not found!" << endl;
+    }
+
+    indexFile.close();
+    dataFile.close();
+}
+
+int main() {
+    string dataFilename = "employee_data.dat";
+    string indexFilename = "employee_index.dat";
+
+    int choice;
+
+    while (true) {
+        cout << "\nEmployee Information System" << endl;
+        cout << "1. Add Employee" << endl;
+        cout << "2. Delete Employee" << endl;
+        cout << "3. Display Employees" << endl;
+        cout << "4. Search Employee" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addEmployee(dataFilename, indexFilename);
+                break;
+            case 2:
+                deleteEmployee(dataFilename, indexFilename);
+                break;
+            case 3:
+                displayEmployees(dataFilename, indexFilename);
+                break;
+            case 4:
+                searchEmployee(dataFilename, indexFilename);
+                break;
+            case 5:
+                cout << "Exiting..." << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
+##################################################################################################################################################################
+
+######################################## Microprocessor Laboratory (MPL) ########################################
+/**
+1. Write an Assembly Language Program to display Hello World on screen in 16 bit, 32 bit and 64 bit model
+**/
+################################################################################
+; 32-bit Assembly (Linux)
+section .data
+    msg db 'Hello, World!', 0xA  ; Message with newline
+    len equ $ - msg                ; Length of the message
+
+section .text
+    global _start
+
+_start:
+    ; Write the message to stdout
+    mov eax, 4          ; syscall number for sys_write
+    mov ebx, 1          ; file descriptor 1 is stdout
+    mov ecx, msg        ; pointer to the message
+    mov edx, len        ; length of the message
+    int 0x80            ; call kernel
+
+    ; Exit the program
+    mov eax, 1          ; syscall number for sys_exit
+    xor ebx, ebx        ; return 0 status
+    int 0x80            ; call kernel
+################################################################################
+################################################################################
+; 64-bit Assembly (Linux)
+section .data
+    msg db 'Hello, World!', 0xA  ; Message with newline
+    len equ $ - msg                ; Length of the message
+
+section .text
+    global _start
+
+_start:
+    ; Write the message to stdout
+    mov rax, 1          ; syscall number for sys_write
+    mov rdi, 1          ; file descriptor 1 is stdout
+    mov rsi, msg        ; pointer to the message
+    mov rdx, len        ; length of the message
+    syscall              ; call kernel
+
+    ; Exit the program
+    mov rax, 60         ; syscall number for sys_exit
+    xor rdi, rdi        ; return 0 status
+    syscall              ; call kernel
+################################################################################
+/**
+2. Write an Assembly Language Program to count no. of positive and negative numbers from the array.
+**/
+################################################################################
+section .data
+    array db 5, -3, 8, -1, 0, 7, -2, 4  ; Array of signed bytes
+    array_size db 8                     ; Size of the array
+    pos_count db 0                      ; Counter for positive numbers
+    neg_count db 0                      ; Counter for negative numbers
+
+section .text
+    global _start
+
+_start:
+    mov ecx, [array_size]               ; Load the size of the array into ECX
+    mov ebx, 0                           ; Index for the array
+    mov al, 0                            ; Clear AL for positive count
+    mov bl, 0                            ; Clear BL for negative count
+
+count_loop:
+    cmp ebx, ecx                         ; Compare index with size
+    jge done                             ; If index >= size, exit loop
+
+    movzx edx, byte [array + ebx]       ; Load the current array element into EDX
+    cmp edx, 0                           ; Compare with 0
+    jg increment_positive                ; If greater than 0, increment positive count
+    jl increment_negative                ; If less than 0, increment negative count
+
+    jmp next_element                     ; If equal to 0, go to next element
+
+increment_positive:
+    inc al                               ; Increment positive count
+    jmp next_element
+
+increment_negative:
+    inc bl                               ; Increment negative count
+    jmp next_element
+
+next_element:
+    inc ebx                              ; Move to the next element
+    jmp count_loop                       ; Repeat the loop
+
+done:
+    mov [pos_count], al                 ; Store positive count
+    mov [neg_count], bl                 ; Store negative count
+
+    ; Exit the program (Linux syscall)
+    mov eax, 1                           ; syscall: exit
+    xor ebx, ebx                         ; status: 0
+    int 0x80                             ; call kernel
+################################################################################
+/**
+3. Write an X86/64 Assembly Language Program to accept five 64 bit Hexadecimal numbers from user and store them in an array and display the accepted numbers.
+**/
+################################################################################
+section .data
+    prompt      db "Enter hex number: ", 0xA  ; prompt with newline
+    prompt_len  equ $-prompt
+    newline     db 0xA                         ; newline character
+
+section .bss
+    numbers     resq 5          ; Reserve space for 5 64-bit numbers
+    buffer      resb 20         ; Buffer for user input (hex string + newline)
+    hex_buffer  resb 16         ; Buffer for the 16-digit hex string
+
+section .text
+    global _start
+
+_start:
+    ; Read 5 hexadecimal numbers from the user
+    mov rsi, numbers        ; Pointer to the numbers array
+    mov rcx, 5              ; Counter for 5 numbers
+
+read_numbers:
+    ; Print prompt
+    mov rax, 1              ; syscall: write
+    mov rdi, 1              ; file descriptor: stdout
+    lea rsi, [prompt]       ; pointer to the prompt
+    mov rdx, prompt_len     ; length of the prompt
+    syscall
+
+    ; Read input (up to 20 bytes)
+    mov rax, 0              ; syscall: read
+    mov rdi, 0              ; file descriptor: stdin
+    lea rsi, [buffer]       ; pointer to the buffer
+    mov rdx, 20             ; number of bytes to read
+    syscall
+
+    ; Convert hex string to integer
+    lea rdi, [buffer]       ; Pass address of the buffer in rdi
+    call hex_to_int         ; rax will hold the converted number
+    mov [rsi], rax          ; Store the integer in the numbers array
+    add rsi, 8              ; Move to the next 8-byte slot
+    loop read_numbers       ; Repeat for 5 numbers
+
+    ; Display the numbers
+    mov rsi, numbers        ; Pointer to the numbers array
+    mov rcx, 5              ; Counter for 5 numbers
+
+display_numbers:
+    mov rax, [rsi]          ; Load the number
+    call int_to_hex         ; Convert integer in rax to hex string in hex_buffer
+    ; Print the hex string (16 characters) 
+    mov rax, 1              ; syscall: write
+    mov rdi, 1              ; file descriptor: stdout
+    lea rsi, [hex_buffer]   ; pointer to the hex string
+    mov rdx, 16             ; length of the hex string
+    syscall
+    ; Print newline
+    mov rax, 1              ; syscall: write
+    mov rdi, 1              ; file descriptor: stdout
+    lea rsi, [newline]      ; pointer to newline character
+    mov rdx, 1              ; length of newline
+    syscall
+    add rsi, 8              ; Move to the next number (each is 8 bytes)
+    loop display_numbers    ; Repeat for 5 numbers
+
+    ; Exit program
+    mov rax, 60             ; syscall: exit
+    xor rdi, rdi            ; exit code 0
+    syscall
+
+;------------------------------------------------
+; Convert hex string (in memory pointed by rdi) to integer.
+; This routine expects the hex string (in lowercase letters) ending with a newline (ASCII 10).
+; The result is returned in rax.
+;------------------------------------------------
+hex_to_int:
+    xor rax, rax            ; Clear rax to accumulate result
+    xor rcx, rcx            ; Index counter for the input string
+
+.next_digit:
+    movzx rdx, byte [rdi + rcx] ; Load next character (zero-extended)
+    cmp dl, 0Ah             ; Compare with newline (ASCII 10)
+    je .done_hex           ; If newline, we are done
+    ; Check if character is letter (a-f)
+    cmp dl, 'a'
+    jl .check_digit         ; If less than 'a', check as digit
+    cmp dl, 'f'
+    jg .check_digit         ; If greater than 'f', treat as digit (or invalid)
+    sub dl, 87              ; 'a' (97) -> 10, etc.
+    jmp .add_digit
+.check_digit:
+    sub dl, '0'             ; Convert character digit
+.add_digit:
+    imul rax, rax, 16       ; Multiply current value by base 16
+    add rax, rdx            ; Add the digit value
+    inc rcx                 ; Next character
+    jmp .next_digit
+.done_hex:
+    ret
+
+;------------------------------------------------
+; Convert integer in rax to a 16-digit hexadecimal string.
+; The result is stored in hex_buffer.
+;------------------------------------------------
+int_to_hex:
+    ; rax contains the number to convert.
+    ; We build the number from rightmost digit to left.
+    ; rdi will point to hex_buffer.
+    lea rdi, [hex_buffer]   ; rdi = pointer to hex_buffer
+    mov rcx, 16             ; We want 16 hex digits
+    mov rbx, 16             ; Base 16
+.loop_hex:
+    cmp rcx, 0
+    je .done_hex           ; If done, exit
+    ; For each digit, perform division.
+    ; It's important to use rdx=0 before div.
+    xor rdx, rdx            ; Clear rdx
+    ; Divide rax by 16. Quotient returns in rax, remainder in rdx.
+    div rbx
+    ; The remainder (rdx) is the current hex digit.
+    ; Convert remainder (0-15) to ASCII.
+    cmp rdx, 9
+    jle .digit_is_num
+    add rdx, 87             ; 10 -> 'a' (97), etc.
+    jmp .store_digit
+.digit_is_num:
+    add rdx, '0'
+.store_digit:
+    ; Store the digit in its proper location.
+    mov byte [rdi + rcx - 1], dl
+    dec rcx
+    jmp .loop_hex
+.done_hex:
+    ret    
+################################################################################
+/**
+4. Write an X86/64 Assembly Language Program to accept a string and to display its length.
+**/
+################################################################################
+section .data
+    prompt      db "Enter a string: ", 0
+    promptLen   equ $ - prompt
+
+    resultMsg   db "Length = ", 0
+    resultMsgLen equ $ - resultMsg
+
+    newline     db 10
+
+section .bss
+    buffer      resb 256   ; reserve 256 bytes for user input
+    num_buffer  resb 20    ; buffer to store converted integer string
+
+section .text
+    global _start
+
+_start:
+    ; Write prompt
+    mov     rax, 1          ; sys_write
+    mov     rdi, 1          ; file descriptor stdout
+    mov     rsi, prompt
+    mov     rdx, promptLen
+    syscall
+
+    ; Read input from user
+    mov     rax, 0          ; sys_read
+    mov     rdi, 0          ; file descriptor stdin
+    mov     rsi, buffer
+    mov     rdx, 255        ; read at most 255 bytes
+    syscall
+    ; The number of bytes read is now in rax
+    mov     rbx, rax        ; save number of bytes read in rbx
+
+    ; Remove newline if present
+    ; rbx contains count of bytes read. If last char = newline (10),
+    ; then reduce length by one.
+    cmp     rbx, 0
+    je      compute_length ; if no input, skip removal
+    mov     al, [buffer + rbx - 1]
+    cmp     al, 10          ; check for newline
+    jne     compute_length
+    dec     rbx             ; Remove the newline char
+
+compute_length:
+    ; Now, rbx contains the length of the string (it may include the zero if entered but not likely)
+    ; Instead of trusting rbx, we can compute the length manually until a newline or null terminator.
+    ; For demonstration, we will compute it manually.
+    mov     rcx, 0          ; counter for length
+    mov     rsi, buffer     ; pointer to buffer
+
+count_loop:
+    cmp     byte [rsi], 0   ; check for null terminator, though read doesn't add one
+    je      display_result
+    cmp     byte [rsi], 10  ; if newline encountered
+    je      display_result
+    inc     rcx
+    inc     rsi
+    ; To avoid counting extra garbage in the buffer beyond the read count, check counter:
+    cmp     rcx, rbx
+    jl      count_loop
+
+display_result:
+    ; Now rcx contains the computed length
+    ; Print a pre-message "Length = "
+    mov     rax, 1          ; sys_write
+    mov     rdi, 1          ; stdout
+    mov     rsi, resultMsg
+    mov     rdx, resultMsgLen
+    syscall
+
+    ; Convert integer in rcx into ascii string (stored in num_buffer)
+    ; We'll use rdi as pointer that will be filled from the end backwards.
+    ; Set rdx = end pointer
+    lea     rdi, [num_buffer + 20] ; pointer past the end of conversion buffer
+    mov     rbx, 10         ; divisor for conversion
+
+    ; If length is zero, handle separately.
+    cmp     rcx, 0
+    jne     convert_loop
+    ; Special case: length == 0, then string "0"
+    dec     rdi             ; move back one byte
+    mov     byte [rdi], '0'
+    jmp     conversion_done
+
+convert_loop:
+    ; Loop: divide rcx by 10 and get remainder.
+convert_loop_start:
+    xor     rdx, rdx        ; clear remainder register before div
+    div     rbx             ; rax is implicitly rdx:rax. Here, rcx holds the value in dividend, so move it to rax.
+                           ; For clarity, we will move rcx into rax.
+    ; However, note: we need to use a proper divisor approach.
+    ; We'll do it this way:
+    ;   mov rax, rcx
+    ;   xor rdx, rdx
+    ;   div rbx  -> quotient in rax, remainder in rdx.
+    ;   then store remainder, then move quotient into rcx.
+    ; Let's adjust the process.
+    mov     rax, rcx        ; move the current number into rax
+    xor     rdx, rdx
+    div     rbx             ; divide rax by 10; quotient in rax, remainder in rdx
+    ; Convert remainder to ascii
+    add     rdx, '0'
+    dec     rdi             ; move back one char
+    mov     byte [rdi], dl
+    mov     rcx, rax        ; set number to quotient
+    cmp     rcx, 0
+    jne     convert_loop_start
+
+conversion_done:
+    ; Now, rdi points to the beginning of our ascii representation.
+    ; Compute number of digits by subtracting current rdi from end of num_buffer+20.
+    lea     rdx, [num_buffer + 20]
+    sub     rdx, rdi        ; rdx = length of ascii number string
+
+    ; Print the converted number string.
+    mov     rax, 1          ; sys_write
+    mov     rsi, rdi
+    ; rdx (computed) is the length of the number string.
+    mov     rdi, 1          ; stdout (Note: careful registers! Let’s use rdi for file descriptor. We'll use rdi from scratch.)
+    ; To avoid messing the computed rdx which holds the length, we need to set registers carefully.
+    ; We'll use: rax = sys_write, rdi (fd) = 1, rsi = pointer, rdx = length.
+    ; We need to reload rdi as file descriptor.
+    mov     rdi, 1
+    mov     rax, 1
+    syscall
+
+    ; Print newline.
+    mov     rax, 1
+    mov     rdi, 1
+    mov     rsi, newline
+    mov     rdx, 1
+    syscall
+
+    ; Exit
+    mov     rax, 60         ; sys_exit
+    xor     rdi, rdi        ; exit code 0
+    syscall
+################################################################################
+/**
+5. Write an X86/64 Assembly Language Program to find the largest of given Byte/Word/Dword/64-bit numbers.
+**/
+################################################################################
+section .data
+    ; Format strings for printing
+    fmt_byte:    db "Max Byte = %d",10,0
+    fmt_word:    db "Max Word = %d",10,0
+    fmt_dword:   db "Max Dword = %d",10,0
+    fmt_qword:   db "Max Qword = %lld",10,0
+
+    ; Arrays of various sizes:
+    byteArr:     db 12, 255, 33, 67, 100
+    wordArr:     dw 1023, 65535, 542, 9999, 32767
+    dwordArr:    dd 123456, 654321, 98765, 123, 999999
+    qwordArr:    dq 1234567890123, 9223372036854775807, 55555555555, 777777777777, 333333333333
+
+    ; Array lengths (number of elements)
+    len_byte:    equ $ - byteArr
+    len_word:    equ ($ - wordArr) / 2
+    len_dword:   equ ($ - dwordArr) / 4
+    len_qword:   equ ($ - qwordArr) / 8
+
+section .bss
+    ; No uninitialized data in this example
+
+section .text
+    global main
+    extern printf
+
+;-----------------------------------------------------------
+; Find Maximum in Byte Array
+; Input: 
+;   RSI = pointer to first element of byte array
+;   RCX = number of elements (bytes)
+; Returns:
+;   AL = maximum (in lower 8 bits in RAX)
+;-----------------------------------------------------------
+find_max_byte:
+    push    rbx
+    mov     bl, [rsi]       ; initialize max in BL with first element
+    add     rsi, 1
+    dec     rcx
+.next_byte:
+    test    rcx, rcx
+    jz      .done_byte
+    mov     dl, [rsi]
+    cmp     dl, bl
+    jbe     .skip_byte
+    mov     bl, dl          ; update max
+.skip_byte:
+    inc     rsi
+    dec     rcx
+    jmp     .next_byte
+.done_byte:
+    mov     al, bl          ; return max in AL
+    pop     rbx
+    ret
+
+;-----------------------------------------------------------
+; Find Maximum in Word Array
+; Input: 
+;   RSI = pointer to first element of word array
+;   RCX = number of elements (words)
+; Returns:
+;   AX = maximum (in lower 16 bits in RAX)
+;-----------------------------------------------------------
+find_max_word:
+    push    rbx
+    mov     bx, [rsi]       ; initialize max in BX with first element
+    add     rsi, 2
+    dec     rcx
+.next_word:
+    test    rcx, rcx
+    jz      .done_word
+    mov     dx, [rsi]
+    cmp     dx, bx
+    jbe     .skip_word
+    mov     bx, dx          ; update max
+.skip_word:
+    add     rsi, 2
+    dec     rcx
+    jmp     .next_word
+.done_word:
+    mov     ax, bx          ; return max in AX
+    pop     rbx
+    ret
+
+;-----------------------------------------------------------
+; Find Maximum in Dword Array
+; Input: 
+;   RSI = pointer to first element of dword array
+;   RCX = number of elements (dwords)
+; Returns:
+;   EAX = maximum (in lower 32 bits in RAX)
+;-----------------------------------------------------------
+find_max_dword:
+    push    rbx
+    mov     ebx, [rsi]       ; initialize max in EBX with first element
+    add     rsi, 4
+    dec     rcx
+.next_dword:
+    test    rcx, rcx
+    jz      .done_dword
+    mov     edx, [rsi]
+    cmp     edx, ebx
+    jbe     .skip_dword
+    mov     ebx, edx         ; update max
+.skip_dword:
+    add     rsi, 4
+    dec     rcx
+    jmp     .next_dword
+.done_dword:
+    mov     eax, ebx         ; return max in EAX
+    pop     rbx
+    ret
+
+;-----------------------------------------------------------
+; Find Maximum in Qword Array (64-bit numbers)
+; Input: 
+;   RSI = pointer to first element of qword array
+;   RCX = number of elements (qwords)
+; Returns:
+;   RAX = maximum 
+;-----------------------------------------------------------
+find_max_qword:
+    push    rbx
+    mov     rbx, [rsi]       ; initialize max in RBX with first element
+    add     rsi, 8
+    dec     rcx
+.next_qword:
+    test    rcx, rcx
+    jz      .done_qword
+    mov     rdx, [rsi]
+    cmp     rdx, rbx
+    jbe     .skip_qword
+    mov     rbx, rdx         ; update max
+.skip_qword:
+    add     rsi, 8
+    dec     rcx
+    jmp     .next_qword
+.done_qword:
+    mov     rax, rbx         ; return max in RAX
+    pop     rbx
+    ret
+
+;-----------------------------------------------------------
+; Main function
+;-----------------------------------------------------------
+main:
+    ; -------------------------------
+    ; Process byte array
+    ; -------------------------------
+    mov     rsi, byteArr         ; pointer to byte array
+    mov     rcx, len_byte        ; number of bytes in byteArr
+    call    find_max_byte       ; returns max in AL (in RAX)
+    ; Since AL is 8-bit, zero-extend to full register for printf.
+    movzx   rax, al
+    ; Move value to RSI for printf argument. (System V AMD64 passes first integer arg in RSI.)
+    ; Prepare for printf call.
+    mov     rdi, fmt_byte       ; first argument: format string
+    mov     rsi, rax          ; second argument: max value
+    xor     rax, rax          ; no floating point arguments used
+    call    printf
+
+    ; -------------------------------
+    ; Process word array
+    ; -------------------------------
+    mov     rsi, wordArr        ; pointer to word array
+    mov     rcx, len_word       ; number of words
+    call    find_max_word       ; returns max in AX (in RAX)
+    movzx   rax, ax           ; zero-extend to 64-bit
+    mov     rdi, fmt_word       ; format string for word
+    mov     rsi, rax          ; value
+    xor     rax, rax
+    call    printf
+
+    ; -------------------------------
+    ; Process dword array
+    ; -------------------------------
+    mov     rsi, dwordArr       ; pointer to dword array
+    mov     rcx, len_dword      ; number of dwords
+    call    find_max_dword      ; returns max in EAX (in RAX)
+    movzx   rax, eax          ; zero extend
+    mov     rdi, fmt_dword      ; format string
+    mov     rsi, rax          ; value
+    xor     rax, rax
+    call    printf
+
+    ; -------------------------------
+    ; Process qword array
+    ; -------------------------------
+    mov     rsi, qwordArr       ; pointer to qword array
+    mov     rcx, len_qword      ; number of qwords
+    call    find_max_qword      ; returns max in RAX
+    mov     rdi, fmt_qword      ; format string
+    ; rax already holds maximum 64-bit value
+    mov     rsi, rax          ; value
+    xor     rax, rax
+    call    printf
+
+    ; -------------------------------
+    ; Exit
+    ; -------------------------------
+    mov     rax, 60         ; sys_exit
+    xor     rdi, rdi
+    syscall
+
+; End of File
+################################################################################
+/**
+6.Write x86 Assembly Language Program to convert 4-digit HEX number into its equivalent BCD number and 5 digits BCD number into its equivalent HEX number. Make your program user friendly to accept the choice from user for a. Hex to BCD  b. BCD to HEX  c.EXIT.
+**/
+################################################################################
+.model small
+.stack 100h
+
+.data
+    prompt_choice db "Choose an option:", 0Ah, "a. Hex to BCD", 0Ah, "b. BCD to Hex", 0Ah, "c. Exit", 0Ah, "$"
+    prompt_hex db "Enter 4-digit HEX number: $"
+    prompt_bcd db "Enter 5-digit BCD number: $"
+    output_bcd db "Equivalent BCD: $"
+    output_hex db "Equivalent HEX: $"
+    newline db 0Ah, "$"
+    choice db 0
+    hex_num db 4 dup('0')    ; To store the input HEX number
+    bcd_num db 5 dup('0')    ; To store the input BCD number
+
+.code
+main:
+    ; Initialize data segment
+    mov ax, @data
+    mov ds, ax
+
+menu:
+    ; Display the menu and prompt for choice
+    mov ah, 09h
+    lea dx, prompt_choice
+    int 21h
+
+    ; Get user choice
+    mov ah, 01h
+    int 21h
+    sub al, 30h             ; Convert ASCII to number
+    mov [choice], al
+
+    ; Check user's choice
+    cmp al, 61h   ; 'a' (Hex to BCD)
+    je hex_to_bcd
+    cmp al, 62h   ; 'b' (BCD to Hex)
+    je bcd_to_hex
+    cmp al, 63h   ; 'c' (Exit)
+    je exit_program
+    jmp menu
+
+hex_to_bcd:
+    ; Prompt for the HEX number (4 digits)
+    mov ah, 09h
+    lea dx, prompt_hex
+    int 21h
+
+    ; Get the HEX number from the user (4 digits)
+    lea dx, hex_num
+    call get_input
+
+    ; Convert HEX to BCD
+    ; Assume input is valid 4-digit HEX number
+    lea si, hex_num
+    call hex_to_bcd_convert
+
+    ; Display the BCD result
+    mov ah, 09h
+    lea dx, output_bcd
+    int 21h
+    lea dx, bcd_num
+    int 21h
+    jmp menu
+
+bcd_to_hex:
+    ; Prompt for the BCD number (5 digits)
+    mov ah, 09h
+    lea dx, prompt_bcd
+    int 21h
+
+    ; Get the BCD number from the user (5 digits)
+    lea dx, bcd_num
+    call get_input
+
+    ; Convert BCD to HEX
+    lea si, bcd_num
+    call bcd_to_hex_convert
+
+    ; Display the HEX result
+    mov ah, 09h
+    lea dx, output_hex
+    int 21h
+    lea dx, hex_num
+    int 21h
+    jmp menu
+
+exit_program:
+    ; Exit the program
+    mov ah, 4Ch
+    int 21h
+
+get_input:
+    ; Function to get user input as string
+    mov ah, 0Ah           ; DOS input function (buffered input)
+    int 21h
+    ret
+
+hex_to_bcd_convert:
+    ; Convert 4-digit HEX number to BCD (assume user input is valid)
+    ; Input: SI points to the HEX number
+    ; Output: BCD number in bcd_num
+    xor di, di            ; Clear DI (index for BCD number)
+
+    ; Process each HEX digit
+    mov cx, 4
+convert_hex_loop:
+    mov al, [si]          ; Load HEX character
+    sub al, '0'           ; Convert from ASCII to integer
+    cmp al, 9
+    jbe hex_to_bcd_valid
+    sub al, 7             ; Adjust for 'A'-'F' (10-15)
+hex_to_bcd_valid:
+    ; Convert to BCD
+    mov bl, al
+    add bl, '0'           ; Convert back to ASCII
+    mov [bcd_num + di], bl
+
+    inc si                ; Move to the next HEX character
+    inc di                ; Move to the next BCD position
+    loop convert_hex_loop
+    ret
+
+bcd_to_hex_convert:
+    ; Convert 5-digit BCD number to HEX
+    ; Input: SI points to the BCD number
+    ; Output: HEX number in hex_num
+    xor di, di            ; Clear DI (index for HEX number)
+
+    ; Process each BCD digit
+    mov cx, 5
+convert_bcd_loop:
+    mov al, [si]          ; Load BCD character
+    sub al, '0'           ; Convert from ASCII to integer
+    mov bl, al
+    cmp bl, 9
+    jbe bcd_to_hex_valid
+    add bl, 7             ; Adjust for hex values above 9 (A-F)
+bcd_to_hex_valid:
+    ; Convert to HEX
+    add bl, '0'           ; Convert back to ASCII
+    mov [hex_num + di], bl
+
+    inc si                ; Move to the next BCD character
+    inc di                ; Move to the next HEX position
+    loop convert_bcd_loop
+    ret
+end main
+################################################################################
+/**
+7.Write X86/64 Assembly Language Program to switch from real mode to protected mode and display the values of GDTR, LDTR, IDTR, TR and MSW Registers
+**/
+################################################################################
+BITS 32
+section .data
+    ; GDT entries (example entries)
+    GDT_BASE    equ gdt
+    GDT_LIMIT   equ gdt_end - gdt - 1
+
+    ; Null segment
+    NULL_DESC db 0, 0, 0, 0, 0, 0, 0, 0
+
+    ; Code segment descriptor (privilege level 0)
+    CODE_SEG_DESC db 0x0F, 0x9A, 0xCF, 0x00
+    ; Data segment descriptor (privilege level 0)
+    DATA_SEG_DESC db 0x0F, 0x92, 0xCF, 0x00
+
+    ; TSS descriptor (not used here in detail)
+    TSS_DESC db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+section .bss
+    ; GDTR, IDTR, and others are not directly stored in variables; 
+    ; they're part of CPU registers to be loaded using instructions.
+
+section .text
+    global _start
+    _start:
+        ; Set up the GDT (Global Descriptor Table)
+        cli                    ; Disable interrupts (critical section)
+        lgdt [gdt_ptr]         ; Load the GDT pointer to GDTR
+
+        ; Set up the IDT (Interrupt Descriptor Table)
+        lidt [idt_ptr]         ; Load the IDT pointer to IDTR
+        
+        ; Load the TSS descriptor (just an example here)
+        ltr ax                 ; Load Task Register (not fully implemented)
+
+        ; Set protected mode bit in CR0 (Control Register 0)
+        mov eax, cr0
+        or eax, 1              ; Set the PE (Protected Mode Enable) bit
+        mov cr0, eax
+
+        ; Far jump to enter protected mode
+        jmp 0x08:protected_mode_start ; Jump to code segment in protected mode
+
+    ; In protected mode, we execute the following code:
+    protected_mode_start:
+        ; Display the contents of GDTR, LDTR, IDTR, TR, and MSW registers
+        ; For simplicity, here we are just using debug prints; however, in real programs, you'd use BIOS or OS-specific APIs.
+        
+        ; GDTR, IDTR, and others are not directly accessible as easy-to-access data.
+        ; Typically, they are shown through debugging tools like Bochs, QEMU, or similar.
+
+        ; Instead, we provide placeholders to represent the intent of displaying the values.
+
+        ; Display the values of GDTR, LDTR, IDTR, TR, and MSW (typically done using debug utilities)
+        ; For now, let's assume we print these registers to a console if it was a real OS environment:
+        ; Display the value of GDTR register (Just for demonstration purposes)
+        mov eax, GDTR
+
+        ; Infinite loop (Just for demo purposes to stay in protected mode)
+        hlt                     ; Halt the CPU (in a real system, you would not halt here)
+        
+        ; The system would be in protected mode, and you can use debugging tools to inspect register values.
+
+    ; Example GDT setup (pointer is set in gdt_ptr)
+    gdt:
+        ; Null Descriptor
+        dd 0x0, 0x0, 0x0, 0x0
+        ; Code Segment Descriptor (0x08)
+        dd 0x0000FFFF, 0x00CF9A00, 0x00000000, 0x00
+        ; Data Segment Descriptor (0x10)
+        dd 0x0000FFFF, 0x00CF9200, 0x00000000, 0x00
+        ; Task Segment Descriptor (0x18)
+        dd 0x0000FFFF, 0x00CFF200, 0x00000000, 0x00
+    gdt_end:
+
+    gdt_ptr:
+        dw GDT_LIMIT           ; GDT Limit
+        dd GDT_BASE            ; GDT Base
+
+    ; IDT setup (not fully detailed in this example)
+    idt_ptr:
+        ; Typically, this would point to the base and limit of the IDT, but we aren't using a full IDT here.
+        dw 0xFFFF              ; IDT Limit (example)
+        dd 0x00000000          ; IDT Base Address (example)
+################################################################################
+/**
+8. Write x86/64 Assembly Language Program to perform non-overlapped block transfer (With and without string specific instructions). Block Containing data can be defined in the data Segment.
+**/
+################################################################################
+code 1
+################################################################################
+section .data
+    ; Define a block of data (size must be a multiple of 8 bytes for MOVSQ)
+    src_data:    dq 0x1122334455667788, 0x99AABBCCDDEEFF00, 0x0102030405060708
+    data_length: equ ($ - src_data)  ; total size in bytes
+    
+    ; Destination buffer (reserve same amount of space)
+section .bss
+    dst_data:    resb data_length
+
+section .text
+    global _start
+
+_start:
+    ; rsi = source, rdi = destination, rcx = count (in quadwords)
+    lea rsi, [rel src_data]      ; address of source data
+    lea rdi, [rel dst_data]      ; address of destination data
+    mov rcx, data_length         ; total bytes to copy
+    shr rcx, 3                  ; divide by 8 to get number of quadwords
+
+    cld                         ; Clear direction flag (increasing pointers)
+    rep movsq                 ; copy RCX quadwords from [rsi] to [rdi]
+
+    ; Exit (Linux system call)
+    mov rax, 60                ; syscall: exit
+    xor rdi, rdi               ; status 0
+    syscall
+
+################################################################################
+code 2
+################################################################################
+section .data
+    ; Define a block of data (arbitrary number of bytes)
+    src_data: db 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88
+              db 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00
+              db 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
+    data_length: equ $ - src_data
+
+section .bss
+    dst_data: resb data_length
+
+section .text
+    global _start
+
+_start:
+    ; Initialize pointers and counter
+    lea rsi, [rel src_data]      ; pointer to source data
+    lea rdi, [rel dst_data]      ; pointer to destination data
+    mov rcx, data_length         ; number of bytes to copy
+
+copy_loop:
+    test rcx, rcx              ; check if counter is 0
+    jz done_copy
+
+    mov al, [rsi]             ; load byte from source into AL
+    mov [rdi], al             ; store byte into destination
+    inc rsi                   ; increment source pointer
+    inc rdi                   ; increment destination pointer
+    dec rcx                   ; decrement counter
+    jmp copy_loop
+
+done_copy:
+    ; Exit (Linux system call)
+    mov rax, 60               ; syscall: exit
+    xor rdi, rdi              ; status 0
+    syscall
+################################################################################
+/**
+9.Write x86/64 Assembly Language Program to perform overlapped block transfer (With and without string specific instructions). Block Containing data can be defined in the data Segment.
+**/
+################################################################################
+code 1
+################################################################################
+section .data
+    ; Define a source block of 32 bytes
+    src:    db "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", 0
+    ; Let’s assume destination starts 8 bytes into src, hence an overlap.
+    ; We define dst as the same memory area (using src label) but we demonstrate the effect
+    ; In an actual program you might copy from one area to another overlapping area.
+    ; To simulate an overlapped transfer, we copy from src to src+8.
+    len     equ 16       ; Number of bytes to transfer
+
+section .bss
+    ; For this example, we do not use BSS allocation.
+
+section .text
+    global _start
+
+_start:
+    ; Calculate destination pointer = src + 8 to cause an overlap.
+    lea rsi, [rel src]      ; source pointer in rsi
+    lea rdi, [rel src+8]    ; destination pointer in rdi (overlapping region)
+    mov rcx, len          ; length (number of bytes to copy)
+    cld                   ; clear direction flag: copy forward
+
+    ; Using REP MOVSB to perform block move
+    rep movsb
+
+    ; Exit the program
+    mov rax, 60        ; syscall: exit
+    xor rdi, rdi       ; exit code 0
+    syscall
+################################################################################
+code 2
+################################################################################
+section .data
+    ; Define source block of 32 bytes
+    src:    db "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", 0
+    ; We use the same overlapping scenario: destination is src+8.
+    len     equ 16       ; number of bytes to transfer
+
+section .text
+    global _start
+
+_start:
+    ; Setup pointers
+    lea rsi, [rel src]      ; source pointer in rsi
+    lea rdi, [rel src+8]    ; destination pointer in rdi
+
+    mov rcx, len          ; counter = number of bytes
+
+copy_loop:
+    cmp rcx, 0
+    je done_loop          ; exit loop when counter reaches 0
+    ; Load a byte from address in rsi
+    mov al, byte [rsi]
+    ; Store that byte to address in rdi
+    mov byte [rdi], al
+    ; Increment pointers
+    inc rsi
+    inc rdi
+    dec rcx
+    jmp copy_loop
+
+done_loop:
+    ; Exit the program
+    mov rax, 60           ; syscall: exit
+    xor rdi, rdi          ; exit code 0
+    syscall
+################################################################################
+/**
+10. Write X86/64 Assembly Language Program to perform multiplication of two 8-bit hexadecimal numbers. Use successive addition and add and shift method. Accept input from the user. (Use of 64-bit registers is expected)
+**/
+################################################################################
+section .data
+    prompt1 db 'Enter first 8-bit hexadecimal number (0xNN): ', 0
+    prompt2 db 'Enter second 8-bit hexadecimal number (0xNN): ', 0
+    result_msg db 'Multiplication result: ', 0
+
+section .bss
+    num1 resb 2       ; Reserve space for first number (2 bytes)
+    num2 resb 2       ; Reserve space for second number (2 bytes)
+    result resq 1     ; Result of multiplication
+
+section .text
+    global _start
+
+_start:
+    ; Prompt for first number
+    mov rdi, prompt1
+    call print_string
+    call read_hex
+    movzx rsi, byte [num1]  ; Store the first 8-bit number in rsi
+
+    ; Prompt for second number
+    mov rdi, prompt2
+    call print_string
+    call read_hex
+    movzx rdx, byte [num2]  ; Store the second 8-bit number in rdx
+
+    ; Successive Addition Method
+    ; Initialize result to zero
+    xor rax, rax  ; Clear rax (result will be stored here)
+
+    ; Perform successive addition (simulating multiplication)
+    mov rcx, rsi     ; Copy first number (num1) to rcx (loop counter)
+    
+successive_addition:
+    test rdx, 1      ; Check if the least significant bit of num2 is set
+    jz no_addition   ; If not set, skip addition
+
+    add rax, rcx     ; Add num1 to result
+
+no_addition:
+    shl rdx, 1       ; Shift num2 left by 1 (multiply num2 by 2)
+    shl rcx, 1       ; Shift num1 left by 1 (multiply num1 by 2)
+    loop successive_addition  ; Repeat for 8 times (8-bit multiplication)
+
+    ; Print the result
+    mov rdi, result_msg
+    call print_string
+    mov rsi, rax     ; Move the result into rsi for printing
+    call print_hex   ; Print result as hexadecimal
+
+    ; Exit program
+    mov rax, 60      ; syscall number for exit
+    xor rdi, rdi     ; Return 0 status
+    syscall
+
+print_string:
+    ; Prints the null-terminated string in rdi
+    mov rax, 0x1     ; syscall number for write
+    mov rdi, 0x1     ; file descriptor (stdout)
+    mov rdx, 100     ; max length of the string
+    syscall
+    ret
+
+read_hex:
+    ; Reads a 2-character hexadecimal string from user and stores in num1 or num2
+    mov rax, 0x0     ; syscall number for read
+    mov rdi, 0x0     ; file descriptor (stdin)
+    mov rdx, 2       ; number of bytes to read (2 hex digits)
+    syscall
+    ret
+
+print_hex:
+    ; Prints a 64-bit number in hexadecimal format stored in rsi
+    mov rbx, 16      ; Base 16 for hexadecimal
+    mov rcx, 16      ; Loop counter to print 16 hex digits (64-bit)
+    
+print_hex_loop:
+    ; Extract the lower nibble
+    mov rdx, rsi     ; Copy the value of rsi to rdx
+    and rdx, 0xF     ; Mask out all but the lower 4 bits
+    add dl, '0'      ; Convert to ASCII
+    cmp dl, '9'      ; Check if the character is greater than '9'
+    jbe print_char   ; If it is <= '9', it's a number
+    add dl, 7        ; If it's > '9', make it 'A' to 'F'
+
+print_char:
+    ; Print the character
+    mov rax, 0x1     ; syscall number for write
+    mov rdi, 0x1     ; file descriptor (stdout)
+    mov rdx, 1       ; number of bytes to write
+    syscall
+
+    ; Shift left to prepare the next nibble
+    shl rsi, 4       ; Shift the value left by 4 bits
+    loop print_hex_loop
+    ret
+################################################################################
+/**
+11. Write x86 Assembly Language Program to find the factorial of a given integer number on a command line by using recursion. Explicit stack manipulation is expected in the code.
+**/
+################################################################################
+section .data
+    prompt db "Enter a number: ", 0
+    msg_result db "The factorial is: ", 0
+    newline db 10, 0
+
+section .bss
+    number resb 10  ; Reserve space to store the user input
+
+section .text
+    global _start
+    extern printf, atoi
+
+_start:
+    ; Print the prompt message
+    mov rdi, prompt         ; Load address of prompt
+    call print_string
+
+    ; Read user input (integer)
+    mov rdi, number         ; Load address of the number input buffer
+    call read_input
+
+    ; Convert string input to integer using atoi
+    mov rdi, number         ; Pass input string to atoi
+    call atoi
+    mov rsi, rax            ; Store the result (number) in rsi for factorial calculation
+
+    ; Call factorial function
+    call factorial
+
+    ; Print the result message
+    mov rdi, msg_result     ; Load address of result message
+    call print_string
+
+    ; Print the factorial result
+    mov rdi, rax            ; Load factorial result into rdi (first argument for printf)
+    call print_int          ; Print integer (the result of factorial)
+
+    ; Print newline
+    mov rdi, newline        ; Load address of newline
+    call print_string
+
+    ; Exit program
+    mov rax, 60             ; Exit system call
+    xor rdi, rdi            ; Exit status 0
+    syscall
+
+; Print a string function
+print_string:
+    mov rax, 0x1            ; Syscall number for sys_write
+    mov rdi, 0x1            ; File descriptor: STDOUT
+    mov rdx, 100            ; Number of bytes to write (maximum length of string)
+    syscall
+    ret
+
+; Read input from user (stdin)
+read_input:
+    mov rax, 0x0            ; Syscall number for sys_read
+    mov rdi, 0x0            ; File descriptor: STDIN
+    mov rdx, 10             ; Max number of bytes to read
+    syscall
+    ret
+
+; Print integer (rdi contains the integer to print)
+print_int:
+    ; Call printf to print the integer (rdi = number to print)
+    mov rax, 0              ; Clear rax (no floating point args)
+    call printf
+    ret
+
+; Factorial function (recursive)
+factorial:
+    ; Base case: if the input number is 0, return 1
+    cmp rsi, 0              ; Compare number (rsi) with 0
+    je .base_case           ; If equal (0), jump to base case
+
+    ; Recursive case
+    push rsi                ; Save current number on stack
+    dec rsi                 ; Decrement number (n-1)
+    call factorial          ; Recursive call with (n-1)
+    pop rsi                 ; Restore original number (n)
+
+    ; Multiply the result by the current number
+    mul rsi                 ; Multiply rax by rsi (rax = rax * rsi)
+    ret
+
+.base_case:
+    mov rax, 1              ; Return 1 for 0!
+    ret
+################################################################################
