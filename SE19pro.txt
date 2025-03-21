@@ -4462,224 +4462,161 @@ CODE:
 ########################################
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
 #include <sstream>
-#include <algorithm>
-
+#include <unordered_map>
+#include <string>
 using namespace std;
-
-// Structure to store employee data
 struct Employee {
-    int id;
+    int empID;
     string name;
-    int age;
+    string designation;
     double salary;
+    bool isDeleted;
 };
-
-// Structure to store the index (Employee ID and the position in the data file)
-struct Index {
-    int id;
-    streampos position; // Position of the record in the data file
-};
-
-// Function to display all employee records
-void displayEmployees(const string& dataFilename, const string& indexFilename) {
-    ifstream indexFile(indexFilename, ios::binary);
-    ifstream dataFile(dataFilename, ios::binary);
-    
-    if (!indexFile || !dataFile) {
-        cout << "Error opening file." << endl;
-        return;
-    }
-
-    Index index;
-    Employee emp;
-    bool found = false;
-    
-    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
-        dataFile.seekg(index.position, ios::beg);
-        dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
-        cout << "ID: " << emp.id << ", Name: " << emp.name << ", Age: " << emp.age << ", Salary: " << emp.salary << endl;
-        found = true;
-    }
-
-    if (!found) {
-        cout << "No employee records found!" << endl;
-    }
-
-    indexFile.close();
-    dataFile.close();
-}
-
-// Function to add a new employee record
-void addEmployee(const string& dataFilename, const string& indexFilename) {
-    ofstream dataFile(dataFilename, ios::app | ios::binary);
-    ofstream indexFile(indexFilename, ios::app | ios::binary);
-    
-    if (!dataFile || !indexFile) {
-        cout << "Error opening file." << endl;
-        return;
-    }
-
-    Employee emp;
-    cout << "Enter employee ID: ";
-    cin >> emp.id;
-    cin.ignore();  // Ignore newline character
-    cout << "Enter employee name: ";
-    getline(cin, emp.name);
-    cout << "Enter employee age: ";
-    cin >> emp.age;
-    cout << "Enter employee salary: ";
-    cin >> emp.salary;
-
-    // Write the new employee data to the data file
-    dataFile.write(reinterpret_cast<const char*>(&emp), sizeof(emp));
-
-    // Get the position of the newly added employee record in the data file
-    streampos position = dataFile.tellp();
-
-    // Write the index entry to the index file
-    Index newIndex;
-    newIndex.id = emp.id;
-    newIndex.position = position;
-    indexFile.write(reinterpret_cast<const char*>(&newIndex), sizeof(newIndex));
-
-    cout << "Employee added successfully!" << endl;
-
-    dataFile.close();
-    indexFile.close();
-}
-
-// Function to delete an employee record by ID
-void deleteEmployee(const string& dataFilename, const string& indexFilename) {
-    int idToDelete;
-    cout << "Enter employee ID to delete: ";
-    cin >> idToDelete;
-
-    ifstream indexFile(indexFilename, ios::binary);
-    ifstream dataFile(dataFilename, ios::binary);
-    ofstream tempIndexFile("temp_index.dat", ios::binary);
-    ofstream tempDataFile("temp_data.dat", ios::binary);
-
-    if (!indexFile || !dataFile || !tempIndexFile || !tempDataFile) {
-        cout << "Error opening file." << endl;
-        return;
-    }
-
-    Index index;
-    Employee emp;
-    bool found = false;
-
-    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
-        // If the employee ID does not match, copy to the temp files
-        if (index.id != idToDelete) {
-            // Copy the record from data file to the temporary data file
-            dataFile.seekg(index.position, ios::beg);
-            dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
-            tempDataFile.write(reinterpret_cast<const char*>(&emp), sizeof(emp));
-            
-            // Copy the index entry to the temporary index file
-            tempIndexFile.write(reinterpret_cast<const char*>(&index), sizeof(index));
-        } else {
-            found = true;
-        }
-    }
-
-    indexFile.close();
-    dataFile.close();
-    tempIndexFile.close();
-    tempDataFile.close();
-
-    if (found) {
-        // Remove the old files and rename the temp files
-        remove(dataFilename.c_str());
-        remove(indexFilename.c_str());
-        rename("temp_data.dat", dataFilename.c_str());
-        rename("temp_index.dat", indexFilename.c_str());
-
-        cout << "Employee record deleted successfully!" << endl;
-    } else {
-        cout << "Employee ID not found!" << endl;
-        remove("temp_data.dat");
-        remove("temp_index.dat");
-    }
-}
-
-// Function to search for an employee by ID
-void searchEmployee(const string& dataFilename, const string& indexFilename) {
-    int idToSearch;
-    cout << "Enter employee ID to search: ";
-    cin >> idToSearch;
-
-    ifstream indexFile(indexFilename, ios::binary);
-    ifstream dataFile(dataFilename, ios::binary);
-    
-    if (!indexFile || !dataFile) {
-        cout << "Error opening file." << endl;
-        return;
-    }
-
-    Index index;
-    Employee emp;
-    bool found = false;
-
-    while (indexFile.read(reinterpret_cast<char*>(&index), sizeof(index))) {
-        if (index.id == idToSearch) {
-            dataFile.seekg(index.position, ios::beg);
-            dataFile.read(reinterpret_cast<char*>(&emp), sizeof(emp));
-            cout << "Employee found: ID: " << emp.id << ", Name: " << emp.name << ", Age: " << emp.age << ", Salary: " << emp.salary << endl;
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
-        cout << "Employee ID not found!" << endl;
-    }
-
-    indexFile.close();
-    dataFile.close();
-}
-
+const string dataFilename = "employee.txt";
+unordered_map<int, Employee> employeeMap;
+void loadEmployees();
+void saveEmployees();
+void addEmployee();
+void deleteEmployee();
+void displayEmployee();
 int main() {
-    string dataFilename = "employee_data.dat";
-    string indexFilename = "employee_index.dat";
-
+    loadEmployees();
     int choice;
-
-    while (true) {
-        cout << "\nEmployee Information System" << endl;
+    do {
+        cout << "\n--- Employee Information System ---" << endl;
         cout << "1. Add Employee" << endl;
         cout << "2. Delete Employee" << endl;
-        cout << "3. Display Employees" << endl;
-        cout << "4. Search Employee" << endl;
-        cout << "5. Exit" << endl;
+        cout << "3. Display Employee" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-
-        switch (choice) {
+        cin.ignore();
+        switch(choice) {
             case 1:
-                addEmployee(dataFilename, indexFilename);
+                addEmployee();
                 break;
             case 2:
-                deleteEmployee(dataFilename, indexFilename);
+                deleteEmployee();
                 break;
             case 3:
-                displayEmployees(dataFilename, indexFilename);
+                displayEmployee();
                 break;
             case 4:
-                searchEmployee(dataFilename, indexFilename);
+                cout << "Exiting program." << endl;
                 break;
-            case 5:
-                cout << "Exiting..." << endl;
-                return 0;
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    }
+    } while(choice != 4);
 
     return 0;
+}
+void loadEmployees() {
+    employeeMap.clear();
+    ifstream fin(dataFilename);
+    if (!fin) {
+        return;
+    }
+    string line;
+    while(getline(fin, line)) {
+        if(line.empty())
+            continue;
+        stringstream ss(line);
+        string token;
+        Employee emp;
+        if (!getline(ss, token, ',')) continue;
+        try {
+            emp.empID = stoi(token);
+        } catch (const invalid_argument &e) {
+            cerr << "Invalid integer value (empID): " << token << endl;
+            continue;
+        }
+        if (!getline(ss, token, ',')) continue;
+        emp.name = token;
+        if (!getline(ss, token, ',')) continue;
+        emp.designation = token;
+        if (!getline(ss, token, ',')) continue;
+        try {
+            emp.salary = stod(token);
+        } catch (const invalid_argument &e) {
+            cerr << "Invalid numeric value (salary): " << token << endl;
+            continue;
+        }
+        if (!getline(ss, token, ',')) continue;
+        emp.isDeleted = (token == "1" || token == "true");
+        if (!emp.isDeleted)
+            employeeMap[emp.empID] = emp;
+    }
+    fin.close();
+}
+void saveEmployees() {
+    ofstream fout(dataFilename, ios::trunc);
+    if (!fout) {
+        cerr << "Error opening file for writing." << endl;
+        return;
+    }
+    for (const auto &pair : employeeMap) {
+        const Employee &emp = pair.second;
+        fout << emp.empID << ","
+             << emp.name << ","
+             << emp.designation << ","
+             << emp.salary << ","
+             << (emp.isDeleted ? "1" : "0") << "\n";
+    }
+    fout.close();
+}
+void addEmployee() {
+    Employee emp;
+    emp.isDeleted = false;
+    cout << "Enter Employee ID: ";
+    cin >> emp.empID;
+    cin.ignore();
+    if (employeeMap.find(emp.empID) != employeeMap.end()) {
+        cout << "Employee with ID " << emp.empID << " already exists." << endl;
+        return;
+    }
+    cout << "Enter Name: ";
+    getline(cin, emp.name);
+    cout << "Enter Designation: ";
+    getline(cin, emp.designation);
+    cout << "Enter Salary: ";
+    cin >> emp.salary;
+    employeeMap[emp.empID] = emp;
+    saveEmployees();
+    cout << "Employee added successfully." << endl;
+}
+void deleteEmployee() {
+    int id;
+    cout << "Enter Employee ID to delete: ";
+    cin >> id;
+    cin.ignore();
+    auto it = employeeMap.find(id);
+    if (it == employeeMap.end()) {
+        cout << "Employee with ID " << id << " does not exist." << endl;
+        return;
+    }
+    it->second.isDeleted = true;
+    employeeMap.erase(it);
+    saveEmployees();
+    cout << "Employee with ID " << id << " deleted successfully." << endl;
+}
+void displayEmployee() {
+    int id;
+    cout << "Enter Employee ID to display: ";
+    cin >> id;
+    cin.ignore();
+    auto it = employeeMap.find(id);
+    if (it == employeeMap.end()) {
+        cout << "Employee with ID " << id << " does not exist." << endl;
+        return;
+    }
+    const Employee &emp = it->second;
+    cout << "\nEmployee Details:" << endl;
+    cout << "Employee ID: " << emp.empID << endl;
+    cout << "Name: " << emp.name << endl;
+    cout << "Designation: " << emp.designation << endl;
+    cout << "Salary: " << emp.salary << endl;
 }
 ##################################################################################################################################################################
 
