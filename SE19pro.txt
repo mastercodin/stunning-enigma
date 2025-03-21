@@ -4312,117 +4312,128 @@ int main() {
 (Student Information System)
 **/
 
+########################################
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
-
+#include <string>
+#include <vector>
+#include <cstdlib>
 using namespace std;
-
-// Structure to store student data
 struct Student {
-    int id;
+    int rollNo;
     string name;
-    int age;
+    string division;
+    string address;
 };
-
-// Function to display all student records from the file
-void displayStudents(const string& filename) {
-    ifstream file(filename, ios::binary);
-    if (!file) {
-        cout << "Error opening file." << endl;
-        return;
-    }
-
-    Student student;
-    bool found = false;
-    while (file.read(reinterpret_cast<char*>(&student), sizeof(student))) {
-        cout << "ID: " << student.id << ", Name: " << student.name << ", Age: " << student.age << endl;
-        found = true;
-    }
-
-    if (!found) {
-        cout << "No student records found!" << endl;
-    }
-
-    file.close();
+string studentToString(const Student &s) {
+    ostringstream oss;
+    oss << s.rollNo << " " << s.name << " " << s.division << " " << s.address;
+    return oss.str();
 }
-
-// Function to add a new student record to the file
-void addStudent(const string& filename) {
-    ofstream file(filename, ios::app | ios::binary);
-    if (!file) {
-        cout << "Error opening file." << endl;
-        return;
+bool stringToStudent(const string &str, Student &s) {
+    istringstream iss(str);
+    if (!(iss >> s.rollNo >> s.name >> s.division >> s.address)) {
+        return false;
     }
-
-    Student student;
-    cout << "Enter student ID: ";
-    cin >> student.id;
-    cin.ignore();  // Ignore the newline character left in the input buffer
-    cout << "Enter student name: ";
-    getline(cin, student.name);
-    cout << "Enter student age: ";
-    cin >> student.age;
-
-    file.write(reinterpret_cast<const char*>(&student), sizeof(student));
-    cout << "Student record added successfully!" << endl;
-
-    file.close();
+    return true;
 }
-
-// Function to delete a student record from the file
-void deleteStudent(const string& filename) {
-    int idToDelete;
-    cout << "Enter student ID to delete: ";
-    cin >> idToDelete;
-
-    ifstream inFile(filename, ios::binary);
-    ofstream outFile("temp.dat", ios::binary);
-    
-    if (!inFile || !outFile) {
-        cout << "Error opening file." << endl;
+void addStudent(const string &filename) {
+    Student s;
+    cout << "Enter Roll Number: ";
+    cin >> s.rollNo;
+    cout << "Enter Name (no spaces, or use underscore _ for spaces): ";
+    cin >> s.name;
+    cout << "Enter Division: ";
+    cin >> s.division;
+    cout << "Enter Address (no spaces, or use underscore _ for spaces): ";
+    cin >> s.address;
+    ofstream ofs(filename, ios::app);
+    if (!ofs) {
+        cerr << "Error opening file for writing." << endl;
         return;
     }
-
-    Student student;
+    ofs << studentToString(s) << "\n";
+    ofs.close();
+    cout << "Student added successfully." << endl;
+}
+void displayStudent(const string &filename) {
+    int roll;
+    cout << "Enter Roll Number of student to display: ";
+    cin >> roll;
+    ifstream ifs(filename);
+    if (!ifs) {
+        cerr << "Error opening file for reading." << endl;
+        return;
+    }
     bool found = false;
-    while (inFile.read(reinterpret_cast<char*>(&student), sizeof(student))) {
-        if (student.id != idToDelete) {
-            outFile.write(reinterpret_cast<const char*>(&student), sizeof(student));
-        } else {
+    string line;
+    while (getline(ifs, line)) {
+        Student s;
+        if(stringToStudent(line, s) && s.rollNo == roll) {
+            cout << "Student Details:" << endl;
+            cout << "Roll Number: " << s.rollNo << "\nName: " << s.name 
+                 << "\nDivision: " << s.division << "\nAddress: " << s.address << endl;
             found = true;
+            break;
         }
     }
-
-    inFile.close();
-    outFile.close();
-
-    // If the student was found, replace the original file with the updated file
-    if (found) {
-        remove(filename.c_str());
-        rename("temp.dat", filename.c_str());
-        cout << "Student record deleted successfully!" << endl;
-    } else {
-        cout << "Student ID not found!" << endl;
-        remove("temp.dat");  // Remove the temporary file if ID not found
+    ifs.close();
+    if (!found) {
+        cout << "Student with roll number " << roll << " does not exist." << endl;
     }
 }
-
+void deleteStudent(const string &filename) {
+    int roll;
+    cout << "Enter Roll Number of student to delete: ";
+    cin >> roll;
+    ifstream ifs(filename);
+    if (!ifs) {
+        cerr << "Error opening file for reading." << endl;
+        return;
+    }
+    vector<string> records;
+    bool found = false;
+    string line;
+    while(getline(ifs, line)){
+        Student s;
+        if (stringToStudent(line, s)) {
+            if(s.rollNo == roll) {
+                found = true;
+                continue; // Skip this record to delete it
+            }
+        }
+        records.push_back(line);
+    }
+    ifs.close();
+    if (!found) {
+        cout << "Student with roll number " << roll << " does not exist." << endl;
+        return;
+    }
+    ofstream ofs(filename);
+    if(!ofs) {
+        cerr << "Error opening file for writing." << endl;
+        return;
+    }
+    for(const auto& rec : records) {
+        ofs << rec << "\n";
+    }
+    ofs.close();
+    cout << "Student record deleted successfully." << endl;
+}
 int main() {
-    string filename = "students.dat";
+    const string filename = "student.txt";
     int choice;
 
-    while (true) {
-        cout << "\nStudent Information System" << endl;
+    do {
+        cout << "\n--- Student Information System ---" << endl;
         cout << "1. Add Student" << endl;
         cout << "2. Delete Student" << endl;
-        cout << "3. Display Students" << endl;
+        cout << "3. Display Student" << endl;
         cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-
-        switch (choice) {
+        switch(choice) {
             case 1:
                 addStudent(filename);
                 break;
@@ -4430,18 +4441,18 @@ int main() {
                 deleteStudent(filename);
                 break;
             case 3:
-                displayStudents(filename);
+                displayStudent(filename);
                 break;
             case 4:
-                cout << "Exiting..." << endl;
-                return 0;
+                cout << "Exiting program." << endl;
+                break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    }
-
+    } while(choice != 4);
     return 0;
 }
+########################################
 
 /**
 12. Maintain an employee information system using an index sequential file, allowing users to add, delete, and display information. Handle cases where an employee's record does not exist.
