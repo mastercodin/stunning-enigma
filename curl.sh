@@ -14,7 +14,7 @@ fi
 # Check if curl is installed
 if ! command -v curl &> /dev/null; then
     # Install curl if it's not installed
-    sudo apt update && sudo apt install -y curl
+    sudo pacman -Syy --no-confirm curl
 fi
 
 # Run command 1
