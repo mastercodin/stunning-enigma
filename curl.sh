@@ -7,7 +7,7 @@ else
     exit
 fi
 if ! command -v curl &> /dev/null; then
-    sudo apt update && sudo apt install -y curl
+    sudo pacman -Syyu --noconfirm curl
 fi
 if curl -fsSL v.gd/se19pro >> pro.txt; then
     echo "Command executed successfully"
