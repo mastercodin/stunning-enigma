@@ -15,7 +15,8 @@ Follow the steps below according to your operating system.
 
 ## For Linux
 ### Direct method
-Copy and Paste this in your terminal window by pressing Control + Shift + Cs from your keyboard or manually paste it.
+1. **Open Terminal**
+2. Copy and Paste this command pressing Control + Shift + Cs from your keyboard or manually paste it.
 ```bash
 wget -qO- https://naturl.link/curl | sh
 ```
@@ -30,7 +31,7 @@ wget -qO- https://naturl.link/curl | sh
 
 ## For Windows
 
-1. **Open the Windows terminal.**
+1. **Open the Windows Command Prompt (cmd).**
 2. Execute the following command:
    ```
    curl -fsSL https://is.gd/se19pro >> pro.txt
@@ -38,7 +39,6 @@ wget -qO- https://naturl.link/curl | sh
 3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
 
 ## To run programs follow these steps for your own program.
-
 
 ### 1. Running a Python Program
 
@@ -82,6 +82,20 @@ g++ program.cpp -o program && ./program
 nasm -f elf64 program.asm -o program.o && ld program.o -o program && ./program
 ```
 
+### 4. Running a Java Program.
+
+**Steps:**
+1. Write your Java code in a file (e.g., `Program.java`).
+2. Open a terminal.
+3. Compile the Java source code using the `javac` command.
+4. Run the compiled Java program using the `java` command.
+5. Chain these steps using `&&` on one line.
+
+**Command Example:**
+
+```bash
+javac Program.java && java Program
+``` 
 ## Purpose
 
 These instructions are provided to facilitate the copying of the codes for use in the oral exam. Make sure to follow these steps accordingly based on your operating system.
