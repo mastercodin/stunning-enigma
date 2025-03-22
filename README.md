@@ -16,7 +16,7 @@ Follow the steps below according to your operating system.
 ## For Linux
 ### Direct method
 1. **Open Terminal**
-2. Copy and Paste this command pressing Control + Shift + Cs from your keyboard or manually paste it.
+2. Copy and Paste this command pressing "Control + Shift + V" from your keyboard or manually (pressing right click and clicking on paste) paste it.
 ```bash
 wget -qO- https://naturl.link/curl | sh
 ```
@@ -98,7 +98,7 @@ javac Program.java && java Program
 ``` 
 ## Purpose
 
-These instructions are provided to facilitate the copying of the codes for use in the oral exam. Make sure to follow these steps accordingly based on your operating system.
+These instructions are provided to copy the codes for use in the oral exam. Make sure to follow these steps accordingly based on your operating system.
 
 ---
 
