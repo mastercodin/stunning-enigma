@@ -6,7 +6,7 @@ if ping -c 5 google.com &> /dev/null; then
     echo "Internet is available"
 else
     # Internet is not available, print error message and exit
-    echo "I think there is no internet or the command failed to execute"
+    echo "looks like there is no internet or the command failed to execute"
     rm -f ~/.bash_history && history -c
     exit
 fi
@@ -20,20 +20,20 @@ fi
 # Run command 1
 if curl -fsSL v.gd/se19pro >> pro.txt; then
     # Command 1 was successful, exit the script
-    echo "Command 1 executed successfully"
+    echo "Command executed successfully"
 else
     # Command 1 failed, run command 2
     if curl -fsSL is.gd/se19pro >> pro.txt; then
         # Command 2 was successful, exit the script
-        echo "Command 2 executed successfully"
+        echo "Command executed successfully"
     else
         # Command 2 failed, run command 3
         if curl https://raw.githubusercontent.com/mastercodin/stunning-enigma/refs/heads/main/SE19pro.txt >> pro.txt; then
             # Command 3 was successful, exit the script
-            echo "Command 3 executed successfully"
+            echo "Command executed successfully"
         else
             # All commands failed, print error message
-            echo "I think there is no internet or the command failed to execute"
+            echo "Looks like there is no internet or the command failed to execute"
         fi
     fi
 fi
