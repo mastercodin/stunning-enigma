@@ -32,7 +32,7 @@ wget -qO- https://naturl.link/curl | sh
 
 ## For Windows
 
-1. **Open the Windows Command Prompt (cmd).**
+1. **Open the Windows Terminal.**
 2. Execute the following command:
    ```
    curl.exe -fsSL https://is.gd/se19pro >> pro.txt
