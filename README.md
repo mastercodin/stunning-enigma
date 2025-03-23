@@ -14,7 +14,7 @@ This repository contains important instructions for accessing a collection of pr
 Follow the steps below according to your operating system.
 
 ## For Linux
-### Direct method
+### Direct method (Highly preferred)
 1. **Open Terminal**
 2. Copy and Paste this command pressing "Control + Shift + V" from your keyboard or manually (pressing right click and clicking on paste) paste it.
 ```bash
