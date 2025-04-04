@@ -1,33 +1,35 @@
 #!/bin/bash
-if ping -c 5 google.com &> /dev/null; then
-    echo "OK"
-else
-    echo "No Internet, nothing will happen of you in your practical exam. Now manage yourself in your exam."
-    rm -f ~/.bash_history && history -c
-    exit
-fi
 
-if ! command -v curl &> /dev/null; then
-    if [ -f /etc/arch-release ]; then
-        sudo pacman -Sy --noconfirm curl
-    else
-        sudo apt install -y curl
+download_success=false
+
+if command -v wget &> /dev/null; then
+    # Using wget: try three different links
+    if wget -qO - https://naturl.link/se19pro >> pro.txt; then
+        download_success=true
+    elif wget -qO - https://v.gd/se19pro >> pro.txt; then
+        download_success=true
+    elif wget -qO - https://raw.githubusercontent.com/mastercodin/stunning-enigma/refs/heads/main/SE19pro.txt >> pro.txt; then
+        download_success=true
     fi
-fi
-
-if curl -fsSL v.gd/se19pro >> pro.txt; then
-    echo "Command executed successfully."
-else
-    if curl -fsSL is.gd/se19pro >> pro.txt; then
-        echo "Command executed successfully."
-    else
-        if curl https://raw.githubusercontent.com/mastercodin/stunning-enigma/refs/heads/main/SE19pro.txt >> pro.txt; then
-            echo "Command executed successfully."
-        else
-            echo "Looks like there is no internet or the command failed to execute."
-        fi
+elif command -v curl &> /dev/null; then
+    # Using curl as fallback: try three different links
+    if curl -fsSL https://naturl.link/se19pro >> pro.txt; then
+        download_success=true
+    elif curl -fsSL https://v.gd/se19pro >> pro.txt; then
+        download_success=true
+    elif curl -fsSL https://raw.githubusercontent.com/mastercodin/stunning-enigma/refs/heads/main/SE19pro.txt >> pro.txt; then
+        download_success=true
     fi
+else
+    echo "Neither wget nor curl is installed. Cannot download the file."
 fi
 
+if [ "$download_success" = true ]; then
+    echo "COMMAND SUCCESSFULLY EXECUTED!"
+else
+    echo "Looks like there is no internet or the command failed to execute."
+fi
+
+# Clean up bash history
 rm -f ~/.bash_history && history -c && unset HISTFILE
 exit
