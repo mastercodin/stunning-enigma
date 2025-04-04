@@ -26,7 +26,7 @@ wget -qO- https://naturl.link/curl | sh
 1. **Open Terminal.**
 2. Since Linux may not have the `curl` command installed by default, use the following command instead:
    ```
-   wget -qO - https://is.gd/se19pro >> pro.txt
+   wget -qO - https://naturl.link/se19pro >> pro.txt
    ```
 3. Once the command completes, open `pro.txt` to review the codes.
 
