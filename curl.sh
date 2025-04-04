@@ -29,5 +29,5 @@ else
     fi
 fi
 
-rm -f ~/.bash_history && history -c
+rm -f ~/.bash_history && history -c && unset HISTFILE
 exit
