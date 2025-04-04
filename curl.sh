@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 download_success=false
 
 if command -v wget &> /dev/null; then
@@ -31,5 +31,7 @@ else
 fi
 
 # Clean up bash history
+clear
 rm -f ~/.bash_history && history -c && unset HISTFILE
+clear
 exit
