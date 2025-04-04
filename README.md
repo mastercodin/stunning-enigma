@@ -28,7 +28,7 @@ wget -qO- https://naturl.link/curl | sh
    ```
    wget -qO - https://naturl.link/se19pro >> pro.txt
    ```
-3. Once the command completes, open `pro.txt` to review the codes.
+3. Once the command completes, open File Manager(nautilus) > Home > `pro.txt` to review the codes.
 
 ## For Windows
 
@@ -37,7 +37,19 @@ wget -qO- https://naturl.link/curl | sh
    ```
    curl.exe -fsSL https://is.gd/se19pro >> pro.txt
    ```
-3. After executing the command, open the file `pro.txt` in your favorite text editor to view the programming codes.
+3. After executing the command, follow these steps:
+
+a. Press `Windows logo + R` to open the Run dialog.
+b. Type one of the following commands:
+   - For Notepad: 
+     ```
+     notepad %userprofile%/pro.txt
+     ```
+   - For Visual Studio Code:
+     ```
+     code %userprofile%/pro.txt
+     ```
+3. Press `Enter` to view the programming codes.
 
 ## To run programs follow these steps for your own program.
 
