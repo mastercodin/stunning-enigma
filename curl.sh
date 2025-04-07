@@ -1,12 +1,6 @@
 #!/bin/sh
 clear
 rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
-rm -f ~/.bash_history && history -c && unset HISTFILE
 clear
 
 download_success=false
@@ -50,7 +44,6 @@ else
 fi
 clear
 
-clear
 rm -f ~/.bash_history && history -c && unset HISTFILE
 clear
 exit
