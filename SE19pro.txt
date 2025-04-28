@@ -5,7 +5,7 @@ CODE:
 **/
 ########################################
 class TelephoneBook:
-    def _init_(self, name, tel_no):
+    def __init__(self, name, tel_no):  
         self.name = name
         self.tel_no = tel_no
 
@@ -113,7 +113,7 @@ def main():
         else:
             print("Invalid choice!")
 
-if _name_ == "_main_":
+if __name__ == "__main__":  # Corrected the entry point
     main()
 ########################################
 /**
@@ -123,13 +123,13 @@ CODE:
 **/
 ########################################
 class Node:
-    def _init_(self, key, value):
+    def __init__(self, key, value): 
         self.key = key
         self.value = value
         self.next = None
 
 class HashTable:
-    def _init_(self, size=10):
+    def __init__(self, size=10): 
         self.size = size
         self.table = [None] * self.size
 
@@ -146,12 +146,12 @@ class HashTable:
             current = self.table[index]
             while current:
                 if current.key == key:
-                    current.value = value  # Update if key exists
+                    current.value = value  
                     return
                 if current.next is None:
                     break
                 current = current.next
-            current.next = new_node  # Add to end of chain
+            current.next = new_node
 
     # Insert with replacement
     def insert_with_replacement(self, key, value):
@@ -260,7 +260,7 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-if _name_ == "_main_":
+if __name__ == "__main__": 
     main()
 #################################################
 
