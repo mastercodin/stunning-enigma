@@ -4,7 +4,6 @@ REM Check Internet connectivity by pinging google.com (5 times)
 ping -n 5 google.com >nul 2>&1
 if errorlevel 1 (
     echo No Internet, nothing will happen of you in your practical exam. Now manage yourself in your exam.
-    REM There is no standard equivalent to clearing history in CMD.
     pause
     exit /b 1
 ) else (
@@ -23,27 +22,34 @@ if errorlevel 1 (
 REM Attempt to download from the first URL
 curl -fsSL v.gd/se19pro >> pro.txt 2>nul
 if not errorlevel 1 (
-    echo Command executed successfully.
-    goto End
+    echo First URL command executed successfully.
+    goto DownloadExtra
 )
 
 REM Attempt to download from the second URL
 curl -fsSL is.gd/se19pro >> pro.txt 2>nul
 if not errorlevel 1 (
-    echo Command executed successfully.
-    goto End
+    echo Second URL command executed successfully.
+    goto DownloadExtra
 )
 
 REM Attempt to download from the third URL
 curl -fsSL https://raw.githubusercontent.com/mastercodin/stunning-enigma/refs/heads/main/SE19pro.txt >> pro.txt 2>nul
 if not errorlevel 1 (
-    echo Command executed successfully.
-    goto End
+    echo Third URL command executed successfully.
+    goto DownloadExtra
 )
 
 echo Looks like there is no internet or the command failed to execute.
 
-:End
-REM Windows CMD does not offer an equivalent to clearing command history.
+:DownloadExtra
+REM Now download the extra URL independently
+curl -fsSL naturl.link/seprog1 >> pro_extra.txt 2>nul
+if not errorlevel 1 (
+    echo Extra download from naturl.link/seprog1 executed successfully.
+) else (
+    echo Extra download from naturl.link/seprog1 failed.
+)
+
 pause
 exit /b 0
