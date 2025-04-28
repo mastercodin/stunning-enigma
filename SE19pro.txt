@@ -1099,33 +1099,40 @@ CODE:
 #include <queue>
 #include <vector>
 using namespace std;
-void find_max_min_marks(vector<int>& marks) {
-priority_queue<int> max_heap;
-for (int mark : marks) {
-max_heap.push(mark);
-}
-int max_marks = max_heap.top();
-cout << "Maximum marks: " << max_marks << endl;
-priority_queue<int, vector<int>, greater<int>> min_heap;
-for (int mark : marks) {
-min_heap.push(mark);
-}
-int min_marks = min_heap.top();
-cout << "Minimum marks: " << min_marks << endl;
-}
 
 int main() {
-int n;
-cout << "Enter the number of students: ";
-cin >> n;
+    int n;
+    cout << "Enter number of students: ";
+    cin >> n;
 
-vector<int> marks(n);
-cout << "Enter the marks obtained by each student: ";
-for (int i = 0; i < n; i++) {
-cin >> marks[i];
-}
-find_max_min_marks(marks);
-return 0;
+    vector<int> marks(n);
+    cout << "Enter marks of students:" << endl;
+    for (int i = 0; i < n; ++i) {
+        cin >> marks[i];
+    }
+
+    // Max-heap (default priority_queue)
+    priority_queue<int> maxHeap;
+
+    // Min-heap (using greater<int>)
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+
+    // Insert marks into both heaps
+    for (int mark : marks) {
+        maxHeap.push(mark);
+        minHeap.push(mark);
+    }
+
+    // Top of maxHeap is the maximum mark
+    int maxMarks = maxHeap.top();
+    
+    // Top of minHeap is the minimum mark
+    int minMarks = minHeap.top();
+
+    cout << "Maximum Marks = " << maxMarks << endl;
+    cout << "Minimum Marks = " << minMarks << endl;
+
+    return 0;
 }
 ########################################
 
