@@ -1,0 +1,4002 @@
+######################################## Data Structures Laboratory (DSL) ########################################
+// 01.
+// Write a Python program to store marks scored in the subject “Fundamentals of Data Structure” by N students in the class. Write functions to compute the following:
+// a) The average score of the class
+// b) The highest score and the lowest score of the class
+// c) The count of students who were absent for the test
+// d) Display the mark with the highest frequency
+// Code
+########################################
+def Average(marks, n):
+    total = 0
+    for i in range(n):
+        total += marks[i]
+    average = total / n
+    return average
+
+def Maximum(marks, n):
+    max_marks = marks[0]
+    for i in range(1, n):
+        if marks[i] > max_marks:
+            max_marks = marks[i]
+    return max_marks
+
+def Minimum(marks, n):
+    min_marks = float('inf')  # Initialize with positive infinity
+    for i in range(n):
+        if marks[i] >= 0 and marks[i] < min_marks: # handles negative marks
+            min_marks = marks[i]
+    return min_marks
+
+def Absent(marks, n):
+    cnt = 0
+    for i in range(n):
+        if marks[i] == -1:
+            cnt += 1
+    return cnt
+
+def Cntmax(marks, n, s):
+    cntmax = 0
+    for i in range(n):
+        if marks[i] == s:
+            cntmax += 1
+    return cntmax
+
+marks = []
+n = int(input("Enter number of students, if absent please enter -1: "))
+for i in range(n):
+    m = int(input("Enter your marks: "))
+    marks.append(m)
+
+while True:
+    print("Please press '1' for average")
+    print("'2' for maximum marks")
+    print("'3' for minimum marks")
+    print("'4' for absent students")
+    print("'5' for number of students with maximum marks")
+    print("'6' for none")
+
+    opt = int(input("Enter your choice: "))
+
+    if opt == 1:
+        avg = Average(marks, n)
+        print("Average is:", avg)
+    elif opt == 2:
+        max_marks = Maximum(marks, n)
+        print("Maximum marks:", max_marks)
+    elif opt == 3:
+        min_marks = Minimum(marks, n)
+        print("Minimum marks:", min_marks)
+    elif opt == 4:
+        cnt = Absent(marks, n)
+        print("No. of absent students:", cnt)
+    elif opt == 5:
+        max_marks = Maximum(marks, n)
+        cntmax = Cntmax(marks, n, max_marks)
+        print("The number of students having maximum marks:", cntmax)
+    elif opt == 6:
+        print("This option indicates you have chosen none!")
+        break
+    else:
+        print("Invalid option, please try again.")
+########################################
+// 02.
+// Write a Python program that computes the net amount of a bank account based on a transaction log from console input. The transaction log format is shown as follows: D 100 W 200 (Withdrawal is not allowed if the balance goes negative. Write functions for withdraw and deposit) D means deposit while W means withdrawal.
+// Suppose the following input is supplied to the program:
+// D 300, D 300, W 200, D 100
+// Then, the output should be: 500
+// Code
+########################################
+def deposit(balance, amount):
+    return balance + amount
+
+def withdraw(balance, amount):
+    if balance >= amount:
+        return balance - amount
+    else:
+        print("Insufficient balance:", balance)
+        return balance
+
+account_balance = 10000
+
+while True:
+    transaction = input("Enter transaction (e.g., 'D 100' or 'W 200') or 'exit' to quit: ")
+
+    if transaction.lower() == 'exit':
+        break
+
+    try:
+        operation, amount_str = transaction.split()
+        amount = int(amount_str)
+
+        if operation.upper() == "D":
+            account_balance = deposit(account_balance, amount)
+            print("Current Account balance is:", account_balance)
+        elif operation.upper() == "W":
+            account_balance = withdraw(account_balance, amount)
+            print("Current Account balance is:", account_balance)
+        else:
+            print("Invalid operation:", operation)
+    except ValueError:
+        print("Invalid input format. Please enter in the format 'D 100' or 'W 200'.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}") # added general exception handling
+########################################
+// 03.
+// Write a Python program to perform the following computations on matrices:
+// a) Addition of two matrices
+// b) Subtraction of two matrices
+// c) Multiplication of two matrices
+// d) Transpose of a matrix
+// Code
+########################################
+def Addition(r, c, m, m1):
+    print("Addition of two matrices:")
+    result = []
+    for i in range(r):
+        row = []
+        for j in range(c):
+            row.append(m[i][j] + m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Subtraction(r, c, m, m1):
+    print("Subtraction of two matrices:")
+    result = []
+    for i in range(r):
+        row = []
+        for j in range(c):
+            row.append(m[i][j] - m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Transpose(r, c, m):
+    print("Transpose of the first matrix:")
+    result = []
+    for j in range(c):
+        row = []
+        for i in range(r):
+            row.append(m[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Transpose1(r, c, m1):
+    print("Transpose of the second matrix:")
+    result = []
+    for j in range(c):
+        row = []
+        for i in range(r):
+            row.append(m1[i][j])
+        result.append(row)
+
+    print("Using nested loops:")
+    for row in result:
+        print(row)
+
+def Multiplication(r, c, m, m1):
+    print("Multiplication of matrices:")
+
+    if c == len(m1):  # Corrected condition for matrix multiplication
+        result = []
+        for i in range(r):
+            row = []
+            for j in range(len(m1[0])): # Corrected to use column length of m1
+                sum_val = 0
+                for k in range(c):
+                    sum_val += m[i][k] * m1[k][j]
+                row.append(sum_val)
+            result.append(row)
+
+        print("Using nested loops:")
+        for row in result:
+            print(row)
+    else:
+        print("Operation invalid: Number of columns in the first matrix must equal the number of rows in the second matrix for multiplication.")
+
+m = []
+r = int(input("Enter the number of rows: "))
+c = int(input("Enter the number of columns: "))
+for i in range(r):
+    a = []
+    for j in range(c):
+        ele = int(input("Enter element: "))
+        a.append(ele)
+    m.append(a)
+
+print("1st matrix is:")
+for row in m:
+    print(row)
+
+m1 = []
+r1 = int(input("Enter the number of rows of second matrix: "))
+c1 = int(input("Enter the number of columns of second matrix: "))
+
+for i in range(r1):
+    a = []
+    for j in range(c1):
+        ele = int(input("Enter element: "))
+        a.append(ele)
+    m1.append(a)
+
+print("2nd matrix is:")
+for row in m1:
+    print(row)
+
+while True:
+    print("Please press 1 for matrix addition;")
+    print("Please press 2 for matrix subtraction;")
+    print("Please press 3 for transpose of matrix 1;")
+    print("Please press 4 for transpose of matrix 2;")
+    print("Please press 5 for multiplication of matrices;")
+    print("Please press 6 for none;")
+
+    opt = int(input("Enter your choice: "))
+
+    if opt == 1:
+        if r == r1 and c == c1:
+            Addition(r, c, m, m1)
+        else:
+            print("Addition is only possible if matrices have the same dimensions.")
+    elif opt == 2:
+        if r == r1 and c == c1:
+            Subtraction(r, c, m, m1)
+        else:
+            print("Subtraction is only possible if matrices have the same dimensions.")
+    elif opt == 3:
+        Transpose(r, c, m)
+    elif opt == 4:
+        Transpose1(r1, c1, m1)
+    elif opt == 5:
+        Multiplication(r, c, m, m1)
+    elif opt == 6:
+        print("You opted for none!")
+        break
+    else:
+        print("Invalid option, please try again.")
+########################################
+// 04.
+// Write a Python program to store the first-year percentage of students in an array. Write functions for sorting an array of floating-point numbers in ascending order using:
+// a) Selection Sort
+// b) Bubble Sort
+// and display the top five scores.
+// Code
+########################################
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+            swapped = True
+        if not swapped:
+            break
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores:")
+    for score in arr[-top_n:]:
+        print(score)
+
+percentages = []
+num_students = int(input("Enter the number of students: "))
+
+for i in range(num_students):
+    score = float(input(f"Enter the percentage for student {i + 1}: "))
+    percentages.append(score)
+
+selection_sort(percentages)
+print("\nSorted percentages using Selection Sort:")
+print(percentages)
+display_top_scores(percentages)
+
+bubble_sort(percentages)
+print("\nSorted percentages using Bubble Sort:")
+print(percentages)
+display_top_scores(percentages)
+########################################
+// 05.
+// Write a Python program to store the second-year percentage of students in an array. Write functions for sorting an array of floating-point numbers in ascending order using:
+// a) Insertion Sort
+// b) Shell Sort
+// and display the top five scores.
+// Code
+########################################
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            arr[j] = temp
+        gap //= 2
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores (from max to min):")
+    for score in sorted(arr[-top_n:], reverse=True):
+        print(score)
+
+percentages = []
+while True:
+    try:
+        num_students = int(input("Enter the number of students: "))
+        if num_students <= 0:
+            raise ValueError("Number of students must be a positive integer.")
+        break
+    except ValueError as e:
+        print(f"Invalid input: {e}. Please try again.")
+
+for i in range(num_students):
+    while True:
+        try:
+            score = float(input(f"Enter the percentage for student {i + 1}: "))
+            percentages.append(score)
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+insertion_sort(percentages)
+print("\nSorted percentages using Insertion Sort:")
+print(percentages)
+display_top_scores(percentages)
+
+shell_sort(percentages)
+print("\nSorted percentages using Shell Sort:")
+print(percentages)
+display_top_scores(percentages)
+########################################
+// 06.
+// Write a Python program to store the first-year percentage of students in an array. Write a function for sorting an array of floating-point numbers in ascending order using Quick Sort and display the top five scores.
+// Code
+########################################
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[len(arr) // 2]
+        left = [x for x in arr if x < pivot]
+        middle = [x for x in arr if x == pivot]
+        right = [x for x in arr if x > pivot]
+        return quicksort(left) + middle + quicksort(right)
+
+def display_top_scores(arr, top_n=5):
+    print(f"Top {top_n} scores:")
+    for score in arr[-top_n:]:
+        print(score)
+
+percentages = []
+while True:
+    try:
+        num_students = int(input("Enter the number of students: "))
+        if num_students <= 0:
+            raise ValueError("Number of students must be a positive integer.")
+        break
+    except ValueError as e:
+        print(f"Invalid input: {e}. Please try again.")
+
+for i in range(num_students):
+    while True:
+        try:
+            score = float(input(f"Enter the percentage for student {i + 1}: "))
+            percentages.append(score)
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+sorted_percentages = quicksort(percentages)
+print("\nSorted percentages:")
+print(sorted_percentages)
+display_top_scores(sorted_percentages)
+########################################
+// 07.
+// The Department of Computer Engineering has a student's club named 'Pinnacle Club'. Students of the second, third, and final year of the department can be granted membership on request. Similarly, one may cancel the membership of the club. The first node is reserved for the president of the club and the last node is reserved for the secretary of the club. Write a C++ program to maintain club member's information using a singly linked list. Store student PRN and Name. Write functions to:
+// a) Add and delete members as well as the president or even the secretary.
+// b) Compute the total number of members in the club
+// c) Display members
+// d) Two linked lists exist for two divisions. Concatenate the two lists
+// Code
+########################################
+#include <iostream>
+#include <string>
+using namespace std;
+struct Member {
+string prn;
+string name;
+Member* next;
+};
+class PinnacleClub {
+private:
+Member* head;
+Member* tail;
+
+public:
+PinnacleClub() {
+head = nullptr;
+tail = nullptr;
+}
+
+void addMember(const string& prn, const string& name) {
+Member* newMember = new Member{prn, name, nullptr};
+if (!head) {
+head = newMember;
+tail = newMember;
+} else {
+tail->next = newMember;
+tail = newMember;
+}
+}
+void deleteMember(const string& prn) {
+if (!head) {
+cout << "No members to delete." << endl;
+return;
+}
+Member* current = head;
+Member* previous = nullptr;
+while (current != nullptr && current->prn != prn) {
+previous = current;
+current = current->next;
+}
+if (!current) {
+cout << "Member with PRN " << prn << " not found." << endl;
+return;
+}
+if (current == head) {
+head = head->next;
+} else {
+previous->next = current->next;
+}
+if (current == tail) {
+tail = previous;
+}
+
+delete current;
+cout << "Member with PRN " << prn << " deleted." << endl;
+}
+int totalMembers() {
+int count = 0;
+Member* current = head;
+while (current != nullptr) {
+count++;
+current = current->next;
+}
+return count;
+}
+void displayMembers() {
+if (!head) {
+cout << "No members in the club." << endl;
+return;
+}
+
+Member* current = head;
+while (current != nullptr) {
+cout << "PRN: " << current->prn << ", Name: " << current->name << endl;
+current = current->next;
+}
+}
+void concatenate(PinnacleClub& otherClub) {
+if (!head) {
+head = otherClub.head;
+tail = otherClub.tail;
+} else if (otherClub.head) {
+tail->next = otherClub.head;
+tail = otherClub.tail;
+}
+otherClub.head = nullptr;
+otherClub.tail = nullptr;
+}
+~PinnacleClub() {
+while (head) {
+Member* temp = head;
+head = head->next;
+delete temp;
+}
+}
+};
+void addMemberInput(PinnacleClub& club) {
+string prn, name;
+cout << "Enter PRN: ";
+cin >> prn;
+cout << "Enter Name: ";
+cin.ignore();
+getline(cin, name);
+club.addMember(prn, name);
+}
+
+int main() {
+PinnacleClub divisionA;
+PinnacleClub divisionB;
+int choice;
+do {
+cout << "\nPinnacle Club Menu:\n";
+cout << "1. Add Member to Division A\n";
+cout << "2. Add Member to Division B\n";
+cout << "3. Delete Member from Division A\n";
+cout << "4. Delete Member from Division B\n";
+cout << "5. Display Members of Division A\n";
+cout << "6. Display Members of Division B\n";
+cout << "7. Compute Total Members in Division A\n";
+cout << "8. Compute Total Members in Division B\n";
+cout << "9. Concatenate Division B into Division A\n";
+cout << "0. Exit\n";
+cout << "Enter your choice: ";
+cin >> choice;
+
+switch (choice) {
+case 1:
+addMemberInput(divisionA);
+break;
+case 2:
+addMemberInput(divisionB);
+break;
+case 3: {
+string prn;
+cout << "Enter PRN of the member to delete from Division A: ";
+cin >> prn;
+divisionA.deleteMember(prn);
+break;
+}
+case 4: {
+string prn;
+cout << "Enter PRN of the member to delete from Division B: ";
+cin >> prn;
+divisionB.deleteMember(prn);
+break;
+}
+case 5:
+cout << "\nMembers of Division A:\n";
+divisionA.displayMembers();
+break;
+case 6:
+cout << "\nMembers of Division B:\n";
+divisionB.displayMembers();
+break;
+case 7:
+cout << "Total members in Division A: " << divisionA.totalMembers() << endl;
+break;
+case 8:
+cout << "Total members in Division B: " << divisionB.totalMembers() << endl;
+break;
+case 9:
+cout << "Concatenating Division B into Division A..." << endl;
+divisionA.concatenate(divisionB);
+cout << "Concatenation complete." << endl;
+break;
+case 0:
+cout << "Exiting..." << endl;
+break;
+default:
+cout << "Invalid choice. Please try again." << endl;
+}
+} while (choice != 0);
+
+return 0;
+}
+########################################
+// 08.
+// Write a C++ program for storing a binary number using doubly linked lists. Write functions:
+// a) To compute 1's and 2's complement
+// b) To add two binary numbers
+// Code
+########################################
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+char bit;
+Node* next;
+Node* prev;
+};
+
+class BinaryNumber {
+private:
+Node* head;
+Node* tail;
+
+public:
+BinaryNumber() : head(nullptr), tail(nullptr) {}
+
+void addBit(char bit) {
+Node* newNode = new Node{bit, nullptr, tail};
+if (!head) {
+head = newNode;
+tail = newNode;
+} else {
+tail->next = newNode;
+tail = newNode;
+}
+}
+
+void display() {
+Node* current = head;
+while (current) {
+cout << current->bit;
+current = current->next;
+}
+cout << endl;
+}
+
+void onesComplement() {
+Node* current = head;
+while (current) {
+current->bit = (current->bit == '0') ? '1' : '0';
+current = current->next;
+}
+}
+
+void twosComplement() {
+onesComplement();
+Node* current = tail;
+bool carry = true;
+
+while (current && carry) {
+if (current->bit == '1') {
+current->bit = '0';
+} else {
+current->bit = '1';
+carry = false;
+}
+current = current->prev;
+}
+
+if (carry) {
+addBit('1');
+}
+}
+
+static BinaryNumber add(BinaryNumber& num1, BinaryNumber& num2) {
+BinaryNumber result;
+Node* ptr1 = num1.tail;
+Node* ptr2 = num2.tail;
+bool carry = false;
+
+while (ptr1 || ptr2 || carry) {
+int sum = carry;
+if (ptr1) {
+sum += (ptr1->bit - '0');
+ptr1 = ptr1->prev;
+}
+if (ptr2) {
+sum += (ptr2->bit - '0');
+ptr2 = ptr2->prev;
+}
+
+carry = sum > 1;
+result.addBit((sum % 2) + '0');
+}
+
+reverse(result);
+return result;
+}
+
+static void reverse(BinaryNumber& binary) {
+Node* current = binary.head;
+Node* temp = nullptr;
+
+while (current) {
+temp = current->prev;
+current->prev = current->next;
+current->next = temp;
+current = temp;
+}
+
+if (temp) {
+binary.tail = binary.head;
+binary.head = temp->prev;
+}
+}
+
+~BinaryNumber() {
+while (head) {
+Node* temp = head;
+head = head->next;
+delete temp;
+}
+}
+};
+
+BinaryNumber inputBinaryNumber() {
+BinaryNumber binary;
+string binaryStr;
+cout << "Enter a binary number: ";
+cin >> binaryStr;
+for (char bit : binaryStr) {
+binary.addBit(bit);
+}
+return binary;
+}
+
+int main() {
+cout << "Binary Number Operations using Doubly Linked List\n";
+BinaryNumber num1 = inputBinaryNumber();
+BinaryNumber num2 = inputBinaryNumber();
+cout << "\nBinary Number 1: ";
+num1.display();
+cout << "1's Complement: ";
+num1.onesComplement();
+num1.display();
+cout << "2's Complement: ";
+num1.twosComplement();
+num1.display();
+cout << "\nBinary Number 2: ";
+num2.display();
+cout << "1's Complement: ";
+num2.onesComplement();
+num2.display();
+cout << "2's Complement: ";
+num2.twosComplement();
+num2.display();
+BinaryNumber sum = BinaryNumber::add(num1, num2);
+cout << "\nSum of the two binary numbers: ";
+sum.display();
+return 0;
+}
+########################################
+// 09.
+// Implement a C++ program for expression conversion from infix to postfix and its evaluation using a stack based on the given conditions:
+// 1. Operands and operators, both must be single characters.
+// 2. Input postfix expression must be in a desired format.
+// 3. Only '+', '-', '*', and '/' operators are expected.
+// Code
+########################################
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+int precedence(char op) {
+if (op == '+' || op == '-') return 1;
+if (op == '*' || op == '/') return 2;
+return 0;
+}
+
+string infixToPostfix(const string& infix) {
+stack<char> operators;
+string postfix;
+
+for (char token : infix) {
+if (isalnum(token)) {
+postfix += token;
+} else if (token == '(') {
+operators.push(token);
+} else if (token == ')') {
+while (!operators.empty() && operators.top() != '(') {
+postfix += operators.top();
+operators.pop();
+}
+operators.pop();
+} else {
+while (!operators.empty() && precedence(operators.top()) >= precedence(token)) {
+postfix += operators.top();
+operators.pop();
+}
+operators.push(token);
+}
+}
+
+while (!operators.empty()) {
+postfix += operators.top();
+operators.pop();
+}
+
+return postfix;
+}
+
+int evaluatePostfix(const string& postfix) {
+stack<int> operands;
+
+for (char token : postfix) {
+if (isalnum(token)) {
+operands.push(token - '0');
+} else {
+int op2 = operands.top(); operands.pop();
+int op1 = operands.top(); operands.pop();
+
+switch (token) {
+case '+':
+operands.push(op1 + op2);
+break;
+case '-':
+operands.push(op1 - op2);
+break;
+case '*':
+operands.push(op1 * op2);
+break;
+case '/':
+operands.push(op1 / op2);
+break;
+default:
+cerr << "Invalid operator!" << endl;
+return 0;
+}
+}
+}
+
+return operands.top();
+}
+int main() {
+string infix, postfix;
+
+cout << "Enter infix expression (single-character operands and operators only): ";
+getline(cin, infix);
+
+postfix = infixToPostfix(infix);
+cout << "Postfix Expression: " << postfix << endl;
+
+int result = evaluatePostfix(postfix);
+cout << "Result of Postfix Evaluation: " << result << endl;
+
+return 0;
+}
+########################################
+// 10.
+// In any programming language, most syntax errors occur due to unbalanced delimiters such as (), {}, []. Write a C++ program using a stack to check whether a given expression is well-parenthesized or not.
+
+// Code
+########################################
+#include <iostream>
+#include <stack>
+#include <unordered_map>
+using namespace std;
+
+bool isWellParenthesized(const string& expression) {
+stack<char> s;
+unordered_map<char, char> brackets = {
+{')', '('},
+{'}', '{'},
+{']', '['}
+};
+
+for (char ch : expression) {
+if (ch == '(' || ch == '{' || ch == '[') {
+s.push(ch);
+} else if (ch == ')' || ch == '}' || ch == ']') {
+if (s.empty() || s.top() != brackets[ch]) {
+return false;
+}
+s.pop();
+}
+}
+
+return s.empty();
+}
+
+int main() {
+string expression;
+cout << "Enter an expression: ";
+getline(cin, expression);
+
+if (isWellParenthesized(expression)) {
+cout << "The expression is well-parenthesized." << endl;
+} else {
+cout << "The expression is not well-parenthesized." << endl;
+}
+
+return 0;
+}
+########################################
+// 11.
+// Queues are frequently used in computer programming, and a typical example is the creation of a job queue by an operating system. If the operating system does not use priorities, then the jobs are processed in the order they enter the system. Write a C++ program for simulating a job queue. Write functions to add a job and delete a job from the queue.
+// Code
+########################################
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+void addJob(queue<string> &jobQueue, const string &job) {
+jobQueue.push(job);
+cout << "Job added: " << job << endl;
+}
+
+void deleteJob(queue<string> &jobQueue) {
+if (!jobQueue.empty()) {
+cout << "Job deleted: " << jobQueue.front() << endl;
+jobQueue.pop();
+} else {
+cout << "Queue is empty, no job to delete!" << endl;
+}
+}
+
+void displayJobs(const queue<string> &jobQueue) {
+if (jobQueue.empty()) {
+cout << "Job queue is empty." << endl;
+} else {
+queue<string> tempQueue = jobQueue;
+cout << "Jobs in the queue:" << endl;
+while (!tempQueue.empty()) {
+cout << tempQueue.front() << endl;
+tempQueue.pop();
+}
+}
+}
+
+int main() {
+queue<string> jobQueue;
+int choice;
+string job;
+
+do {
+cout << "\n--- Job Queue Menu ---" << endl;
+cout << "1. Add Job" << endl;
+cout << "2. Delete Job" << endl;
+cout << "3. Display Jobs" << endl;
+cout << "4. Exit" << endl;
+cout << "Enter your choice: ";
+cin >> choice;
+
+switch (choice) {
+case 1:
+cout << "Enter the job name: ";
+cin >> job;
+addJob(jobQueue, job);
+break;
+case 2:
+deleteJob(jobQueue);
+break;
+case 3:
+displayJobs(jobQueue);
+break;
+case 4:
+cout << "Exiting..." << endl;
+break;
+default:
+cout << "Invalid choice! Please try again." << endl;
+break;
+}
+} while (choice != 4);
+
+return 0;
+}
+########################################
+// 12.
+// A double-ended queue (deque) is a linear list in which additions and deletions may be made at either end. Obtain a data representation mapping a deque into a one-dimensional array. Write a C++ program to simulate a deque with functions to add and delete elements from either end of the deque.
+// Code
+########################################
+#include <iostream>
+using namespace std;
+
+class Deque {
+private:
+int* arr;
+int front;
+int rear;
+int capacity;
+int size;
+
+public:
+Deque(int cap) {
+capacity = cap;
+arr = new int[capacity];
+front = -1;
+rear = 0;
+size = 0;
+}
+
+~Deque() {
+delete[] arr;
+}
+
+bool isEmpty() {
+return size == 0;
+}
+
+bool isFull() {
+return size == capacity;
+}
+
+void addFront(int item) {
+if (isFull()) {
+cout << "Deque is full. Cannot add " << item << " at front." << endl;
+return;
+}
+front = (front + 1) % capacity;
+arr[front] = item;
+size++;
+if (rear == 0) {
+rear = front;
+}
+}
+
+void addRear(int item) {
+if (isFull()) {
+cout << "Deque is full. Cannot add " << item << " at rear." << endl;
+return;
+}
+rear = (rear - 1 + capacity) % capacity;
+arr[rear] = item;
+size++;
+if (front == -1) {
+front = rear;
+}
+}
+
+void deleteFront() {
+if (isEmpty()) {
+cout << "Deque is empty. Cannot delete from front." << endl;
+return;
+}
+cout << "Deleted from front: " << arr[front] << endl;
+front = (front - 1 + capacity) % capacity;
+size--;
+if (size == 0) {
+front = -1;
+rear = 0;
+}
+}
+
+void deleteRear() {
+if (isEmpty()) {
+cout << "Deque is empty. Cannot delete from rear." << endl;
+return;
+}
+cout << "Deleted from rear: " << arr[rear] << endl;
+rear = (rear + 1) % capacity;
+size--;
+if (size == 0) {
+front = -1;
+rear = 0;
+}
+}
+
+void display() {
+if (isEmpty()) {
+cout << "Deque is empty." << endl;
+return;
+}
+cout << "Deque elements: ";
+for (int i = 0; i < size; i++) {
+cout << arr[(rear + i) % capacity] << " ";
+}
+cout << endl;
+}
+};
+
+int main() {
+Deque deque(5);
+
+deque.addRear(10);
+deque.addRear(20);
+deque.addFront(5);
+deque.display();
+
+deque.deleteFront();
+deque.display();
+
+deque.addFront(1);
+deque.addRear(30);
+deque.display();
+
+deque.deleteRear();
+deque.display();
+
+return 0;
+}
+########################################
+// 13.
+// A pizza parlor accepts a maximum of M orders. Orders are served on a first-come, first-served basis. Once placed, an order cannot be canceled. Write a C++ program to simulate the system using a circular queue using an array.
+// Code
+########################################
+#include <iostream>
+#define MAX 5
+using namespace std;
+
+class PizzaParlor {
+private:
+int orders[MAX];
+int front, rear;
+
+public:
+PizzaParlor() {
+front = -1;
+rear = -1;
+}
+
+bool isFull() {
+return (front == 0 && rear == MAX - 1) || (front == rear + 1);
+}
+
+bool isEmpty() {
+return front == -1;
+}
+
+void placeOrder(int orderID) {
+if (isFull()) {
+cout << "The parlor is at full capacity. Cannot accept more orders.\n";
+return;
+}
+
+if (front == -1) {
+front = 0;
+rear = 0;
+} else if (rear == MAX - 1 && front != 0) {
+rear = 0;
+} else {
+rear++;
+}
+
+orders[rear] = orderID;
+cout << "Order " << orderID << " has been placed successfully.\n";
+}
+
+void serveOrder() {
+if (isEmpty()) {
+cout << "No orders to serve.\n";
+return;
+}
+
+cout << "Serving order " << orders[front] << ".\n";
+
+if (front == rear) {
+front = -1;
+rear = -1;
+} else if (front == MAX - 1) {
+front = 0;
+} else {
+front++;
+}
+}
+
+void displayOrders() {
+if (isEmpty()) {
+cout << "No orders in the queue.\n";
+return;
+}
+
+cout << "Current orders in the queue: ";
+if (rear >= front) {
+for (int i = front; i <= rear; i++) {
+cout << orders[i] << " ";
+}
+} else {
+for (int i = front; i < MAX; i++) {
+cout << orders[i] << " ";
+}
+for (int i = 0; i <= rear; i++) {
+cout << orders[i] << " ";
+}
+}
+cout << "\n";
+}
+};
+
+int main() {
+PizzaParlor parlor;
+int choice, orderID;
+
+do {
+cout << "\nPizza Parlor Order Management System\n";
+cout << "1. Place Order\n";
+cout << "2. Serve Order\n";
+cout << "3. Display Orders\n";
+cout << "4. Exit\n";
+cout << "Enter your choice: ";
+cin >> choice;
+
+switch (choice) {
+case 1:
+cout << "Enter order ID: ";
+cin >> orderID;
+parlor.placeOrder(orderID);
+break;
+case 2:
+parlor.serveOrder();
+break;
+case 3:
+parlor.displayOrders();
+break;
+case 4:
+cout << "Exiting...\n";
+break;
+default:
+cout << "Invalid choice! Please try again.\n";
+}
+} while (choice != 4);
+
+return 0;
+}
+################################################################################################################################################################
+
+######################################## Object Oriented Programming Laboratory (OOPL) ########################################
+
+/** 01. Implement a class Complex which represents the Complex Number data type. Implement the following:
+
+1. Constructor (including a default constructor which creates the complex number 0+0i).
+2. Overload operator+ to add two complex numbers.
+3. Overload operator* to multiply two complex numbers.
+4. Overload operators << and >> to print and read Complex Numbers.
+CODE: **/
+########################################
+#include <iostream>
+using namespace std;
+class Complex {
+private:
+double real;  
+double imag;  
+public:
+
+Complex() : real(0), imag(0) {}
+
+Complex(double r, double i) : real(r), imag(i) {}
+
+Complex operator+(const Complex& other) const {
+return Complex(real + other.real, imag + other.imag);
+}
+
+Complex operator*(const Complex& other) const {
+return Complex(real * other.real - imag * other.imag, 
+real * other.imag + imag * other.real);
+}
+
+friend ostream& operator<<(ostream& os, const Complex& c) {
+os << c.real;
+if (c.imag >= 0) {
+os << " + " << c.imag << "i";
+} else {
+os << " - " << -c.imag << "i";
+}
+return os;
+}
+
+friend istream& operator>>(istream& is, Complex& c) {
+char sign, i;
+double r, im;
+is >> r >> sign >> im >> i;
+c.real = r;
+c.imag = (sign == '-') ? -im : im;
+return is;
+}
+};
+
+int main() {
+Complex c1;
+Complex c2(3, 4); 
+Complex c3(1, -2);
+Complex sum = c2 + c3;
+cout << "Sum: " << sum << endl; 
+Complex product = c2 * c3;
+cout << "Product: " << product << endl;
+Complex c4;
+cout << "Enter a complex number (e.g., 3 + 4i): ";
+cin >> c4;
+cout << "You entered: " << c4 << endl;
+return 0;
+}
+########################################
+
+/** 02. Develop a program in C++ to create a database of student’s information system containing the following information: Name, roll number, Class, Division, Date of Birth, Blood group, Contact address, Telephone number, Driving license no. and others. Construct the database with suitable member functions. Make use of constructor, default constructor, copy constructor, destructor, static member functions, friend class, this pointer, inline code, and dynamic memory allocation operators—new and delete, as well as exception handling.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <stdexcept>
+using namespace std;
+class Student {
+public:
+string name;
+int rollNumber;
+string className;
+Student(string n, int r, string c) : name(n), rollNumber(r), className(c) {}
+};
+class StudentDatabase {
+private:
+vector<Student> students;
+public:
+void addStudent(const Student& student) {
+students.push_back(student);
+}
+Student getStudent(int rollNumber) {
+for (const auto& student : students) {
+if (student.rollNumber == rollNumber) {
+return student;
+}         }
+throw runtime_error("Student not found");
+}
+void updateStudent(int rollNumber, const Student& updatedStudent) {
+for (auto& student : students) {
+if (student.rollNumber == rollNumber) {
+student = updatedStudent;
+return;
+}         }
+throw runtime_error("Student not found");
+}
+void deleteStudent(int rollNumber) {
+for (auto it = students.begin(); it != students.end(); ++it) {
+if (it -> rollNumber == rollNumber) {
+students.erase(it);
+return;
+}        }
+throw runtime_error("Student not found");
+}
+void displayAllStudents() const {
+for (const auto& student : students) {
+cout << "Name: " << student.name << ", Roll Number: " << student.rollNumber
+<< ", Class: " << student.className << endl;
+}    } };
+int main() {
+StudentDatabase db;
+db.addStudent(Student("Alice", 1, "10A"));
+db.addStudent(Student("Bob", 2, "10B"));
+db.displayAllStudents();
+try {
+Student s = db.getStudent(1);
+cout << "Retrieved: " << s.name << endl;
+db.updateStudent(1, Student("Alice Updated", 1, "10A"));
+db.displayAllStudents();
+db.deleteStudent(2);
+db.displayAllStudents();
+} catch (const exception& e) {
+cerr << e.what() << endl;
+}
+return 0;
+}
+########################################
+/** 03. Imagine a publishing company which does marketing for book and audio cassette versions. Create a class publication that stores the title (a string) and price (type float) of publications. From this class derive two classes: book which adds a page count (type int) and tape which adds a playing time in minutes (type float). Write a program that instantiates the book and tape class, allows user to enter data and displays the data members. If an exception is caught, replace all the data member values with zero values.
+CODE: **/
+########################################
+#include <iostream>
+#include <string>
+#include <stdexcept>
+using namespace std;
+class Publication {
+protected:
+string title;
+float price;
+public:
+Publication(string t, float p) : title(t), price(p) {}
+virtual void display() const {
+cout << "Title: " << title << endl;
+cout << "Price: " << price << endl;
+}
+};
+class Book : public Publication {
+private:
+int pageCount;
+public:
+Book(string t, float p, int pc) : Publication(t, p), pageCount(pc) {}
+void display() const override {
+Publication::display();
+cout << "Page Count: " << pageCount << endl;
+}
+}; 
+class Tape : public Publication {
+private:
+float playingTime;
+public:
+Tape(string t, float p, float pt) : Publication(t, p), playingTime(pt) {}
+void display() const override {
+Publication::display();
+cout << "Playing Time: " << playingTime << " minutes" << endl;
+}
+};
+Book getBookData() {
+string title;
+float price;
+int pageCount;
+cout << "Enter the title of the book:";
+getline(cin, title);
+cout << "Enter the price of the book: ";
+cin >> price;
+cout << "Enter the page count of the book: ";
+cin >> pageCount;
+cin.ignore();
+return Book(title, price, pageCount);
+}
+Tape getTapeData() {
+string title;
+float price;
+float playingTime;
+cout << "Enter the title of the tape: ";
+getline(cin, title);
+cout << "Enter the price of the tape: ";
+cin >> price;
+cout << "Enter the playing time of the tape (in minutes): ";
+cin >> playingTime;
+cin.ignore();
+return Tape(title, price, playingTime);
+}
+int main() {
+try {
+Book book = getBookData();
+book.display();
+} catch (const exception& e) {
+cout << "An error occurred while entering book data. Setting all values to zero." << endl;
+Book book("", 0.0, 0);
+book.display();
+} try {
+Tape tape = getTapeData();
+tape.display();} 
+catch (const exception& e) {
+cout << "An error occurred while entering tape data. Setting all values to zero." << endl;
+Tape tape("", 0.0, 0.0);
+tape.display();
+}     return 0; 
+} 
+########################################
+/** 04. Write a C++ program that creates an output file, writes information to it, closes the file, opens it again as an input file, and reads the information from the file.
+CODE: **/
+########################################
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+ofstream outputFile("example.txt");
+
+if (!outputFile) {
+cerr << "Error opening file for writing!" << endl;
+return 1;
+}
+
+outputFile << "Hello, World!" << endl;
+outputFile << "This is a test file." << endl;
+
+outputFile.close();
+
+ifstream inputFile("example.txt");
+
+if (!inputFile) {
+cerr << "Error opening file for reading!" << endl;
+return 1;
+}
+
+string line;
+while (getline(inputFile, line)) {
+cout << line << endl;
+}
+
+inputFile.close();
+
+return 0;
+}
+########################################
+/** 05. Write a function template for selection sort that inputs, sorts, and outputs an integer array and a float array.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+template <typename T>
+void selectionSort(vector<T>& arr) {
+int n = arr.size();
+for (int i = 0; i < n - 1; i++) {
+int minIndex = i;
+for (int j = i + 1; j < n; j++) {
+if (arr[j] < arr[minIndex]) {
+minIndex = j;
+}
+}
+swap(arr[i], arr[minIndex]);
+}
+}
+
+template <typename T>
+void printArray(const vector<T>& arr) {
+for (const T& element : arr) {
+cout << element << " ";
+}
+cout << endl;
+}
+int main() {
+vector<int> intArray = {64, 25, 12, 22, 11};
+cout << "Original integer array: ";
+printArray(intArray);
+selectionSort(intArray);
+cout << "Sorted integer array: ";
+printArray(intArray);
+vector<float> floatArray = {64.5, 25.1, 12.3, 22.4, 11.2};
+cout << "Original float array: ";
+printArray(floatArray);
+selectionSort(floatArray);
+cout << "Sorted float array: ";
+printArray(floatArray);
+
+return 0;
+}
+########################################
+/** 06. Write a C++ program using STL for sorting and searching user-defined records such as personal records (Name, DOB, Telephone number, etc.) using vector container.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm> 
+#include <iomanip> 
+using namespace std;  
+
+struct PersonalRecord {
+string name;
+string dob;
+string telephone;
+
+PersonalRecord(string n, string d, string t)
+: name(n), dob(d), telephone(t) {}
+};
+
+vector<PersonalRecord> records;
+
+void sortRecordsByName() {
+sort(records.begin(), records.end(), [](const PersonalRecord &a, const PersonalRecord &b) {
+return a.name < b.name;
+});
+}
+
+PersonalRecord* searchRecordByTelephone(const string &telephone) {
+for (auto &record : records) {
+if (record.telephone == telephone) {
+return &record;
+}
+}
+return nullptr;
+}
+
+int main() {
+records.emplace_back("Alice Smith", "1990-05-15", "123-456-7890");
+records.emplace_back("Bob Johnson", "1985-10-20", "987-654-3210");
+records.emplace_back("Charlie Brown", "1992-03-30", "555-555-5555");
+
+sortRecordsByName();
+
+cout << "Sorted Records by Name:\n";
+for (const auto &record : records) {
+cout << setw(20) << record.name 
+<< setw(15) << record.dob 
+<< setw(15) << record.telephone << '\n';
+}
+
+string searchTel = "987-654-3210";
+PersonalRecord* foundRecord = searchRecordByTelephone(searchTel);
+if (foundRecord) {
+cout << "\nRecord found:\n";
+cout << "Name: " << foundRecord->name 
+<< ", DOB: " << foundRecord->dob 
+<< ", Telephone: " << foundRecord->telephone << '\n';
+} else {
+cout << "\nRecord not found for telephone: " << searchTel << '\n';
+}
+
+return 0;
+}
+########################################
+/** OR
+06. Write a C++ program using STL for sorting and searching user-defined records such as item records (Item code, name, cost, quantity, etc.) using vector container.
+CODE: **/
+########################################
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct Item {
+int code;
+string name;
+double cost;
+int quantity;
+};
+
+vector<Item> items;
+
+void sortItemsByCode(vector<Item>& items) {
+sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+return a.code < b.code;
+});
+}
+
+Item* findItemByCode(const vector<Item>& items, int code) {
+auto it = find_if(items.begin(), items.end(), [code](const Item& item) {
+return item.code == code;
+});
+return (it != items.end()) ? &(*it) : nullptr;
+}
+
+int main() {
+items.push_back({101, "Apple", 0.50, 100});
+items.push_back({102, "Banana", 0.30, 150});
+items.push_back({103, "Orange", 0.80, 200});
+sortItemsByCode(items);
+cout << "Sorted Items by Code:\n";
+for (const auto& item : items) {
+cout << "Code: " << item.code << ", Name: " << item.name 
+<< ", Cost: " << item.cost << ", Quantity: " << item.quantity << "\n";
+}
+int searchCode = 102;
+Item* foundItem = findItemByCode(items, searchCode);
+if (foundItem) {
+cout << "Found Item: " << foundItem->name << "\n";
+} else {
+cout << "Item not found.\n";
+}
+
+return 0;
+}
+########################################
+/** 07. Write a program in C++ to use map associative container. The keys will be the names of states and the values will be the populations of the states. When the program runs, the user is prompted to type the name of a state. The program then looks in the map, using the state name as an index and returns the population of the state.
+CODE: **/
+########################################
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+int main() {
+map<string, long long> statePopulation;
+statePopulation["Maharashtra"] = 112372972;
+statePopulation["Uttar Pradesh"] = 199812341;
+statePopulation["Bihar"] = 104099452;
+statePopulation["West Bengal"] = 91276115;
+statePopulation["Tamil Nadu"] = 72147030;
+statePopulation["Karnataka"] = 61095297;
+statePopulation["Gujarat"] = 60439692;
+statePopulation["Rajasthan"] = 68548437;
+statePopulation["Andhra Pradesh"] = 49577103;
+statePopulation["Odisha"] = 41974218;
+string stateName;
+cout << "Enter the name of an Indian state: ";
+getline(cin, stateName);
+auto it = statePopulation.find(stateName);
+if (it != statePopulation.end()) {
+cout << "The population of " << stateName << " is " << it->second << "." << endl;
+} else {
+cout << "State not found. Please check the name and try again." << endl;
+}
+return 0;
+}
+################################################################################################################################################################
+
+######################################## Computer Graphics Laboratory (CGL) ########################################
+/** 08. Write a C++ program to draw a concave polygon and fill it with the desired color using the scan fill algorithm. Apply the concept of inheritance.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <iostream>
+
+using namespace std;
+
+class Shape {
+public:
+virtual void draw() = 0;
+};
+
+class ConcavePolygon : public Shape {
+private:
+int points[10];
+int numPoints;
+
+public:
+ConcavePolygon(int pts[], int n) {
+numPoints = n;
+for (int i = 0; i < n; i++) {
+points[i] = pts[i];
+}
+}
+
+void draw() override {
+drawpoly(numPoints / 2, points);
+}
+
+void scanFill(int fillColor) {
+for (int y = 0; y < getmaxy(); y++) {
+int count = 0;
+for (int x = 0; x < getmaxx(); x++) {
+if (getpixel(x, y) != WHITE) {
+count++;
+}
+if (count % 2 == 1) {
+putpixel(x, y, fillColor);
+}
+}
+}
+}
+};
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+int points[] = {200, 100, 300, 200, 250, 300, 150, 300, 100, 200};
+ConcavePolygon concavePolygon(points, 10);
+
+setcolor(WHITE);
+concavePolygon.draw();
+
+concavePolygon.scanFill(YELLOW);
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+//SFML only
+########################################
+#include <SFML/Graphics.hpp>
+#include <vector>
+
+class ShapeDrawer {
+public:
+virtual void draw(sf::RenderWindow &window) = 0;
+};
+
+class ConcavePolygon : public ShapeDrawer {
+public:
+ConcavePolygon(const std::vector<sf::Vector2f>& points, const sf::Color& color)
+: m_points(points), m_color(color) {
+if (m_points.size() >= 3) {
+m_polygon.setPointCount(m_points.size());
+for (size_t i = 0; i < m_points.size(); ++i) {
+m_polygon.setPoint(i, m_points[i]);
+}
+m_polygon.setFillColor(m_color);
+}
+}
+
+void draw(sf::RenderWindow &window) override {
+if (m_points.size() >= 3) {
+window.draw(m_polygon);
+}
+}
+
+private:
+std::vector<sf::Vector2f> m_points;
+sf::Color m_color;
+sf::ConvexShape m_polygon;
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "Concave Polygon Fill");
+
+std::vector<sf::Vector2f> points = {
+{100, 100},
+{300, 100},
+{400, 200},
+{300, 300},
+{100, 300},
+{50, 200}
+};
+
+sf::Color fillColor = sf::Color::Green;
+
+ConcavePolygon concavePolygon(points, fillColor);
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed) {
+window.close();
+}
+}
+
+window.clear(sf::Color::White);
+concavePolygon.draw(window);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** 09. Write a C++ program to implement the Cohen-Sutherland line clipping algorithm.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <iostream>
+using namespace std;
+#define INSIDE 0
+#define LEFT 1
+#define RIGHT 2
+#define BOTTOM 4
+#define TOP 8
+
+int computeCode(float x, float y, float xMin, float yMin, float xMax, float yMax) {
+int code = INSIDE;
+
+if (x < xMin)
+code |= LEFT;
+else if (x > xMax)
+code |= RIGHT;
+if (y < yMin)
+code |= BOTTOM;
+else if (y > yMax)
+code |= TOP;
+
+return code;
+}
+
+void cohenSutherlandClip(float x0, float y0, float x1, float y1, float xMin, float yMin, float xMax, float yMax) {
+int code0 = computeCode(x0, y0, xMin, yMin, xMax, yMax);
+int code1 = computeCode(x1, y1, xMin, yMin, xMax, yMax);
+bool accept = false;
+
+while (true) {
+if ((code0 == 0) && (code1 == 0)) {
+accept = true;
+break;
+} else if (code0 & code1) {
+break;
+} else {
+int codeOut;
+float x, y;
+
+if (code0 != 0)
+codeOut = code0;
+else
+codeOut = code1;
+
+if (codeOut & TOP) {
+x = x0 + (x1 - x0) * (yMax - y0) / (y1 - y0);
+y = yMax;
+} else if (codeOut & BOTTOM) {
+x = x0 + (x1 - x0) * (yMin - y0) / (y1 - y0);
+y = yMin;
+} else if (codeOut & RIGHT) {
+y = y0 + (y1 - y0) * (xMax - x0) / (x1 - x0);
+x = xMax;
+} else if (codeOut & LEFT) {
+y = y0 + (y1 - y0) * (xMin - x0) / (x1 - x0);
+x = xMin;
+}
+
+if (codeOut == code0) {
+x0 = x;
+y0 = y;
+code0 = computeCode(x0, y0, xMin, yMin, xMax, yMax);
+} else {
+x1 = x;
+y1 = y;
+code1 = computeCode(x1, y1, xMin, yMin, xMax, yMax);
+}
+}
+}
+
+if (accept) {
+setcolor(GREEN);
+line(x0, y0, x1, y1);
+}
+}
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+float xMin = 100, yMin = 100, xMax = 400, yMax = 400;
+
+setcolor(WHITE);
+rectangle(xMin, yMin, xMax, yMax);
+
+float x0 = 50, y0 = 50, x1 = 450, y1 = 450;
+
+setcolor(RED);
+line(x0, y0, x1, y1);
+
+cohenSutherlandClip(x0, y0, x1, y1, xMin, yMin, xMax, yMax);
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+//opengl only
+########################################
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
+const float Xmin = 0.2f;
+const float Xmax = 0.8f;
+const float Ymin = 0.2f;
+const float Ymax = 0.8f;
+
+enum RegionCode {
+INSIDE = 0,
+LEFT = 1,
+RIGHT = 2,
+BOTTOM = 4,
+TOP = 8
+};
+
+int computeOutCode(float x, float y) {
+int code = INSIDE;
+if (x < Xmin) code |= LEFT;
+if (x > Xmax) code |= RIGHT;
+if (y < Ymin) code |= BOTTOM;
+if (y > Ymax) code |= TOP;
+return code;
+}
+
+void cohenSutherlandClip(float &x0, float &y0, float &x1, float &y1) {
+int code0 = computeOutCode(x0, y0);
+int code1 = computeOutCode(x1, y1);
+bool accept = false;
+while (true) {
+if ((code0 | code1) == 0) {
+accept = true;
+break;
+} else if ((code0 & code1) != 0) {
+break;
+} else {
+int codeOut;
+float x, y;
+if (code0 != 0)
+codeOut = code0;
+else
+codeOut = code1;
+if (codeOut & TOP) {
+x = x0 + (x1 - x0) * (Ymax - y0) / (y1 - y0);
+y = Ymax;
+} else if (codeOut & BOTTOM) {
+x = x0 + (x1 - x0) * (Ymin - y0) / (y1 - y0);
+y = Ymin;
+} else if (codeOut & RIGHT) {
+y = y0 + (y1 - y0) * (Xmax - x0) / (x1 - x0);
+x = Xmax;
+} else if (codeOut & LEFT) {
+y = y0 + (y1 - y0) * (Xmin - x0) / (x1 - x0);
+x = Xmin;
+}
+if (codeOut == code0) {
+x0 = x;
+y0 = y;
+code0 = computeOutCode(x0, y0);
+} else {
+x1 = x;
+y1 = y;
+code1 = computeOutCode(x1, y1);
+}
+}
+}
+if (!accept) {
+x0 = y0 = x1 = y1 = -1.0f;
+}
+}
+
+void drawLine(float x0, float y0, float x1, float y1) {
+glBegin(GL_LINES);
+glVertex2f(x0, y0);
+glVertex2f(x1, y1);
+glEnd();
+}
+
+void drawClipWindow() {
+glBegin(GL_LINE_LOOP);
+glVertex2f(Xmin, Ymin);
+glVertex2f(Xmax, Ymin);
+glVertex2f(Xmax, Ymax);
+glVertex2f(Xmin, Ymax);
+glEnd();
+}
+
+void display() {
+glClear(GL_COLOR_BUFFER_BIT);
+float x0 = -0.5f, y0 = -0.5f, x1 = 0.9f, y1 = 0.9f;
+cohenSutherlandClip(x0, y0, x1, y1);
+glColor3f(1.0f, 1.0f, 1.0f);
+drawClipWindow();
+if (x0 != -1.0f) {
+glColor3f(1.0f, 0.0f, 0.0f);
+drawLine(x0, y0, x1, y1);
+}
+glFlush();
+}
+
+int main() {
+if (!glfwInit()) {
+std::cerr << "Failed to initialize GLFW\n";
+return -1;
+}
+GLFWwindow* window = glfwCreateWindow(800, 600, "Cohen-Sutherland Line Clipping", NULL, NULL);
+if (!window) {
+std::cerr << "Failed to create GLFW window\n";
+glfwTerminate();
+return -1;
+}
+glfwMakeContextCurrent(window);
+glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+glClearColor(0.0, 0.0, 0.0, 1.0);
+glColor3f(1.0, 1.0, 1.0);
+
+while (!glfwWindowShouldClose(window)) {
+display();
+glfwSwapBuffers(window);
+glfwPollEvents();
+}
+
+glfwTerminate();
+return 0;
+}
+########################################
+/** 10. Write a C++ program to draw the following pattern. Use DDA line and Bresenham’s circle drawing algorithm. Apply the concept of encapsulation.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <math.h>
+#include <stdlib.h>
+
+void drawDDALine(int x1, int y1, int x2, int y2) {
+int dx = x2 - x1;
+int dy = y2 - y1;
+int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+float xIncrement = dx / (float) steps;
+float yIncrement = dy / (float) steps;
+float x = x1;
+float y = y1;
+for (int i = 0; i <= steps; i++) {
+putpixel(round(x), round(y), WHITE);
+x += xIncrement;
+y += yIncrement;
+}
+}
+
+void drawBresenhamCircle(int xc, int yc, int r) {
+int x = 0;
+int y = r;
+int d = 3 - 2 * r;
+while (y >= x) {
+putpixel(xc + x, yc + y, WHITE);
+putpixel(xc - x, yc + y, WHITE);
+putpixel(xc + x, yc - y, WHITE);
+putpixel(xc - x, yc - y, WHITE);
+putpixel(xc + y, yc + x, WHITE);
+putpixel(xc - y, yc + x, WHITE);
+putpixel(xc + y, yc - x, WHITE);
+putpixel(xc - y, yc - x, WHITE);
+x++;
+if (d > 0) {
+y--;
+d = d + 4 * (x - y) + 10;
+} else {
+d = d + 4 * x + 6;
+}
+}
+}
+
+class ShapeDrawer {
+public:
+void draw() {
+drawBresenhamCircle(400, 300, 200);
+drawBresenhamCircle(400, 300, 100);
+drawDDALine(400, 100, 200, 500);
+drawDDALine(400, 100, 600, 500);
+drawDDALine(200, 500, 600, 500);
+}
+};
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, NULL);
+
+ShapeDrawer shapeDrawer;
+shapeDrawer.draw();
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+// sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+
+// Function to implement the DDA line drawing algorithm
+void drawDDALine(sf::RenderWindow& window, sf::Vector2f p1, sf::Vector2f p2) {
+float dx = p2.x - p1.x;
+float dy = p2.y - p1.y;
+int steps = std::max(std::abs(dx), std::abs(dy));
+
+float xIncrement = dx / steps;
+float yIncrement = dy / steps;
+
+float x = p1.x;
+float y = p1.y;
+
+for (int i = 0; i <= steps; i++) {
+window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+x += xIncrement;
+y += yIncrement;
+}
+}
+
+// Function to implement Bresenham's circle drawing algorithm
+void drawBresenhamCircle(sf::RenderWindow& window, int xc, int yc, int r) {
+int x = 0;
+int y = r;
+int d = 3 - 2 * r;
+
+auto drawCirclePoints = [&](int xc, int yc, int x, int y) {
+window.draw(sf::Vertex(sf::Vector2f(xc + x, yc + y), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc - x, yc + y), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc + x, yc - y), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc - x, yc - y), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc + y, yc + x), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc - y, yc + x), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc + y, yc - x), sf::Color::White));
+window.draw(sf::Vertex(sf::Vector2f(xc - y, yc - x), sf::Color::White));
+};
+
+while (y >= x) {
+drawCirclePoints(xc, yc, x, y);
+x++;
+if (d > 0) {
+y--;
+d = d + 4 * (x - y) + 10;
+} else {
+d = d + 4 * x + 6;
+}
+drawCirclePoints(xc, yc, x, y);
+}
+}
+
+// Encapsulating the drawing functions in a class
+class ShapeDrawer {
+public:
+void draw(sf::RenderWindow& window) {
+// Draw outer oval
+drawBresenhamCircle(window, 400, 300, 200);
+drawBresenhamCircle(window, 400, 300, 100);
+
+// Draw triangle
+drawDDALine(window, sf::Vector2f(400, 100), sf::Vector2f(200, 500));
+drawDDALine(window, sf::Vector2f(400, 100), sf::Vector2f(600, 500));
+drawDDALine(window, sf::Vector2f(200, 500), sf::Vector2f(600, 500));
+}
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Pattern Drawing");
+ShapeDrawer shapeDrawer;
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+window.clear();
+shapeDrawer.draw(window);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** 11. a) Write a C++ program to draw a 2-D object and perform the following basic transformations: Scaling, Translation, and Rotation. Apply the concept of operator overloading.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <cmath>
+
+class Point {
+public:
+float x, y;
+
+Point(float x = 0, float y = 0) : x(x), y(y) {}
+
+Point operator+(const Point& p) {
+return Point(x + p.x, y + p.y);
+}
+
+Point operator*(float scale) {
+return Point(x * scale, y * scale);
+}
+
+Point rotate(float angle) {
+float rad = angle * (M_PI / 180.0);
+float cosA = cos(rad);
+float sinA = sin(rad);
+return Point(x * cosA - y * sinA, x * sinA + y * cosA);
+}
+};
+
+class Triangle {
+public:
+Point p1, p2, p3;
+
+Triangle(Point p1, Point p2, Point p3) : p1(p1), p2(p2), p3(p3) {}
+
+Triangle operator+(const Point& translation) {
+return Triangle(p1 + translation, p2 + translation, p3 + translation);
+}
+
+Triangle operator*(float scale) {
+return Triangle(p1 * scale, p2 * scale, p3 * scale);
+}
+
+Triangle rotate(float angle) {
+return Triangle(p1.rotate(angle), p2.rotate(angle), p3.rotate(angle));
+}
+
+void draw() {
+line(p1.x, p1.y, p2.x, p2.y);
+line(p2.x, p2.y, p3.x, p3.y);
+line(p3.x, p3.y, p1.x, p1.y);
+}
+};
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+Triangle triangle(Point(200, 200), Point(300, 200), Point(250, 100));
+triangle.draw();
+delay(2000);
+
+Point translation(100, 50);
+Triangle translatedTriangle = triangle + translation;
+cleardevice();
+translatedTriangle.draw();
+delay(2000);
+
+Triangle scaledTriangle = triangle * 1.5;
+cleardevice();
+scaledTriangle.draw();
+delay(2000);
+
+Triangle rotatedTriangle = triangle.rotate(45);
+cleardevice();
+rotatedTriangle.draw();
+delay(2000);
+
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+class TransformableShape {
+public:
+sf::RectangleShape shape;
+
+TransformableShape(float width, float height) {
+shape.setSize(sf::Vector2f(width, height));
+shape.setFillColor(sf::Color::Green);
+shape.setOrigin(width / 2, height / 2);
+}
+
+TransformableShape operator+(const sf::Vector2f& translation) {
+TransformableShape newShape(shape.getSize().x, shape.getSize().y);
+newShape.shape.setPosition(shape.getPosition() + translation);
+return newShape;
+}
+
+TransformableShape operator*(const sf::Vector2f& scale) {
+TransformableShape newShape(shape.getSize().x * scale.x, shape.getSize().y * scale.y);
+newShape.shape.setPosition(shape.getPosition());
+return newShape;
+}
+
+TransformableShape operator~() {
+TransformableShape newShape(shape.getSize().x, shape.getSize().y);
+newShape.shape.setRotation(shape.getRotation() + 45);
+newShape.shape.setPosition(shape.getPosition());
+return newShape;
+}
+
+void setPosition(float x, float y) {
+shape.setPosition(x, y);
+}
+
+void draw(sf::RenderWindow& window) {
+window.draw(shape);
+}
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "2D Transformations with SFML");
+
+TransformableShape rect(100, 50);
+rect.setPosition(400, 300);
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+window.clear(sf::Color::Black);
+rect.draw(window);
+
+TransformableShape translatedRect = rect + sf::Vector2f(50, 0);
+TransformableShape scaledRect = rect * sf::Vector2f(1.5f, 1.5f);
+TransformableShape rotatedRect = ~rect;
+
+translatedRect.draw(window);
+scaledRect.draw(window);
+rotatedRect.draw(window);
+
+window.display();
+}
+
+return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to implement translation, rotation, and scaling transformations on an equilateral triangle and rhombus. Apply the concept of operator overloading.
+CODE: **/
+########################################
+//graphics.h only
+#include <graphics.h>
+#include <conio.h>
+#include <cmath>
+
+class Shape {
+protected:
+int x, y;
+public:
+Shape(int x, int y) : x(x), y(y) {}
+virtual void draw() = 0;
+};
+
+class Triangle : public Shape {
+public:
+Triangle(int x, int y) : Shape(x, y) {}
+
+void draw() override {
+int points[] = { x, y - 50, x - 50, y + 50, x + 50, y + 50, x, y - 50 };
+drawpoly(4, points);
+}
+
+Triangle operator+(const std::pair<int, int>& translation) {
+return Triangle(x + translation.first, y + translation.second);
+}
+
+Triangle operator*(float scale) {
+return Triangle(x, y - static_cast<int>(50 * scale));
+}
+
+Triangle operator()(float angle) {
+float rad = angle * M_PI / 180;
+int newX = static_cast<int>(x * cos(rad) - y * sin(rad));
+int newY = static_cast<int>(x * sin(rad) + y * cos(rad));
+return Triangle(newX, newY);
+}
+};
+
+class Rhombus : public Shape {
+public:
+Rhombus(int x, int y) : Shape(x, y) {}
+
+void draw() override {
+int points[] = { x, y - 50, x - 50, y, x, y + 50, x + 50, y, x, y - 50 };
+drawpoly(5, points);
+}
+
+Rhombus operator+(const std::pair<int, int>& translation) {
+return Rhombus(x + translation.first, y + translation.second);
+}
+
+Rhombus operator*(float scale) {
+return Rhombus(x, y - static_cast<int>(50 * scale));
+}
+
+Rhombus operator()(float angle) {
+float rad = angle * M_PI / 180;
+int newX = static_cast<int>(x * cos(rad) - y * sin(rad));
+int newY = static_cast<int>(x * sin(rad) + y * cos(rad));
+return Rhombus(newX, newY);
+}
+};
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+Triangle triangle(300, 200);
+Rhombus rhombus(400, 200);
+
+triangle.draw();
+rhombus.draw();
+
+Triangle translatedTriangle = triangle + std::make_pair(50, 50);
+Rhombus translatedRhombus = rhombus + std::make_pair(-50, 50);
+
+cleardevice();
+translatedTriangle.draw();
+translatedRhombus.draw();
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
+
+class Shape {
+public:
+virtual void draw(sf::RenderWindow& window) = 0;
+virtual void translate(float dx, float dy) = 0;
+virtual void rotate(float angle) = 0;
+virtual void scale(float factor) = 0;
+};
+
+class Triangle : public Shape {
+private:
+sf::ConvexShape triangle;
+
+public:
+Triangle(float size) {
+triangle.setPointCount(3);
+triangle.setPoint(0, sf::Vector2f(size, 0));
+triangle.setPoint(1, sf::Vector2f(0, size * std::sqrt(3) / 2));
+triangle.setPoint(2, sf::Vector2f(size, size * std::sqrt(3) / 2));
+triangle.setFillColor(sf::Color::Green);
+triangle.setPosition(100, 100);
+}
+
+void draw(sf::RenderWindow& window) override {
+window.draw(triangle);
+}
+
+void translate(float dx, float dy) override {
+triangle.move(dx, dy);
+}
+
+void rotate(float angle) override {
+triangle.rotate(angle);
+}
+
+void scale(float factor) override {
+triangle.scale(factor, factor);
+}
+
+Triangle operator+(const sf::Vector2f& translation) {
+Triangle temp = *this;
+temp.translate(translation.x, translation.y);
+return temp;
+}
+};
+
+class Rhombus : public Shape {
+private:
+sf::ConvexShape rhombus;
+
+public:
+Rhombus(float width, float height) {
+rhombus.setPointCount(4);
+rhombus.setPoint(0, sf::Vector2f(0, height / 2));
+rhombus.setPoint(1, sf::Vector2f(width / 2, 0));
+rhombus.setPoint(2, sf::Vector2f(width, height / 2));
+rhombus.setPoint(3, sf::Vector2f(width / 2, height));
+rhombus.setFillColor(sf::Color::Blue);
+rhombus.setPosition(300, 100);
+}
+
+void draw(sf::RenderWindow& window) override {
+window.draw(rhombus);
+}
+
+void translate(float dx, float dy) override {
+rhombus.move(dx, dy);
+}
+
+void rotate(float angle) override {
+rhombus.rotate(angle);
+}
+
+void scale(float factor) override {
+rhombus.scale(factor, factor);
+}
+
+Rhombus operator+(const sf::Vector2f& translation) {
+Rhombus temp = *this;
+temp.translate(translation.x, translation.y);
+return temp;
+}
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "Transformations with SFML");
+
+Triangle triangle(100);
+Rhombus rhombus(100, 50);
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+triangle.translate(0.1f, 0);
+rhombus.rotate(0.5f);
+
+window.clear();
+triangle.draw(window);
+rhombus.draw(window);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** 12. Write a C++ program to generate a snowflake using the concept of fractals.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <cmath>
+#include <iostream>
+
+void drawKochCurve(int x1, int y1, int x2, int y2, int depth) {
+if (depth == 0) {
+line(x1, y1, x2, y2);
+} else {
+int xA = (2 * x1 + x2) / 3;
+int yA = (2 * y1 + y2) / 3;
+
+int xB = (x1 + 2 * x2) / 3;
+int yB = (y1 + 2 * y2) / 3;
+
+int xC = (xA + xB) / 2 - (sqrt(3) / 6) * (yB - yA);
+int yC = (yA + yB) / 2 + (sqrt(3) / 6) * (xB - xA);
+
+drawKochCurve(x1, y1, xA, yA, depth - 1);
+drawKochCurve(xA, yA, xC, yC, depth - 1);
+drawKochCurve(xC, yC, xB, yB, depth - 1);
+drawKochCurve(xB, yB, x2, y2, depth - 1);
+}
+}
+
+void drawSnowflake(int x, int y, int size, int depth) {
+drawKochCurve(x, y, x + size, y, depth);
+drawKochCurve(x + size, y, x + size / 2, y + (sqrt(3) / 2) * size, depth);
+drawKochCurve(x + size / 2, y + (sqrt(3) / 2) * size, x, y, depth);
+}
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+int depth = 4;
+int size = 300;
+
+drawSnowflake(getmaxx() / 2 - size / 2, getmaxy() / 2 + size / 3, size, depth);
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <vector>
+void drawKochCurve(sf::VertexArray& lines, sf::Vector2f start, sf::Vector2f end, int depth) {
+if (depth == 0) {
+lines.append(sf::Vertex(start, sf::Color::White));
+lines.append(sf::Vertex(end, sf::Color::White));
+} else {
+sf::Vector2f segment = end - start;
+sf::Vector2f p1 = start + segment / 3.0f;
+sf::Vector2f p2 = start + segment * 2.0f / 3.0f;
+
+float height = std::sqrt(3) / 6 * std::sqrt(segment.x * segment.x + segment.y * segment.y);
+sf::Vector2f peak = p1 + sf::Vector2f(-segment.y / 3.0f, segment.x / 3.0f) * 2.0f;
+
+drawKochCurve(lines, start, p1, depth - 1);
+drawKochCurve(lines, p1, peak, depth - 1);
+drawKochCurve(lines, peak, p2, depth - 1);
+drawKochCurve(lines, p2, end, depth - 1);
+}
+}
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "Koch Snowflake");
+
+int depth = 4;
+
+sf::VertexArray lines(sf::PrimitiveType::Lines);
+
+sf::Vector2f p1(400, 100);
+sf::Vector2f p2(200, 500);
+sf::Vector2f p3(600, 500);
+
+drawKochCurve(lines, p1, p2, depth);
+drawKochCurve(lines, p2, p3, depth);
+drawKochCurve(lines, p3, p1, depth);
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+window.clear(sf::Color::Black);
+window.draw(lines);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to generate a Hilbert curve using the concept of fractals.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+
+void drawHilbert(int x, int y, int size, int level, int angle) {
+if (level == 0) return;
+
+drawHilbert(x, y, size / 2, level - 1, 0);
+
+x += size / 2 * cos(angle * M_PI / 180);
+y += size / 2 * sin(angle * M_PI / 180);
+
+line(x, y, x + size / 2 * cos((angle + 90) * M_PI / 180), y + size / 2 * sin((angle + 90) * M_PI / 180));
+
+x += size / 2 * cos((angle + 90) * M_PI / 180);
+y += size / 2 * sin((angle + 90) * M_PI / 180);
+
+drawHilbert(x, y, size / 2, level - 1, 90);
+
+x += size / 2 * cos((angle + 90) * M_PI / 180);
+y += size / 2 * sin((angle + 90) * M_PI / 180);
+
+drawHilbert(x, y, size / 2, level - 1, 90);
+}
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+int level = 5;
+int size = 512;
+
+drawHilbert(0, 0, size, level, 0);
+
+getch();
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+
+void drawHilbertCurve(sf::RenderWindow &window, int order, float x, float y, float size, int angle) {
+if (order == 0) {
+return;
+}
+
+drawHilbertCurve(window, order - 1, x, y, size / 2, 0);
+x += size / 2 * cos(angle * M_PI / 180);
+y += size / 2 * sin(angle * M_PI / 180);
+
+window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+drawHilbertCurve(window, order - 1, x, y, size / 2, 90);
+x += size / 2 * cos((angle + 90) * M_PI / 180);
+y += size / 2 * sin((angle + 90) * M_PI / 180);
+
+window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+drawHilbertCurve(window, order - 1, x, y, size / 2, 0);
+x += size / 2 * cos(angle * M_PI / 180);
+y += size / 2 * sin(angle * M_PI / 180);
+
+window.draw(sf::Vertex(sf::Vector2f(x, y), sf::Color::White));
+drawHilbertCurve(window, order - 1, x, y, size / 2, -90);
+}
+
+int main() {
+int order = 5;
+float size = pow(2, order);
+
+sf::RenderWindow window(sf::VideoMode(size, size), "Hilbert Curve");
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+window.clear(sf::Color::Black);
+drawHilbertCurve(window, order, 0, 0, size, 0);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** 13. a) Write a C++ program to draw a 3-D cube and perform the following transformations on it using OpenGL:
+i) Scaling
+ii) Translation
+iii) Rotation about an axis (X/Y/Z).
+CODE: **/
+########################################
+//opengl only
+########################################
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+float angleX = 0.0f, angleY = 0.0f, angleZ = 0.0f;
+float scale = 1.0f;
+float translateX = 0.0f, translateY = 0.0f, translateZ = -5.0f;
+
+void drawCube() {
+glBegin(GL_QUADS);
+
+glColor3f(1.0f, 0.0f, 0.0f);
+glVertex3f(-1.0f, -1.0f,  1.0f);
+glVertex3f( 1.0f, -1.0f,  1.0f);
+glVertex3f( 1.0f,  1.0f,  1.0f);
+glVertex3f(-1.0f,  1.0f,  1.0f);
+
+glColor3f(0.0f, 1.0f, 0.0f);
+glVertex3f(-1.0f, -1.0f, -1.0f);
+glVertex3f(-1.0f,  1.0f, -1.0f);
+glVertex3f( 1.0f,  1.0f, -1.0f);
+glVertex3f( 1.0f, -1.0f, -1.0f);
+
+glColor3f(0.0f, 0.0f, 1.0f);
+glVertex3f(-1.0f, -1.0f, -1.0f);
+glVertex3f(-1.0f, -1.0f,  1.0f);
+glVertex3f(-1.0f,  1.0f,  1.0f);
+glVertex3f(-1.0f,  1.0f, -1.0f);
+
+glColor3f(1.0f, 1.0f, 0.0f);
+glVertex3f(1.0f, -1.0f, -1.0f);
+glVertex3f(1.0f,  1.0f, -1.0f);
+glVertex3f(1.0f,  1.0f,  1.0f);
+glVertex3f(1.0f, -1.0f,  1.0f);
+
+glColor3f(1.0f, 0.0f, 1.0f);
+glVertex3f(-1.0f, 1.0f, -1.0f);
+glVertex3f(-1.0f, 1.0f,  1.0f);
+glVertex3f( 1.0f, 1.0f,  1.0f);
+glVertex3f( 1.0f, 1.0f, -1.0f);
+
+glColor3f(0.0f, 1.0f, 1.0f);
+glVertex3f(-1.0f, -1.0f, -1.0f);
+glVertex3f( 1.0f, -1.0f, -1.0f);
+glVertex3f( 1.0f, -1.0f,  1.0f);
+glVertex3f(-1.0f, -1.0f,  1.0f);
+
+glEnd();
+}
+
+void display() {
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+glLoadIdentity();
+glTranslatef(translateX, translateY, translateZ);
+glScalef(scale, scale, scale);
+glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+drawCube();
+glutSwapBuffers();
+}
+
+void reshape(int width, int height) {
+glViewport(0, 0, width, height);
+glMatrixMode(GL_PROJECTION);
+glLoadIdentity();
+gluPerspective(45.0f, (float)width / (float)height, 0.1f, 100.0f);
+glMatrixMode(GL_MODELVIEW);
+}
+
+void timer(int value) {
+angleX += 1.0f;
+angleY += 1.0f;
+angleZ += 1.0f;
+glutPostRedisplay();
+glutTimerFunc(16, timer, 0);
+}
+
+int main(int argc, char** argv) {
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+glutInitWindowSize(800, 600);
+glutCreateWindow("3D Cube with Transformations");
+
+glEnable(GL_DEPTH_TEST);
+
+glutDisplayFunc(display);
+glutReshapeFunc(reshape);
+glutTimerFunc(0, timer, 0);
+
+translateZ = -5.0f;
+
+glutMainLoop();
+return 0;
+}
+########################################
+/** OR
+b) Write an OpenGL program to draw the sunrise and sunset.
+CODE: **/
+########################################
+//opengl only
+########################################
+#include <GL/glut.h>
+#include <math.h>
+
+float sunY = -0.5;
+float sunDirection = 0.01;
+float cloudX = -1.0;
+
+void drawSun(float x, float y, float radius) {
+glBegin(GL_TRIANGLE_FAN);
+glColor3f(1.0, 1.0, 0.0);
+glVertex2f(x, y);
+for (int i = 0; i <= 100; i++) {
+float angle = 2.0f * 3.14159f * i / 100;
+float dx = radius * cosf(angle);
+float dy = radius * sinf(angle);
+glVertex2f(x + dx, y + dy);
+}
+glEnd();
+}
+########################################
+void drawCloud(float x, float y) {
+glBegin(GL_TRIANGLE_FAN);
+glColor3f(1.0, 1.0, 1.0);
+glVertex2f(x, y);
+for (int i = 0; i <= 100; i++) {
+float angle = 2.0f * 3.14159f * i / 100;
+float dx = 0.1 * cosf(angle);
+float dy = 0.05 * sinf(angle);
+glVertex2f(x + dx, y + dy);
+}
+glEnd();
+}
+
+void display() {
+glClear(GL_COLOR_BUFFER_BIT);
+
+glBegin(GL_QUADS);
+glColor3f(0.5, 0.7, 1.0);
+glVertex2f(-1.0, -1.0);
+glVertex2f(1.0, -1.0);
+glVertex2f(1.0, 1.0);
+glVertex2f(-1.0, 1.0);
+glEnd();
+
+drawCloud(cloudX, 0.5);
+drawCloud(cloudX + 0.2, 0.55);
+drawCloud(cloudX + 0.1, 0.45);
+
+drawSun(0.0, sunY, 0.1);
+
+glutSwapBuffers();
+}
+
+void update(int value) {
+sunY += sunDirection;
+if (sunY > 1.5) {
+sunY = -0.5;
+}
+if (sunY < -0.5) {
+sunY = 1.5;
+}
+
+cloudX += 0.01;
+if (cloudX > 1.0) {
+cloudX = -1.0;
+}
+
+glutPostRedisplay();
+glutTimerFunc(100, update, 0);
+}
+
+void init() {
+glClearColor(0.5, 0.7, 1.0, 1.0);
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+int main(int argc, char** argv) {
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+glutInitWindowSize(800, 600);
+glutCreateWindow("Sunrise and Sunset");
+init();
+glutDisplayFunc(display);
+glutTimerFunc(0, update, 0);
+glutMainLoop();
+return 0;
+}
+########################################
+/** 14. a) Write a C++ program to implement a bouncing ball using sine waveform. Apply the concept of polymorphism.
+CODE: **/
+########################################
+//graphics.h only
+########################################
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+#include <iostream>
+
+using namespace std;
+
+class Ball {
+public:
+virtual void draw(int x, int y) = 0;
+};
+
+class SineWaveBall : public Ball {
+private:
+int radius;
+int amplitude;
+int frequency;
+int phaseShift;
+
+public:
+SineWaveBall(int r, int a, int f, int p) : radius(r), amplitude(a), frequency(f), phaseShift(p) {}
+
+void draw(int x, int y) override {
+setcolor(WHITE);
+circle(x, y, radius);
+floodfill(x, y, WHITE);
+}
+
+void bounce(int &x, int &y, int &direction) {
+y = amplitude * sin(frequency * x + phaseShift) + 200;
+x += direction;
+
+if (x >= getmaxx() - radius || x <= radius) {
+direction = -direction;
+}
+}
+};
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+SineWaveBall ball(20, 50, 0.05, 0);
+
+int x = 100;
+int y = 200;
+int direction = 1;
+
+while (!kbhit()) {
+cleardevice();
+ball.bounce(x, y, direction);
+ball.draw(x, y);
+delay(30);
+}
+
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
+class Ball {
+public:
+virtual void update(float deltaTime) = 0;
+virtual void draw(sf::RenderWindow& window) = 0;
+};
+
+class SineWaveBall : public Ball {
+private:
+sf::CircleShape shape;
+float amplitude;
+float frequency;
+float phase;
+float verticalPosition;
+
+public:
+SineWaveBall(float radius, float amplitude, float frequency)
+: amplitude(amplitude), frequency(frequency), phase(0.0f) {
+shape.setRadius(radius);
+shape.setFillColor(sf::Color::Green);
+shape.setOrigin(radius, radius);
+verticalPosition = 300;
+}
+
+void update(float deltaTime) override {
+phase += frequency * deltaTime;
+verticalPosition = 300 + amplitude * std::sin(phase);
+shape.setPosition(400, verticalPosition);
+}
+
+void draw(sf::RenderWindow& window) override {
+window.draw(shape);
+}
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "Bouncing Ball with Sine Wave");
+
+SineWaveBall ball(20.0f, 100.0f, 2.0f);
+
+sf::Clock clock;
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+float deltaTime = clock.restart().asSeconds();
+
+ball.update(deltaTime);
+
+window.clear(sf::Color::Black);
+ball.draw(window);
+window.display();
+}
+
+return 0;
+}
+########################################
+/** OR
+b) Write a C++ program to draw a man walking in the rain with an umbrella. Apply the concept of polymorphism.
+CODE: **/
+########################################
+//graphics.h only
+#include <graphics.h>
+#include <conio.h>
+
+class Shape {
+public:
+virtual void draw() = 0;
+};
+
+class Man : public Shape {
+public:
+void draw() override {
+setcolor(WHITE);
+circle(300, 300, 20);
+line(300, 320, 300, 400);
+line(300, 350, 250, 300);
+line(300, 350, 350, 300);
+line(300, 400, 250, 450);
+line(300, 400, 350, 450);
+}
+};
+
+class Umbrella : public Shape {
+public:
+void draw() override {
+setcolor(YELLOW);
+arc(300, 290, 0, 180, 50);
+line(250, 290, 350, 290);
+line(300, 290, 300, 400);
+}
+};
+
+void drawScene() {
+Man man;
+Umbrella umbrella;
+
+man.draw();
+umbrella.draw();
+}
+
+int main() {
+int gd = DETECT, gm;
+initgraph(&gd, &gm, "");
+
+drawScene();
+
+getch();
+
+closegraph();
+return 0;
+}
+########################################
+//sfml only
+########################################
+#include <SFML/Graphics.hpp>
+#include <vector>
+
+class DrawableObject {
+public:
+virtual void draw(sf::RenderWindow& window) = 0;
+};
+
+class Man : public DrawableObject {
+private:
+sf::RectangleShape body;
+sf::CircleShape head;
+
+public:
+Man(float x, float y) {
+body.setSize(sf::Vector2f(20, 50));
+body.setFillColor(sf::Color::Blue);
+body.setPosition(x, y);
+head.setRadius(10);
+head.setFillColor(sf::Color::Yellow);
+head.setPosition(x + 5, y - 10);
+}
+
+void draw(sf::RenderWindow& window) override {
+window.draw(body);
+window.draw(head);
+}
+};
+
+class Umbrella : public DrawableObject {
+private:
+sf::ConvexShape umbrella;
+
+public:
+Umbrella(float x, float y) {
+umbrella.setPointCount(3);
+umbrella.setPoint(0, sf::Vector2f(x, y));
+umbrella.setPoint(1, sf::Vector2f(x - 30, y + 20));
+umbrella.setPoint(2, sf::Vector2f(x + 30, y + 20));
+umbrella.setFillColor(sf::Color::Red);
+}
+
+void draw(sf::RenderWindow& window) override {
+window.draw(umbrella);
+}
+};
+
+class Rain : public DrawableObject {
+private:
+std::vector<sf::RectangleShape> drops;
+
+public:
+Rain(int numDrops) {
+for (int i = 0; i < numDrops; ++i) {
+sf::RectangleShape drop(sf::Vector2f(2, 10));
+drop.setFillColor(sf::Color::Cyan);
+drop.setPosition(rand() % 800, rand() % 600);
+drops.push_back(drop);
+}
+}
+
+void draw(sf::RenderWindow& window) override {
+for (auto& drop : drops) {
+window.draw(drop);
+}
+}
+};
+
+int main() {
+sf::RenderWindow window(sf::VideoMode(800, 600), "Man Walking in the Rain with Umbrella");
+Man man(400, 300);
+Umbrella umbrella(400, 290);
+Rain rain(100);
+
+while (window.isOpen()) {
+sf::Event event;
+while (window.pollEvent(event)) {
+if (event.type == sf::Event::Closed)
+window.close();
+}
+
+window.clear(sf::Color::White);
+man.draw(window);
+umbrella.draw(window);
+rain.draw(window);
+window.display();
+}
+
+return 0;
+}
+######################################## Microprocessor Laboratory (MPL) ########################################
+/**
+1. Write an Assembly Language Program to display Hello World on screen in 16 bit, 32 bit and 64 bit model
+**/
+################################################################################
+section .data
+msg db 'Hello, World!', 0xA
+len equ $ - msg              
+section .text
+global _start
+_start:
+mov eax, 4          
+mov ebx, 1          
+mov ecx, msg        
+mov edx, len        
+int 0x80            
+; Exit the program
+mov eax, 1          
+xor ebx, ebx        
+int 0x80            
+################################################################################
+################################################################################
+section .data
+msg db 'Hello, World!', 0xA 
+len equ $ - msg                
+section .text
+global _start
+_start:
+mov rax, 1          
+mov rdi, 1          
+mov rsi, msg        
+mov rdx, len        
+syscall              
+mov rax, 60         
+xor rdi, rdi        
+syscall             
+################################################################################
+/**
+2. Write an Assembly Language Program to count no. of positive and negative numbers from the array.
+**/
+################################################################################section .data
+array db 5, -3, 8, -1, 0, 7, -2, 4
+array_size db 8
+pos_count db 0
+neg_count db 0
+section .text
+global _start
+_start:
+mov ecx, [array_size]
+mov ebx, 0
+mov al, 0
+mov bl, 0
+count_loop:
+cmp ebx, ecx
+jge done
+movzx edx, byte [array + ebx]
+cmp edx, 0
+jg increment_positive
+jl increment_negative
+jmp next_element
+increment_positive:
+inc al
+jmp next_element
+increment_negative:
+inc bl
+jmp next_element
+next_element:
+inc ebx
+jmp count_loop
+done:
+mov [pos_count], al
+mov [neg_count], bl
+mov eax, 1
+xor ebx, ebx
+int 0x80
+################################################################################
+/**
+3. Write an X86/64 Assembly Language Program to accept five 64 bit Hexadecimal numbers from user and store them in an array and display the accepted numbers.
+**/
+################################################################################section .data
+prompt      db "Enter hex number: ", 0xA
+prompt_len  equ $-prompt
+newline     db 0xA
+section .bss
+numbers     resq 5
+buffer      resb 20
+hex_buffer  resb 16
+section .text
+global _start
+_start:
+mov rsi, numbers
+mov rcx, 5
+read_numbers:
+mov rax, 1
+mov rdi, 1
+lea rsi, [prompt]
+mov rdx, prompt_len
+syscall
+mov rax, 0
+mov rdi, 0
+lea rsi, [buffer]
+mov rdx, 20
+syscall
+lea rdi, [buffer]
+call hex_to_int
+mov [rsi], rax
+add rsi, 8
+loop read_numbers
+mov rsi, numbers
+mov rcx, 5
+display_numbers:
+mov rax, [rsi]
+call int_to_hex
+mov rax, 1
+mov rdi, 1
+lea rsi, [hex_buffer]
+mov rdx, 16
+syscall
+mov rax, 1
+mov rdi, 1
+lea rsi, [newline]
+mov rdx, 1
+syscall
+add rsi, 8
+loop display_numbers
+mov rax, 60
+xor rdi, rdi
+syscall
+hex_to_int:
+xor rax, rax
+xor rcx, rcx
+.next_digit:
+movzx rdx, byte [rdi + rcx]
+cmp dl, 0Ah
+je .done_hex
+cmp dl, 'a'
+jl .check_digit
+cmp dl, 'f'
+jg .check_digit
+sub dl, 87
+jmp .add_digit
+.check_digit:
+sub dl, '0'
+.add_digit:
+imul rax, rax, 16
+add rax, rdx
+inc rcx
+jmp .next_digit
+.done_hex:
+ret
+int_to_hex:
+lea rdi, [hex_buffer]
+mov rcx, 16
+mov rbx, 16
+.loop_hex:
+cmp rcx, 0
+je .done_hex
+xor rdx, rdx
+div rbx
+cmp rdx, 9
+jle .digit_is_num
+add rdx, 87
+jmp .store_digit
+.digit_is_num:
+add rdx, '0'
+.store_digit:
+mov byte [rdi + rcx - 1], dl
+dec rcx
+jmp .loop_hex
+.done_hex:
+ret
+################################################################################
+/**
+4. Write an X86/64 Assembly Language Program to accept a string and to display its length.
+**/
+################################################################################
+section .data
+prompt      db "Enter a string: ", 0
+promptLen   equ $ - prompt
+resultMsg   db "Length = ", 0
+resultMsgLen equ $ - resultMsg
+newline     db 10
+section .bss
+buffer      resb 256
+num_buffer  resb 20
+section .text
+global _start
+_start:
+mov     rax, 1
+mov     rdi, 1
+mov     rsi, prompt
+mov     rdx, promptLen
+syscall
+mov     rax, 0
+mov     rdi, 0
+mov     rsi, buffer
+mov     rdx, 255
+syscall
+mov     rbx, rax
+cmp     rbx, 0
+je      compute_length
+mov     al, [buffer + rbx - 1]
+cmp     al, 10
+jne     compute_length
+dec     rbx
+compute_length:
+mov     rcx, 0
+mov     rsi, buffer
+count_loop:
+cmp     byte [rsi], 0
+je      display_result
+cmp     byte [rsi], 10
+je      display_result
+inc     rcx
+inc     rsi
+cmp     rcx, rbx
+jl      count_loop
+display_result:
+mov     rax, 1
+mov     rdi, 1
+mov     rsi, resultMsg
+mov     rdx, resultMsgLen
+syscall
+lea     rdi, [num_buffer + 20]
+mov     rbx, 10
+cmp     rcx, 0
+jne     convert_loop
+dec     rdi
+mov     byte [rdi], '0'
+jmp     conversion_done
+convert_loop:
+convert_loop_start:
+xor     rdx, rdx
+mov     rax, rcx
+div     rbx
+add     rdx, '0'
+dec     rdi
+mov     byte [rdi], dl
+mov     rcx, rax
+cmp     rcx, 0
+jne     convert_loop_start
+conversion_done:
+lea     rdx, [num_buffer + 20]
+sub     rdx, rdi
+mov     rax, 1
+mov     rsi, rdi
+mov     rdi, 1
+syscall
+mov     rax, 1
+mov     rdi, 1
+mov     rsi, newline
+mov     rdx, 1
+syscall
+mov     rax, 60
+xor     rdi, rdi
+syscall
+################################################################################
+/**
+5. Write an X86/64 Assembly Language Program to find the largest of given Byte/Word/Dword/64-bit numbers.
+**/
+################################################################################
+section .data
+fmt_byte:    db "Max Byte = %d",10,0
+fmt_word:    db "Max Word = %d",10,0
+fmt_dword:   db "Max Dword = %d",10,0
+fmt_qword:   db "Max Qword = %lld",10,0
+byteArr:     db 12, 255, 33, 67, 100
+wordArr:     dw 1023, 65535, 542, 9999, 32767
+dwordArr:    dd 123456, 654321, 98765, 123, 999999
+qwordArr:    dq 1234567890123, 9223372036854775807, 55555555555, 777777777777, 333333333333
+len_byte:    equ $ - byteArr
+len_word:    equ ($ - wordArr) / 2
+len_dword:   equ ($ - dwordArr) / 4
+len_qword:   equ ($ - qwordArr) / 8
+section .bss
+section .text
+global main
+extern printf
+find_max_byte:
+push    rbx
+mov     bl, [rsi]
+add     rsi, 1
+dec     rcx
+.next_byte:
+test    rcx, rcx
+jz      .done_byte
+mov     dl, [rsi]
+cmp     dl, bl
+jbe     .skip_byte
+mov     bl, dl
+.skip_byte:
+inc     rsi
+dec     rcx
+jmp     .next_byte
+.done_byte:
+mov     al, bl
+pop     rbx
+ret
+find_max_word:
+push    rbx
+mov     bx, [rsi]
+add     rsi, 2
+dec     rcx
+.next_word:
+test    rcx, rcx
+jz      .done_word
+mov     dx, [rsi]
+cmp     dx, bx
+jbe     .skip_word
+mov     bx, dx
+.skip_word:
+add     rsi, 2
+dec     rcx
+jmp     .next_word
+.done_word:
+mov     ax, bx
+pop     rbx
+ret
+find_max_dword:
+push    rbx
+mov     ebx, [rsi]
+add     rsi, 4
+dec     rcx
+.next_dword:
+test    rcx, rcx
+jz      .done_dword
+mov     edx, [rsi]
+cmp     edx, ebx
+jbe     .skip_dword
+mov     ebx, edx
+.skip_dword:
+add     rsi, 4
+dec     rcx
+jmp     .next_dword
+.done_dword:
+mov     eax, ebx
+pop     rbx
+ret
+find_max_qword:
+push    rbx
+mov     rbx, [rsi]
+add     rsi, 8
+dec     rcx
+.next_qword:
+test    rcx, rcx
+jz      .done_qword
+mov     rdx, [rsi]
+cmp     rdx, rbx
+jbe     .skip_qword
+mov     rbx, rdx
+.skip_qword:
+add     rsi, 8
+dec     rcx
+jmp     .next_qword
+.done_qword:
+mov     rax, rbx
+pop     rbx
+ret
+main:
+mov     rsi, byteArr
+mov     rcx, len_byte
+call    find_max_byte
+movzx   rax, al
+mov     rdi, fmt_byte
+mov     rsi, rax
+xor     rax, rax
+call    printf
+mov     rsi, wordArr
+mov     rcx, len_word
+call    find_max_word
+movzx   rax, ax
+mov     rdi, fmt_word
+mov     rsi, rax
+xor     rax, rax
+call    printf
+mov     rsi, dwordArr
+mov     rcx, len_dword
+call    find_max_dword
+movzx   rax, eax
+mov     rdi, fmt_dword
+mov     rsi, rax
+xor     rax, rax
+call    printf
+mov     rsi, qwordArr
+mov     rcx, len_qword
+call    find_max_qword
+mov     rdi, fmt_qword
+mov     rsi, rax
+xor     rax, rax
+call    printf
+mov     rax, 60
+xor     rdi, rdi
+syscall
+################################################################################
+/**
+6.Write x86 Assembly Language Program to convert 4-digit HEX number into its equivalent BCD number and 5 digits BCD number into its equivalent HEX number. Make your program user friendly to accept the choice from user for a. Hex to BCD  b. BCD to HEX  c.EXIT.
+**/
+################################################################################
+.model small
+.stack 100h
+.data
+prompt_choice db "Choose an option:", 0Ah, "a. Hex to BCD", 0Ah, "b. BCD to Hex", 0Ah, "c. Exit", 0Ah, "$"
+prompt_hex db "Enter 4-digit HEX number: $"
+prompt_bcd db "Enter 5-digit BCD number: $"
+output_bcd db "Equivalent BCD: $"
+output_hex db "Equivalent HEX: $"
+newline db 0Ah, "$"
+choice db 0
+hex_num db 4 dup('0')
+bcd_num db 5 dup('0')
+.code
+main:
+mov ax, @data
+mov ds, ax
+menu:
+mov ah, 09h
+lea dx, prompt_choice
+int 21h
+mov ah, 01h
+int 21h
+sub al, 30h
+mov [choice], al
+cmp al, 61h
+je hex_to_bcd
+cmp al, 62h
+je bcd_to_hex
+cmp al, 63h
+je exit_program
+jmp menu
+hex_to_bcd:
+mov ah, 09h
+lea dx, prompt_hex
+int 21h
+lea dx, hex_num
+call get_input
+lea si, hex_num
+call hex_to_bcd_convert
+mov ah, 09h
+lea dx, output_bcd
+int 21h
+lea dx, bcd_num
+int 21h
+jmp menu
+bcd_to_hex:
+mov ah, 09h
+lea dx, prompt_bcd
+int 21h
+lea dx, bcd_num
+call get_input
+lea si, bcd_num
+call bcd_to_hex_convert
+mov ah, 09h
+lea dx, output_hex
+int 21h
+lea dx, hex_num
+int 21h
+jmp menu
+exit_program:
+mov ah, 4Ch
+int 21h
+get_input:
+mov ah, 0Ah
+int 21h
+ret
+hex_to_bcd_convert:
+xor di, di
+mov cx, 4
+convert_hex_loop:
+mov al, [si]
+sub al, '0'
+cmp al, 9
+jbe hex_to_bcd_valid
+sub al, 7
+hex_to_bcd_valid:
+mov bl, al
+add bl, '0'
+mov [bcd_num + di], bl
+inc si
+inc di
+loop convert_hex_loop
+ret
+bcd_to_hex_convert:
+xor di, di
+mov cx, 5
+convert_bcd_loop:
+mov al, [si]
+sub al, '0'
+mov bl, al
+cmp bl, 9
+jbe bcd_to_hex_valid
+add bl, 7
+bcd_to_hex_valid:
+add bl, '0'
+mov [hex_num + di], bl
+inc si
+inc di
+loop convert_bcd_loop
+ret
+end main
+################################################################################
+/**
+7.Write X86/64 Assembly Language Program to switch from real mode to protected mode and display the values of GDTR, LDTR, IDTR, TR and MSW Registers
+**/
+################################################################################
+BITS 32
+section .data
+GDT_BASE    equ gdt
+GDT_LIMIT   equ gdt_end - gdt - 1
+NULL_DESC db 0, 0, 0, 0, 0, 0, 0, 0
+CODE_SEG_DESC db 0x0F, 0x9A, 0xCF, 0x00
+DATA_SEG_DESC db 0x0F, 0x92, 0xCF, 0x00
+TSS_DESC db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+section .bss
+section .text
+global _start
+_start:
+cli
+lgdt [gdt_ptr]
+lidt [idt_ptr]
+ltr ax
+mov eax, cr0
+or eax, 1
+mov cr0, eax
+jmp 0x08:protected_mode_start
+protected_mode_start:
+mov eax, GDTR
+hlt
+gdt:
+dd 0x0, 0x0, 0x0, 0x0
+dd 0x0000FFFF, 0x00CF9A00, 0x00000000, 0x00
+dd 0x0000FFFF, 0x00CF9200, 0x00000000, 0x00
+dd 0x0000FFFF, 0x00CFF200, 0x00000000, 0x00
+gdt_end:
+gdt_ptr:
+dw GDT_LIMIT
+dd GDT_BASE
+idt_ptr:
+dw 0xFFFF
+dd 0x00000000
+################################################################################
+/**
+8. Write x86/64 Assembly Language Program to perform non-overlapped block transfer (With and without string specific instructions). Block Containing data can be defined in the data Segment.
+**/
+################################################################################
+code 1
+################################################################################
+section .data
+src_data:    dq 0x1122334455667788, 0x99AABBCCDDEEFF00, 0x0102030405060708
+data_length: equ ($ - src_data)
+section .bss
+dst_data:    resb data_length
+section .text
+global _start
+_start:
+lea rsi, [rel src_data]
+lea rdi, [rel dst_data]
+mov rcx, data_length
+shr rcx, 3
+cld
+rep movsq
+mov rax, 60
+xor rdi, rdi
+syscall
+################################################################################
+code 2
+################################################################################
+section .data
+src_data: db 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88
+db 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00
+db 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08
+data_length: equ $ - src_data
+section .bss
+dst_data: resb data_length
+section .text
+global _start
+_start:
+lea rsi, [rel src_data]
+lea rdi, [rel dst_data]
+mov rcx, data_length
+copy_loop:
+test rcx, rcx
+jz done_copy
+mov al, [rsi]
+mov [rdi], al
+inc rsi
+inc rdi
+dec rcx
+jmp copy_loop
+done_copy:
+mov rax, 60
+xor rdi, rdi
+syscall
+################################################################################
+/**
+9.Write x86/64 Assembly Language Program to perform overlapped block transfer (With and without string specific instructions). Block Containing data can be defined in the data Segment.
+**/
+################################################################################
+code 1
+################################################################################
+section .data
+src:    db "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", 0
+len     equ 16
+section .bss
+section .text
+global _start
+_start:
+lea rsi, [rel src]
+lea rdi, [rel src+8]
+mov rcx, len
+cld
+rep movsb
+mov rax, 60
+xor rdi, rdi
+syscall
+################################################################################
+code 2
+################################################################################
+section .data
+src:    db "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345", 0
+len     equ 16
+section .text
+global _start
+_start:
+lea rsi, [rel src]
+lea rdi, [rel src+8]
+mov rcx, len
+copy_loop:
+cmp rcx, 0
+je done_loop
+mov al, byte [rsi]
+mov byte [rdi], al
+inc rsi
+inc rdi
+dec rcx
+jmp copy_loop
+done_loop:
+mov rax, 60
+xor rdi, rdi
+syscall
+################################################################################
+/**
+10. Write X86/64 Assembly Language Program to perform multiplication of two 8-bit hexadecimal numbers. Use successive addition and add and shift method. Accept input from the user. (Use of 64-bit registers is expected)
+**/
+################################################################################
+section .data
+prompt1 db 'Enter first 8-bit hexadecimal number (0xNN): ', 0
+prompt2 db 'Enter second 8-bit hexadecimal number (0xNN): ', 0
+result_msg db 'Multiplication result: ', 0
+section .bss
+num1 resb 2
+num2 resb 2
+result resq 1
+section .text
+global _start
+_start:
+mov rdi, prompt1
+call print_string
+call read_hex
+movzx rsi, byte [num1]
+mov rdi, prompt2
+call print_string
+call read_hex
+movzx rdx, byte [num2]
+xor rax, rax
+mov rcx, rsi
+successive_addition:
+test rdx, 1
+jz no_addition
+add rax, rcx
+no_addition:
+shl rdx, 1
+shl rcx, 1
+loop successive_addition
+mov rdi, result_msg
+call print_string
+mov rsi, rax
+call print_hex
+mov rax, 60
+xor rdi, rdi
+syscall
+print_string:
+mov rax, 0x1
+mov rdi, 0x1
+mov rdx, 100
+syscall
+ret
+read_hex:
+mov rax, 0x0
+mov rdi, 0x0
+mov rdx, 2
+syscall
+ret
+print_hex:
+mov rbx, 16
+mov rcx, 16
+print_hex_loop:
+mov rdx, rsi
+and rdx, 0xF
+add dl, '0'
+cmp dl, '9'
+jbe print_char
+add dl, 7
+print_char:
+mov rax, 0x1
+mov rdi, 0x1
+mov rdx, 1
+syscall
+shl rsi, 4
+loop print_hex_loop
+ret
+################################################################################
+/**
+11. Write x86 Assembly Language Program to find the factorial of a given integer number on a command line by using recursion. Explicit stack manipulation is expected in the code.
+**/
+################################################################################
+section .data
+prompt db "Enter a number: ", 0
+msg_result db "The factorial is: ", 0
+newline db 10, 0
+section .bss
+number resb 10
+section .text
+global _start
+extern printf, atoi
+_start:
+mov rdi, prompt
+call print_string
+mov rdi, number
+call read_input
+mov rdi, number
+call atoi
+mov rsi, rax
+call factorial
+mov rdi, msg_result
+call print_string
+mov rdi, rax
+call print_int
+mov rdi, newline
+call print_string
+mov rax, 60
+xor rdi, rdi
+syscall
+print_string:
+mov rax, 0x1
+mov rdi, 0x1
+mov rdx, 100
+syscall
+ret
+read_input:
+mov rax, 0x0
+mov rdi, 0x0
+mov rdx, 10
+syscall
+ret
+print_int:
+mov rax, 0
+call printf
+ret
+factorial:
+cmp rsi, 0
+je .base_case
+push rsi
+dec rsi
+call factorial
+pop rsi
+mul rsi
+ret
+.base_case:
+mov rax, 1
+ret
+################################################################################
