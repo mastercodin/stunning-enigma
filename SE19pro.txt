@@ -1294,156 +1294,210 @@ CODE:
 #include <sstream>
 #include <unordered_map>
 #include <string>
+#include <cctype>
+#include <limits>
+
 using namespace std;
+
 struct Employee {
-int empID;
-string name;
-string designation;
-double salary;
-bool isDeleted;
+    int empID;
+    string name;
+    string designation;
+    double salary;
+    bool isDeleted;
 };
+
 const string dataFilename = "employee.txt";
 unordered_map<int, Employee> employeeMap;
+
 void loadEmployees();
 void saveEmployees();
 void addEmployee();
 void deleteEmployee();
 void displayEmployee();
-int main() {
-loadEmployees();
-int choice;
-do {
-cout << "\n--- Employee Information System ---" << endl;
-cout << "1. Add Employee" << endl;
-cout << "2. Delete Employee" << endl;
-cout << "3. Display Employee" << endl;
-cout << "4. Exit" << endl;
-cout << "Enter your choice: ";
-cin >> choice;
-cin.ignore();
-switch(choice) {
-case 1:
-addEmployee();
-break;
-case 2:
-deleteEmployee();
-break;
-case 3:
-displayEmployee();
-break;
-case 4:
-cout << "Exiting program." << endl;
-break;
-default:
-cout << "Invalid choice. Please try again." << endl;
-}
-} while(choice != 4);
+void toLower(string &str);
 
-return 0;
+int main() {
+    loadEmployees();
+    int choice;
+    do {
+        cout << "\n--- Employee Information System ---" << endl;
+        cout << "1. Add Employee" << endl;
+        cout << "2. Delete Employee" << endl;
+        cout << "3. Display Employee" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number (1-4)." << endl;
+            continue;
+        }
+        cin.ignore();
+        switch(choice) {
+            case 1:
+                addEmployee();
+                break;
+            case 2:
+                deleteEmployee();
+                break;
+            case 3:
+                displayEmployee();
+                break;
+            case 4:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 4." << endl;
+        }
+    } while(choice != 4);
+    return 0;
 }
+
+void toLower(string &str) {
+    for (char &c : str) {
+        c = tolower(c);
+    }
+}
+
 void loadEmployees() {
-employeeMap.clear();
-ifstream fin(dataFilename);
-if (!fin) {
-return;
+    employeeMap.clear();
+    ifstream fin(dataFilename);
+    if (!fin) {
+        cerr << "No existing data file found. A new one will be created." << endl;
+        return;
+    }
+    string line;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
+        stringstream ss(line);
+        string token;
+        Employee emp;
+        if (!getline(ss, token, ',')) continue;
+        try {
+            emp.empID = stoi(token);
+        } catch (const exception &) {
+            continue;
+        }
+        if (!getline(ss, token, ',')) continue;
+        emp.name = token;
+        if (!getline(ss, token, ',')) continue;
+        emp.designation = token;
+        if (!getline(ss, token, ',')) continue;
+        try {
+            emp.salary = stod(token);
+            if (emp.salary < 0) {
+                emp.salary = 0;
+            }
+        } catch (const exception &) {
+            continue;
+        }
+        if (!getline(ss, token, ',')) continue;
+        toLower(token);
+        emp.isDeleted = (token == "1" || token == "true");
+        if (!emp.isDeleted) {
+            employeeMap[emp.empID] = emp;
+        }
+    }
+    fin.close();
 }
-string line;
-while(getline(fin, line)) {
-if(line.empty())
-continue;
-stringstream ss(line);
-string token;
-Employee emp;
-if (!getline(ss, token, ',')) continue;
-try {
-emp.empID = stoi(token);
-} catch (const invalid_argument &e) {
-cerr << "Invalid integer value (empID): " << token << endl;
-continue;
-}
-if (!getline(ss, token, ',')) continue;
-emp.name = token;
-if (!getline(ss, token, ',')) continue;
-emp.designation = token;
-if (!getline(ss, token, ',')) continue;
-try {
-emp.salary = stod(token);
-} catch (const invalid_argument &e) {
-cerr << "Invalid numeric value (salary): " << token << endl;
-continue;
-}
-if (!getline(ss, token, ',')) continue;
-emp.isDeleted = (token == "1" || token == "true");
-if (!emp.isDeleted)
-employeeMap[emp.empID] = emp;
-}
-fin.close();
-}
+
 void saveEmployees() {
-ofstream fout(dataFilename, ios::trunc);
-if (!fout) {
-cerr << "Error opening file for writing." << endl;
-return;
+    ofstream fout(dataFilename, ios::trunc);
+    if (!fout) {
+        cerr << "Error: Unable to open file for writing." << endl;
+        return;
+    }
+    for (const auto &pair : employeeMap) {
+        const Employee &emp = pair.second;
+        fout << emp.empID << ","
+             << emp.name << ","
+             << emp.designation << ","
+             << emp.salary << ","
+             << (emp.isDeleted ? "1" : "0") << "\n";
+    }
+    fout.close();
 }
-for (const auto &pair : employeeMap) {
-const Employee &emp = pair.second;
-fout << emp.empID << ","
-<< emp.name << ","
-<< emp.designation << ","
-<< emp.salary << ","
-<< (emp.isDeleted ? "1" : "0") << "\n";
-}
-fout.close();
-}
+
 void addEmployee() {
-Employee emp;
-emp.isDeleted = false;
-cout << "Enter Employee ID: ";
-cin >> emp.empID;
-cin.ignore();
-if (employeeMap.find(emp.empID) != employeeMap.end()) {
-cout << "Employee with ID " << emp.empID << " already exists." << endl;
-return;
+    Employee emp;
+    emp.isDeleted = false;
+    cout << "Enter Employee ID: ";
+    if (!(cin >> emp.empID)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid Employee ID. Must be a number." << endl;
+        return;
+    }
+    cin.ignore();
+    if (employeeMap.find(emp.empID) != employeeMap.end()) {
+        cout << "Error: Employee with ID " << emp.empID << " already exists." << endl;
+        return;
+    }
+    cout << "Enter Name: ";
+    getline(cin, emp.name);
+    if (emp.name.empty()) {
+        cout << "Error: Name cannot be empty." << endl;
+        return;
+    }
+    cout << "Enter Designation: ";
+    getline(cin, emp.designation);
+    if (emp.designation.empty()) {
+        cout << "Error: Designation cannot be empty." << endl;
+        return;
+    }
+    cout << "Enter Salary: ";
+    if (!(cin >> emp.salary) || emp.salary < 0) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Error: Invalid salary. Must be a non-negative number." << endl;
+        return;
+    }
+    cin.ignore();
+    employeeMap[emp.empID] = emp;
+    saveEmployees();
+    cout << "Employee added successfully!" << endl;
 }
-cout << "Enter Name: ";
-getline(cin, emp.name);
-cout << "Enter Designation: ";
-getline(cin, emp.designation);
-cout << "Enter Salary: ";
-cin >> emp.salary;
-employeeMap[emp.empID] = emp;
-saveEmployees();
-cout << "Employee added successfully." << endl;
-}
+
 void deleteEmployee() {
-int id;
-cout << "Enter Employee ID to delete: ";
-cin >> id;
-cin.ignore();
-auto it = employeeMap.find(id);
-if (it == employeeMap.end()) {
-cout << "Employee with ID " << id << " does not exist." << endl;
-return;
+    int id;
+    cout << "Enter Employee ID to delete: ";
+    if (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Employee ID must be a number." << endl;
+        return;
+    }
+    cin.ignore();
+    auto it = employeeMap.find(id);
+    if (it == employeeMap.end()) {
+        cout << "Error: Employee with ID " << id << " does not exist." << endl;
+        return;
+    }
+    employeeMap.erase(it);
+    saveEmployees();
+    cout << "Employee with ID " << id << " has been deleted." << endl;
 }
-it->second.isDeleted = true;
-employeeMap.erase(it);
-saveEmployees();
-cout << "Employee with ID " << id << " deleted successfully." << endl;
-}
+
 void displayEmployee() {
-int id;
-cout << "Enter Employee ID to display: ";
-cin >> id;
-cin.ignore();
-auto it = employeeMap.find(id);
-if (it == employeeMap.end()) {
-cout << "Employee with ID " << id << " does not exist." << endl;
-return;
-}
-const Employee &emp = it->second;
-cout << "\nEmployee Details:" << endl;
-cout << "Employee ID: " << emp.empID << endl;
-cout << "Name: " << emp.name << endl;
-cout << "Designation: " << emp.designation << endl;
-cout << "Salary: " << emp.salary << endl;
+    int id;
+    cout << "Enter Employee ID to display: ";
+    if (!(cin >> id)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Employee ID must be a number." << endl;
+        return;
+    }
+    cin.ignore();
+    auto it = employeeMap.find(id);
+    if (it == employeeMap.end()) {
+        cout << "Error: Employee with ID " << id << " does not exist." << endl;
+        return;
+    }
+    const Employee &emp = it->second;
+    cout << "\n--- Employee Details ---" << endl;
+    cout << "ID: " << emp.empID << endl;
+    cout << "Name: " << emp.name << endl;
+    cout << "Designation: " << emp.designation << endl;
+    cout << "Salary: $" << emp.salary << endl;
 }
