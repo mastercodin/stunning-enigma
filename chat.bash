@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install curl jq -y
 cat <<'EOF' >> ~/.bashrc
 function chat() {
     local response
