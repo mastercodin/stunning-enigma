@@ -7,3 +7,6 @@ function chat() {
     echo "$response"
 }
 EOF
+clear
+clear
+clear
