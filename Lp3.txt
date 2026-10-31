@@ -1,3 +1,300 @@
------------ daa -------------
-prac 1
-896841
+          DESIGN AND ANALYSIS OF ALGORITHMS
+                   PYTHON PRACTICALS
+--------------------------------------------------
+
+PRACTICAL 1: FIBONACCI SERIES
+
+Aim: Write a non-recursive and recursive program to
+calculate Fibonacci numbers and analyze their time
+and space complexity.
+
+Program:
+
+def fibonacci(n):
+    a, b = 0, 1
+    for i in range(n):
+        print(a, end=" ")
+        a, b = b, a + b
+
+def fib(n):
+    if n <= 1:
+        return n
+    return fib(n-1) + fib(n-2)
+
+n = int(input("Enter number of terms: "))
+
+print("Non-recursive:")
+fibonacci(n)
+
+print("\nRecursive:")
+for i in range(n):
+    print(fib(i), end=" ")
+
+Input:
+Enter number of terms: 6
+
+Output:
+Non-recursive:
+0 1 1 2 3 5
+Recursive:
+0 1 1 2 3 5
+
+Time Complexity:
+Non-recursive: O(n)
+Recursive: O(2^n)
+
+Space Complexity:
+Non-recursive: O(1)
+Recursive: O(n)
+
+--------------------------------------------------
+
+PRACTICAL 2: JOB SEQUENCING WITH DEADLINES
+
+Aim: Implement job sequencing with deadlines using
+a greedy method.
+
+Program:
+
+def job_sequencing(jobs):
+    jobs.sort(key=lambda x: x[2], reverse=True)
+
+    n = len(jobs)
+    slots = [None] * n
+    total_profit = 0
+
+    for name, deadline, profit in jobs:
+        for j in range(min(deadline, n)-1, -1, -1):
+            if slots[j] is None:
+                slots[j] = name
+                total_profit += profit
+                break
+
+    print("Scheduled jobs:", slots)
+    print("Total profit:", total_profit)
+
+n = int(input("Enter number of jobs: "))
+jobs = []
+
+for i in range(n):
+    name = input("Enter job name: ")
+    deadline = int(input("Enter deadline: "))
+    profit = int(input("Enter profit: "))
+    jobs.append((name, deadline, profit))
+
+job_sequencing(jobs)
+
+Input:
+Enter number of jobs: 3
+
+Enter job name: A
+Enter deadline: 2
+Enter profit: 100
+
+Enter job name: B
+Enter deadline: 1
+Enter profit: 19
+
+Enter job name: C
+Enter deadline: 2
+Enter profit: 27
+
+Output:
+Scheduled jobs: ['C', 'A', None]
+Total profit: 127
+
+Time Complexity: O(n^2)
+Space Complexity: O(n)
+
+--------------------------------------------------
+
+PRACTICAL 3: HUFFMAN ENCODING
+
+Aim: Implement Huffman Encoding using a greedy
+strategy.
+
+Program:
+
+import heapq
+
+def huffman_encoding(data):
+    heap = [[freq, [char, ""]]
+            for char, freq in data.items()]
+    heapq.heapify(heap)
+
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+
+        for item in left[1:]:
+            item[1] = "0" + item[1]
+
+        for item in right[1:]:
+            item[1] = "1" + item[1]
+
+        heapq.heappush(
+            heap, [left[0] + right[0]]
+            + left[1:] + right[1:]
+        )
+
+    return sorted(heap[0][1:], key=lambda x: x[0])
+
+n = int(input("Enter number of characters: "))
+data = {}
+
+for i in range(n):
+    char = input("Enter character: ")
+    freq = int(input("Enter frequency: "))
+    data[char] = freq
+
+codes = huffman_encoding(data)
+
+print("\nCharacter : Huffman Code")
+for char, code in codes:
+    print(char, ":", code)
+
+Input:
+Enter number of characters: 3
+
+Enter character: A
+Enter frequency: 5
+
+Enter character: B
+Enter frequency: 9
+
+Enter character: C
+Enter frequency: 12
+
+Output:
+Character : Huffman Code
+A : 10
+B : 11
+C : 0
+
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+
+--------------------------------------------------
+
+PRACTICAL 4: FRACTIONAL KNAPSACK
+
+Aim: Solve the Fractional Knapsack problem using
+a greedy method.
+
+Program:
+
+def fractional_knapsack(items, capacity):
+    items.sort(key=lambda x: x[1] / x[0],
+               reverse=True)
+
+    total_profit = 0
+
+    for weight, profit in items:
+        if capacity >= weight:
+            capacity -= weight
+            total_profit += profit
+        else:
+            total_profit += profit * (capacity / weight)
+            break
+
+    return total_profit
+
+n = int(input("Enter number of items: "))
+items = []
+
+for i in range(n):
+    weight = int(input("Enter weight: "))
+    profit = int(input("Enter profit: "))
+    items.append((weight, profit))
+
+capacity = int(input("Enter knapsack capacity: "))
+
+print("Maximum profit:",
+      fractional_knapsack(items, capacity))
+
+Input:
+Enter number of items: 3
+
+Enter weight: 10
+Enter profit: 60
+
+Enter weight: 20
+Enter profit: 100
+
+Enter weight: 30
+Enter profit: 120
+
+Enter knapsack capacity: 50
+
+Output:
+Maximum profit: 240.0
+
+Time Complexity: O(n log n)
+Space Complexity: O(1) auxiliary
+
+--------------------------------------------------
+
+PRACTICAL 5: 0/1 KNAPSACK
+
+Aim: Solve the 0/1 Knapsack problem using dynamic
+programming.
+
+Program:
+
+def knapsack(weights, profits, capacity):
+    n = len(weights)
+
+    dp = [[0] * (capacity + 1)
+          for i in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+            if weights[i-1] <= w:
+                dp[i][w] = max(
+                    profits[i-1] +
+                    dp[i-1][w-weights[i-1]],
+                    dp[i-1][w]
+                )
+            else:
+                dp[i][w] = dp[i-1][w]
+
+    return dp[n][capacity]
+
+n = int(input("Enter number of items: "))
+weights = []
+profits = []
+
+for i in range(n):
+    weight = int(input("Enter weight: "))
+    profit = int(input("Enter profit: "))
+    weights.append(weight)
+    profits.append(profit)
+
+capacity = int(input("Enter knapsack capacity: "))
+
+print("Maximum profit:",
+      knapsack(weights, profits, capacity))
+
+Input:
+Enter number of items: 3
+
+Enter weight: 10
+Enter profit: 60
+
+Enter weight: 20
+Enter profit: 100
+
+Enter weight: 30
+Enter profit: 120
+
+Enter knapsack capacity: 50
+
+Output:
+Maximum profit: 220
+
+Time Complexity: O(n * capacity)
+Space Complexity: O(n * capacity)
+
+--------------------------------------------------
+                    END OF PRACTICALS
+--------------------------------------------------
