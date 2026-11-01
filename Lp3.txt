@@ -1,70 +1,86 @@
-          DESIGN AND ANALYSIS OF ALGORITHMS
-                   PYTHON PRACTICALS
---------------------------------------------------
+==================================================
+GROUP A: DESIGN AND ANALYSIS OF ALGORITHMS
+==================================================
 
-PRACTICAL 1: FIBONACCI SERIES
+# PRACTICAL 1: FIBONACCI SERIES
 
-Aim: Write a non-recursive and recursive program to
-calculate Fibonacci numbers and analyze their time
-and space complexity.
+# Aim: Write recursive and non-recursive programs to
+# calculate Fibonacci numbers and analyze their
+# time and space complexity.
 
-Program:
+# Instructions:
+# 1. Run the program.
+# 2. Enter the number of terms.
+# 3. Observe both Fibonacci series.
 
-def fibonacci(n):
+def fibonacci_iterative(n):
     a, b = 0, 1
+
     for i in range(n):
         print(a, end=" ")
         a, b = b, a + b
 
-def fib(n):
+
+def fibonacci_recursive(n):
     if n <= 1:
         return n
-    return fib(n-1) + fib(n-2)
+
+    return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
+
 
 n = int(input("Enter number of terms: "))
 
-print("Non-recursive:")
-fibonacci(n)
+print("\nNon-recursive Fibonacci:")
+fibonacci_iterative(n)
 
-print("\nRecursive:")
+print("\nRecursive Fibonacci:")
 for i in range(n):
-    print(fib(i), end=" ")
+    print(fibonacci_recursive(i), end=" ")
 
-Input:
-Enter number of terms: 6
+print()
 
-Output:
-Non-recursive:
-0 1 1 2 3 5
-Recursive:
-0 1 1 2 3 5
+# Time Complexity:
+# Iterative: O(n)
+# Recursive: O(2^n)
 
-Time Complexity:
-Non-recursive: O(n)
-Recursive: O(2^n)
+# Space Complexity:
+# Iterative: O(1)
+# Recursive: O(n)
 
-Space Complexity:
-Non-recursive: O(1)
-Recursive: O(n)
+# Sample Input:
+# Enter number of terms: 6
 
---------------------------------------------------
+# Output:
+# Non-recursive Fibonacci:
+# 0 1 1 2 3 5
+# Recursive Fibonacci:
+# 0 1 1 2 3 5
 
-PRACTICAL 2: JOB SEQUENCING WITH DEADLINES
+# Result: Fibonacci series generated successfully.
 
-Aim: Implement job sequencing with deadlines using
-a greedy method.
 
-Program:
+---
+
+# PRACTICAL 2: JOB SEQUENCING WITH DEADLINES
+
+# Aim: Implement job sequencing with deadlines
+# using a greedy method.
+
+# Instructions:
+# 1. Enter the number of jobs.
+# 2. Enter job name, deadline, and profit.
+# 3. The program schedules jobs to maximize profit.
 
 def job_sequencing(jobs):
     jobs.sort(key=lambda x: x[2], reverse=True)
 
-    n = len(jobs)
-    slots = [None] * n
+    max_deadline = max(job[1] for job in jobs)
+
+    slots = [None] * max_deadline
     total_profit = 0
 
     for name, deadline, profit in jobs:
-        for j in range(min(deadline, n)-1, -1, -1):
+        for j in range(min(deadline, max_deadline) - 1, -1, -1):
             if slots[j] is None:
                 slots[j] = name
                 total_profit += profit
@@ -73,6 +89,7 @@ def job_sequencing(jobs):
     print("Scheduled jobs:", slots)
     print("Total profit:", total_profit)
 
+
 n = int(input("Enter number of jobs: "))
 jobs = []
 
@@ -80,64 +97,64 @@ for i in range(n):
     name = input("Enter job name: ")
     deadline = int(input("Enter deadline: "))
     profit = int(input("Enter profit: "))
+
     jobs.append((name, deadline, profit))
 
 job_sequencing(jobs)
 
-Input:
-Enter number of jobs: 3
+# Time Complexity: O(n²)
+# Space Complexity: O(n)
 
-Enter job name: A
-Enter deadline: 2
-Enter profit: 100
+# Sample Input:
+# Enter number of jobs: 3
+# A, 2, 100
+# B, 1, 19
+# C, 2, 27
 
-Enter job name: B
-Enter deadline: 1
-Enter profit: 19
+# Output:
+# Scheduled jobs: ['C', 'A']
+# Total profit: 127
 
-Enter job name: C
-Enter deadline: 2
-Enter profit: 27
+# Result: Optimal job sequence obtained.
 
-Output:
-Scheduled jobs: ['C', 'A', None]
-Total profit: 127
 
-Time Complexity: O(n^2)
-Space Complexity: O(n)
+---
 
---------------------------------------------------
+# PRACTICAL 3: HUFFMAN ENCODING
 
-PRACTICAL 3: HUFFMAN ENCODING
+# Aim: Implement Huffman Encoding using a greedy strategy.
 
-Aim: Implement Huffman Encoding using a greedy
-strategy.
-
-Program:
+# Instructions:
+# 1. Enter the number of characters.
+# 2. Enter each character and its frequency.
+# 3. The program generates Huffman codes.
 
 import heapq
 
 def huffman_encoding(data):
-    heap = [[freq, [char, ""]]
+    heap = [[freq, [[char, ""]]]
             for char, freq in data.items()]
+
     heapq.heapify(heap)
 
     while len(heap) > 1:
         left = heapq.heappop(heap)
         right = heapq.heappop(heap)
 
-        for item in left[1:]:
+        for item in left[1]:
             item[1] = "0" + item[1]
 
-        for item in right[1:]:
+        for item in right[1]:
             item[1] = "1" + item[1]
 
         heapq.heappush(
-            heap, [left[0] + right[0]]
-            + left[1:] + right[1:]
+            heap,
+            [left[0] + right[0]]
+            + left[1] + right[1]
         )
 
-    return sorted(heap[0][1:], key=lambda x: x[0])
+    return sorted(heap[0][1], key=lambda x: x[0])
+
 
 n = int(input("Enter number of characters: "))
 data = {}
@@ -150,42 +167,44 @@ for i in range(n):
 codes = huffman_encoding(data)
 
 print("\nCharacter : Huffman Code")
+
 for char, code in codes:
     print(char, ":", code)
 
-Input:
-Enter number of characters: 3
+# Time Complexity: O(n log n)
+# Space Complexity: O(n)
 
-Enter character: A
-Enter frequency: 5
+# Sample Input:
+# A: 5
+# B: 9
+# C: 12
 
-Enter character: B
-Enter frequency: 9
+# Output:
+# A : 10
+# B : 11
+# C : 0
 
-Enter character: C
-Enter frequency: 12
+# Result: Huffman codes generated successfully.
 
-Output:
-Character : Huffman Code
-A : 10
-B : 11
-C : 0
 
-Time Complexity: O(n log n)
-Space Complexity: O(n)
+---
 
---------------------------------------------------
+# PRACTICAL 4: FRACTIONAL KNAPSACK
 
-PRACTICAL 4: FRACTIONAL KNAPSACK
+# Aim: Solve the Fractional Knapsack problem
+# using a greedy method.
 
-Aim: Solve the Fractional Knapsack problem using
-a greedy method.
-
-Program:
+# Instructions:
+# 1. Enter the number of items.
+# 2. Enter the weight and profit of each item.
+# 3. Enter the knapsack capacity.
+# 4. The program calculates maximum profit.
 
 def fractional_knapsack(items, capacity):
-    items.sort(key=lambda x: x[1] / x[0],
-               reverse=True)
+    items.sort(
+        key=lambda x: x[1] / x[0],
+        reverse=True
+    )
 
     total_profit = 0
 
@@ -199,6 +218,7 @@ def fractional_knapsack(items, capacity):
 
     return total_profit
 
+
 n = int(input("Enter number of items: "))
 items = []
 
@@ -209,92 +229,657 @@ for i in range(n):
 
 capacity = int(input("Enter knapsack capacity: "))
 
-print("Maximum profit:",
-      fractional_knapsack(items, capacity))
+print(
+    "Maximum profit:",
+    fractional_knapsack(items, capacity)
+)
 
-Input:
-Enter number of items: 3
+# Time Complexity: O(n log n)
+# Space Complexity: O(1) auxiliary
 
-Enter weight: 10
-Enter profit: 60
+# Sample Input:
+# Items: (10,60), (20,100), (30,120)
+# Capacity: 50
 
-Enter weight: 20
-Enter profit: 100
+# Output:
+# Maximum profit: 240.0
 
-Enter weight: 30
-Enter profit: 120
+# Result: Maximum profit obtained successfully.
 
-Enter knapsack capacity: 50
 
-Output:
-Maximum profit: 240.0
+---
 
-Time Complexity: O(n log n)
-Space Complexity: O(1) auxiliary
+# PRACTICAL 5: 0/1 KNAPSACK
 
---------------------------------------------------
+# Aim: Solve the 0/1 Knapsack problem using
+# dynamic programming.
 
-PRACTICAL 5: 0/1 KNAPSACK
-
-Aim: Solve the 0/1 Knapsack problem using dynamic
-programming.
-
-Program:
+# Instructions:
+# 1. Enter the number of items.
+# 2. Enter the weight and profit of each item.
+# 3. Enter the knapsack capacity.
+# 4. The program calculates maximum profit.
 
 def knapsack(weights, profits, capacity):
     n = len(weights)
 
-    dp = [[0] * (capacity + 1)
-          for i in range(n + 1)]
+    dp = [
+        [0] * (capacity + 1)
+        for i in range(n + 1)
+    ]
 
     for i in range(1, n + 1):
         for w in range(capacity + 1):
-            if weights[i-1] <= w:
+
+            if weights[i - 1] <= w:
                 dp[i][w] = max(
-                    profits[i-1] +
-                    dp[i-1][w-weights[i-1]],
-                    dp[i-1][w]
+                    profits[i - 1]
+                    + dp[i - 1][w - weights[i - 1]],
+                    dp[i - 1][w]
                 )
+
             else:
-                dp[i][w] = dp[i-1][w]
+                dp[i][w] = dp[i - 1][w]
 
     return dp[n][capacity]
 
+
 n = int(input("Enter number of items: "))
+
 weights = []
 profits = []
 
 for i in range(n):
     weight = int(input("Enter weight: "))
     profit = int(input("Enter profit: "))
+
     weights.append(weight)
     profits.append(profit)
 
 capacity = int(input("Enter knapsack capacity: "))
 
-print("Maximum profit:",
-      knapsack(weights, profits, capacity))
+print(
+    "Maximum profit:",
+    knapsack(weights, profits, capacity)
+)
 
-Input:
-Enter number of items: 3
+# Time Complexity: O(n * capacity)
+# Space Complexity: O(n * capacity)
 
-Enter weight: 10
-Enter profit: 60
+# Sample Input:
+# Items: (10,60), (20,100), (30,120)
+# Capacity: 50
 
-Enter weight: 20
-Enter profit: 100
+# Output:
+# Maximum profit: 220
 
-Enter weight: 30
-Enter profit: 120
+# Result: Maximum profit obtained using dynamic programming.
 
-Enter knapsack capacity: 50
 
-Output:
-Maximum profit: 220
+==================================================
+GROUP B: MACHINE LEARNING
+==================================================
 
-Time Complexity: O(n * capacity)
-Space Complexity: O(n * capacity)
+# PRACTICAL 1: BANK CUSTOMER CHURN PREDICTION
+
+# Aim: Build a neural network classifier to predict
+# whether a bank customer will leave within six months.
+
+# Instructions:
+# 1. Install pandas, scikit-learn, and tensorflow.
+# 2. Download Churn_Modelling.csv from Kaggle.
+# 3. Place the CSV file in the same folder as this program.
+# 4. Run the program to train and evaluate the model.
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+
+df = pd.read_csv("Churn_Modelling.csv")
+
+df = df.drop(
+    columns=["RowNumber", "CustomerId", "Surname"],
+    errors="ignore"
+)
+
+X = df.drop("Exited", axis=1)
+y = df["Exited"]
+
+X = pd.get_dummies(X, drop_first=True)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2,
+    random_state=42, stratify=y
+)
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+model = Sequential([
+    Dense(32, activation="relu",
+          input_shape=(X_train.shape[1],)),
+    Dropout(0.2),
+    Dense(16, activation="relu"),
+    Dense(1, activation="sigmoid")
+])
+
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+model.fit(
+    X_train, y_train,
+    epochs=20,
+    batch_size=32,
+    validation_split=0.2,
+    verbose=0
+)
+
+predictions = (
+    model.predict(X_test, verbose=0) >= 0.5
+).astype(int)
+
+print("Accuracy:", accuracy_score(y_test, predictions))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, predictions))
+
+# Result: Neural network trained to predict customer churn.
+
+
+---
+
+# PRACTICAL 2: EMAIL SPAM CLASSIFICATION USING KNN AND SVM
+
+# Aim: Classify emails as spam or not spam using
+# KNN and Support Vector Machine.
+
+# Instructions:
+# 1. Install pandas and scikit-learn.
+# 2. Download emails.csv from Kaggle.
+# 3. Ensure the dataset contains Message and Category columns.
+# 4. Run the program to compare both classifiers.
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+
+from sklearn.metrics import accuracy_score, classification_report
+
+df = pd.read_csv("emails.csv")
+
+X = df["Message"].fillna("")
+y = df["Category"]
+
+vectorizer = TfidfVectorizer(stop_words="english")
+X = vectorizer.fit_transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2,
+    random_state=42, stratify=y
+)
+
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+
+knn_pred = knn.predict(X_test)
+
+svm = SVC(kernel="linear")
+svm.fit(X_train, y_train)
+
+svm_pred = svm.predict(X_test)
+
+print("KNN Accuracy:", accuracy_score(y_test, knn_pred))
+print("SVM Accuracy:", accuracy_score(y_test, svm_pred))
+
+print("\nKNN Classification Report:")
+print(classification_report(y_test, knn_pred))
+
+print("\nSVM Classification Report:")
+print(classification_report(y_test, svm_pred))
+
+# Result: Emails classified using KNN and SVM.
+
+
+---
+
+# PRACTICAL 3: KNN ON DIABETES DATASET
+
+# Aim: Implement KNN on diabetes.csv and calculate
+# confusion matrix, accuracy, error rate, precision,
+# and recall.
+
+# Instructions:
+# 1. Install pandas and scikit-learn.
+# 2. Download diabetes.csv from Kaggle.
+# 3. Ensure the target column is named Outcome.
+# 4. Run the program to evaluate the classifier.
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    precision_score,
+    recall_score
+)
+
+df = pd.read_csv("diabetes.csv")
+
+X = df.drop("Outcome", axis=1)
+y = df["Outcome"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2,
+    random_state=42, stratify=y
+)
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+print("Accuracy:", accuracy)
+print("Error Rate:", 1 - accuracy)
+
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+
+# Result: Diabetes classification performed using KNN.
+
+
+---
+
+# PRACTICAL 4: K-MEANS CLUSTERING USING ELBOW METHOD
+
+# Aim: Implement K-Means clustering on sales_data_sample.csv
+# and determine the number of clusters using the elbow method.
+
+# Instructions:
+# 1. Install pandas, scikit-learn, and matplotlib.
+# 2. Download sales_data_sample.csv from Kaggle.
+# 3. Place the CSV file in the same folder as this program.
+# 4. Run the program and examine the elbow graph.
+# 5. Enter the selected number of clusters.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+df = pd.read_csv(
+    "sales_data_sample.csv",
+    encoding="latin1"
+)
+
+X = df.select_dtypes(include="number")
+
+X = X.drop(
+    columns=["ORDERNUMBER", "ORDERLINENUMBER"],
+    errors="ignore"
+)
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+inertia = []
+
+for k in range(1, 11):
+    model = KMeans(
+        n_clusters=k,
+        random_state=42,
+        n_init=10
+    )
+
+    model.fit(X_scaled)
+    inertia.append(model.inertia_)
+
+plt.plot(range(1, 11), inertia, marker="o")
+plt.xlabel("Number of Clusters")
+plt.ylabel("Inertia")
+plt.title("Elbow Method")
+plt.show()
+
+k = int(input("Enter optimal number of clusters: "))
+
+model = KMeans(
+    n_clusters=k,
+    random_state=42,
+    n_init=10
+)
+
+df["Cluster"] = model.fit_predict(X_scaled)
+
+print(df[["Cluster"]].head())
+
+# Result: Sales data clustered using K-Means.
+
+
+---
+
+# PRACTICAL 5: GRADIENT DESCENT
+
+# Aim: Implement Gradient Descent to find the local
+# minimum of y = (x + 3)^2 starting from x = 2.
+
+# Instructions:
+# 1. Run the program.
+# 2. The initial value is x = 2.
+# 3. The program updates x using the gradient.
+# 4. Observe the minimum value.
+
+def function(x):
+    return (x + 3) ** 2
+
+
+def gradient(x):
+    return 2 * (x + 3)
+
+
+x = 2
+learning_rate = 0.1
+iterations = 100
+
+for i in range(iterations):
+    x = x - learning_rate * gradient(x)
+
+print("Minimum x:", round(x, 4))
+print("Minimum y:", round(function(x), 6))
+
+# Output:
+# Minimum x: -3.0
+# Minimum y: 0.0
+
+# Result: Minimum value obtained using Gradient Descent.
+
+
+==================================================
+END OF DAA AND ML PRACTICALS
+==================================================
+
+==================================================
+GROUP C: BLOCKCHAIN TECHNOLOGY
+==================================================
 
 --------------------------------------------------
-                    END OF PRACTICALS
+PRACTICAL 1: INSTALL METAMASK AND STUDY ETHER
+SPENDING PER TRANSACTION
 --------------------------------------------------
+
+# Aim: Install MetaMask and study the amount of Ether
+# spent per transaction.
+
+# Instructions:
+# 1. Open the official MetaMask website.
+# 2. Install the MetaMask browser extension.
+# 3. Create a new wallet and securely save the recovery phrase.
+# 4. Select an Ethereum test network.
+# 5. Obtain test Ether from a faucet.
+# 6. Send test Ether to another wallet address.
+# 7. Open the transaction details.
+# 8. Observe the gas used, gas price, and transaction fee.
+
+# Formula:
+# Transaction Fee = Gas Used * Gas Price
+
+# Observation:
+# Transaction Hash: __________________
+# Gas Used: __________________
+# Gas Price: __________________
+# Transaction Fee: __________________
+# Ether Transferred: __________________
+
+# Result:
+# MetaMask was installed successfully and the transaction
+# fee was studied using a test network.
+
+
+---
+
+--------------------------------------------------
+PRACTICAL 2: CREATE A CRYPTOCURRENCY WALLET
+USING METAMASK
+--------------------------------------------------
+
+# Aim: Create a cryptocurrency wallet using MetaMask.
+
+# Instructions:
+# 1. Install MetaMask.
+# 2. Select Create a New Wallet.
+# 3. Set a secure password.
+# 4. Generate the wallet recovery phrase.
+# 5. Write down the recovery phrase securely.
+# 6. Confirm the recovery phrase.
+# 7. Open the wallet and copy its public address.
+# 8. Select a test network.
+# 9. Perform a sample transaction using test Ether.
+
+# Precautions:
+# 1. Never share the recovery phrase.
+# 2. Never share private keys.
+# 3. Use test Ether for practical demonstrations.
+# 4. Verify the recipient address before sending.
+
+# Observation:
+# Wallet Address: __________________
+# Network: __________________
+# Transaction Hash: __________________
+
+# Result:
+# A MetaMask cryptocurrency wallet was created successfully.
+
+
+---
+
+--------------------------------------------------
+PRACTICAL 3: SMART CONTRACT FOR A CUSTOMER'S
+BANK ACCOUNT
+--------------------------------------------------
+
+# Aim: Write a smart contract on a test network for a
+# customer's bank account with deposit, withdrawal,
+# and balance operations.
+
+# Instructions:
+# 1. Open Remix IDE.
+# 2. Create a file named BankAccount.sol.
+# 3. Paste the following Solidity program.
+# 4. Compile the contract using Solidity 0.8.20.
+# 5. Connect MetaMask to an Ethereum test network.
+# 6. Deploy the contract.
+# 7. Deposit test Ether into the contract.
+# 8. Check the account balance.
+# 9. Withdraw some Ether.
+# 10. Check the updated balance.
+
+# Program:
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract BankAccount {
+
+    mapping(address => uint256) private balances;
+
+    function deposit() public payable {
+        require(msg.value > 0, "Amount must be positive");
+
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw(uint256 amount) public {
+        require(amount > 0, "Invalid amount");
+        require(
+            balances[msg.sender] >= amount,
+            "Insufficient balance"
+        );
+
+        balances[msg.sender] -= amount;
+
+        payable(msg.sender).transfer(amount);
+    }
+
+    function showBalance() public view returns (uint256) {
+        return balances[msg.sender];
+    }
+}
+
+# Operations:
+# Deposit: Adds Ether to the customer's account.
+# Withdraw: Transfers Ether to the customer.
+# Show Balance: Displays the customer's account balance.
+
+# Result:
+# A bank account smart contract was created and deployed
+# on a blockchain test network.
+
+
+---
+
+--------------------------------------------------
+PRACTICAL 4: SURVEY REPORT ON TYPES OF BLOCKCHAINS
+AND THEIR REAL-TIME APPLICATIONS
+--------------------------------------------------
+
+# Aim: Study different types of blockchains and their
+# real-time applications.
+
+# Instructions:
+# 1. Study the concept of blockchain technology.
+# 2. Identify different types of blockchains.
+# 3. Study their characteristics and applications.
+# 4. Prepare a survey report.
+
+# Introduction:
+# Blockchain is a distributed ledger technology that
+# stores data in blocks linked using cryptographic hashes.
+
+# Types of Blockchains:
+
+# 1. Public Blockchain
+# A public blockchain is open to everyone.
+# Examples: Bitcoin, Ethereum.
+# Applications: Cryptocurrency, decentralized finance,
+# and digital assets.
+
+# 2. Private Blockchain
+# A private blockchain is controlled by a single organization.
+# Applications: Internal record management, supply chain
+# tracking, and enterprise data management.
+
+# 3. Consortium Blockchain
+# A consortium blockchain is managed by a group
+# of organizations.
+# Applications: Banking, healthcare, interbank transactions,
+# and supply chain management.
+
+# 4. Hybrid Blockchain
+# A hybrid blockchain combines public and private features.
+# Applications: Government records, real estate,
+# and enterprise systems.
+
+# Advantages:
+# 1. Transparency
+# 2. Data integrity
+# 3. Decentralization
+# 4. Traceability
+# 5. Reduced dependency on intermediaries
+
+# Limitations:
+# 1. Scalability issues
+# 2. High energy consumption in some networks
+# 3. Regulatory challenges
+# 4. Storage requirements
+
+# Conclusion:
+# Blockchain technology is useful in finance, healthcare,
+# supply chains, identity management, and other industries.
+# The choice of blockchain depends on security, privacy,
+# performance, and organizational requirements.
+
+# Result:
+# Different types of blockchains and their applications
+# were studied successfully.
+
+
+---
+
+--------------------------------------------------
+PRACTICAL 5: CREATE A BUSINESS NETWORK
+USING HYPERLEDGER
+--------------------------------------------------
+
+# Aim: Create a business network using Hyperledger Fabric.
+
+# Instructions:
+# 1. Install Docker and Docker Compose.
+# 2. Install Hyperledger Fabric prerequisites.
+# 3. Download Fabric samples.
+# 4. Start the test network.
+# 5. Create a channel.
+# 6. Deploy a smart contract.
+# 7. Invoke transactions.
+# 8. Query the blockchain ledger.
+
+# Commands:
+
+# Download Hyperledger Fabric samples
+git clone https://github.com/hyperledger/fabric-samples.git
+
+cd fabric-samples/test-network
+
+# Start the test network
+./network.sh up createChannel
+
+# Deploy the basic asset-transfer chaincode
+./network.sh deployCC -ccn basic \
+    -ccp ../asset-transfer-basic/chaincode-go \
+    -ccl go
+
+# Query the ledger
+./network.sh \
+    -c mychannel \
+    -ccn basic \
+    query \
+    -c '{"Args":["GetAllAssets"]}'
+
+# Stop the network
+./network.sh down
+
+# Result:
+# A business network was created using Hyperledger Fabric.
+# Transactions were executed and the ledger was queried
+# successfully.
+
+
+==================================================
+END OF BLOCKCHAIN PRACTICALS
+==================================================
