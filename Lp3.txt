@@ -132,44 +132,60 @@ job_sequencing(jobs)
 import heapq
 
 def huffman_encoding(data):
-    heap = [[freq, [[char, ""]]]
-            for char, freq in data.items()]
+    if not data:
+        return []
+    if len(data) == 1:
+        char = next(iter(data))
+        return [(char, "0")]
 
+    # heap: (freq, tie_breaker, [(char, code), ...])
+    heap = [(freq, i, [(char, "")]) for i, (char, freq) in enumerate(data.items())]
     heapq.heapify(heap)
+    counter = len(heap)
 
     while len(heap) > 1:
-        left = heapq.heappop(heap)
-        right = heapq.heappop(heap)
+        freq1, _, list1 = heapq.heappop(heap)
+        freq2, _, list2 = heapq.heappop(heap)
 
-        for item in left[1]:
-            item[1] = "0" + item[1]
+        # prepend 0 to left, 1 to right
+        list1 = [(char, "0" + code) for char, code in list1]
+        list2 = [(char, "1" + code) for char, code in list2]
 
-        for item in right[1]:
-            item[1] = "1" + item[1]
+        merged = list1 + list2
+        heapq.heappush(heap, (freq1 + freq2, counter, merged))
+        counter += 1
 
-        heapq.heappush(
-            heap,
-            [left[0] + right[0]]
-            + left[1] + right[1]
-        )
+    return sorted(heap[0][2], key=lambda x: x[0])
 
-    return sorted(heap[0][1], key=lambda x: x[0])
+# --- Main ---
+try:
+    n = int(input("Enter number of characters: "))
+    if n <= 0:
+        raise ValueError("Number of characters must be positive.")
 
+    data = {}
+    for _ in range(n):
+        char = input("Enter character: ")
+        freq = int(input("Enter frequency: "))
 
-n = int(input("Enter number of characters: "))
-data = {}
+        if len(char) != 1:
+            raise ValueError("Enter only one character.")
+        if freq <= 0:
+            raise ValueError("Frequency must be positive.")
+        if char in data:
+            raise ValueError("Duplicate characters are not allowed.")
+        
+        data[char] = freq
 
-for i in range(n):
-    char = input("Enter character: ")
-    freq = int(input("Enter frequency: "))
-    data[char] = freq
+    codes = huffman_encoding(data)
+    print("\nCharacter : Huffman Code")
+    print("-------------------------")
+    for char, code in codes:
+        print(f"{char} : {code}")
 
-codes = huffman_encoding(data)
+except ValueError as e:
+    print("Error:", e)
 
-print("\nCharacter : Huffman Code")
-
-for char, code in codes:
-    print(char, ":", code)
 
 # Time Complexity: O(n log n)
 # Space Complexity: O(n)
@@ -721,7 +737,6 @@ BANK ACCOUNT
 # 10. Check the updated balance.
 
 # Program:
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -730,22 +745,25 @@ contract BankAccount {
     mapping(address => uint256) private balances;
 
     function deposit() public payable {
-        require(msg.value > 0, "Amount must be positive");
+        require(msg.value > 0, "Enter valid amount");
 
         balances[msg.sender] += msg.value;
     }
 
     function withdraw(uint256 amount) public {
-        require(amount > 0, "Invalid amount");
-        require(
-            balances[msg.sender] >= amount,
-            "Insufficient balance"
-        );
+    require(amount > 0, "Invalid amount");
 
-        balances[msg.sender] -= amount;
+    require(
+        balances[msg.sender] >= amount,
+        "Insufficient balance"
+    );
 
-        payable(msg.sender).transfer(amount);
-    }
+    balances[msg.sender] -= amount;
+
+    (bool success, ) = payable(msg.sender).call{value: amount}("");
+
+    require(success, "Transfer failed");
+}
 
     function showBalance() public view returns (uint256) {
         return balances[msg.sender];
